@@ -1,4 +1,4 @@
-package org.example.demo;
+package com.mygame;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
