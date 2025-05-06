@@ -1,5 +1,4 @@
-package src.main;
-
+import com.almasb.fxgl.app.GameController;
 import javafx.scene.image.Image;
 import java.util.List;
 

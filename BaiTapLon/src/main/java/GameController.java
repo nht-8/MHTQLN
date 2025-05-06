@@ -1,5 +1,3 @@
-package org.example.demo;
-
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;         // Đảm bảo import này
