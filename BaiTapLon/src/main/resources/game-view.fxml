@@ -9,7 +9,7 @@
 
 <!-- Đặt chiều cao đủ để chứa Canvas và HBox chứa Label -->
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demo.GameController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.GameController">
    <children>
       <!-- Canvas chiếm phần trên -->
       <Canvas fx:id="gameCanvas" height="476.0" layoutX="5.0" layoutY="44.0" width="630.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="44.0" />

@@ -1,4 +1,4 @@
-package src.main;
+package src.main.java;
 
 public enum PowerUpType {
     BOMBS,      // Tăng số lượng bom tối đa
