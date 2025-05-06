@@ -4,11 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+<<<<<<< HEAD
     <!-- ===================================================================== -->
     <!-- THAY THẾ CÁC THÔNG TIN SAU BẰNG THÔNG TIN DỰ ÁN CỤ THỂ CỦA BẠN       -->
     <!-- ===================================================================== -->
     <groupId>com.mygame</groupId> <!-- Ví dụ: com.yourname.btl -->
     <artifactId>BTLGame</artifactId> <!-- Ví dụ: TenGameCuaBan -->
+=======
+    <groupId>src</groupId>
+    <artifactId>BaiTapLon</artifactId>
+>>>>>>> main
     <version>1.0-SNAPSHOT</version>
     <name>BTLGame</name> <!-- Tên hiển thị của dự án -->
 
@@ -80,12 +85,15 @@
                 <version>0.0.8</version> <!-- Phiên bản plugin JavaFX -->
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
+<<<<<<< HEAD
                             <mainClass>${javafx.mainClass}</mainClass>
                             <!-- Các tùy chọn jlink này thường dùng để tạo bản phân phối, có thể không cần thiết khi chạy từ IDE -->
                             <!--
+=======
+                            <mainClass>com.example.baitaplon.HelloApplication</mainClass>
+>>>>>>> main
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
