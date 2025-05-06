@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Nhắc lại: Nên sửa groupId thành cái gì đó chuẩn hơn, ví dụ com.example -->
     <groupId>src</groupId>
     <artifactId>BaiTapLon</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -83,10 +82,8 @@
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <!-- Nhắc lại: Sửa mainClass thành tên package.class đúng -->
                             <mainClass>com.example.baitaplon.HelloApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
