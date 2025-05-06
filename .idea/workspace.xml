@@ -32,14 +32,14 @@
     &quot;assignee&quot;: &quot;nht-8&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/nht-8/MHTQLN&quot;,
-    &quot;accountId&quot;: &quot;c6247669-f08f-4011-a871-3ca6f864d765&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/nht-8/MHTQLN.git",
+    "accountId": "8765a2b4-ce10-4cdf-ae5e-336bd87522f2"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -62,13 +62,21 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/OOP/MHTQLN",
+    "last_opened_file_path": "D:/OOP/BTL",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "run.code.analysis.last.selected.profile": "pProject Default"
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "editor.preferences.tabs"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\OOP\BTL\BaiTapLon\src\main\resources" />
+      <recent name="D:\OOP\BTL\BaiTapLon\src\main" />
+      <recent name="D:\OOP\BTL\BaiTapLon\src\main\java" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="MHTQLN" />
@@ -109,6 +117,9 @@
     </task>
     <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.cmd" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Thuong" />
