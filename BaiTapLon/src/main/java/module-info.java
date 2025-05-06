@@ -1,0 +1,9 @@
+module BTL { // Hoặc tên module bạn đã đặt
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires javafx.graphics; // Đảm bảo có dòng này
+
+    // Thay 'com.mygame' bằng package thực tế chứa các lớp Java của bạn
+    opens com.mygame to javafx.fxml;
+    exports com.mygame;
+}
