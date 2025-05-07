@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 package org.example.demo;
 
+=======
+>>>>>>> d81553b87e43d0650d2ca9bb3a3e90060fcdc776
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;

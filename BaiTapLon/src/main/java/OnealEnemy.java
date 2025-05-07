@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 package org.example.demo;
 
+=======
+import com.almasb.fxgl.app.GameController;
+>>>>>>> d81553b87e43d0650d2ca9bb3a3e90060fcdc776
 import javafx.scene.image.Image;
 import java.util.List;
 
