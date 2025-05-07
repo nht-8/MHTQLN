@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-package org.example.demo;
+package com.mygame;
 
-=======
->>>>>>> d81553b87e43d0650d2ca9bb3a3e90060fcdc776
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

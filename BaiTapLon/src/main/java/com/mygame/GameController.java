@@ -1,8 +1,5 @@
-<<<<<<< HEAD:BaiTapLon/src/main/java/com/mygame/GameController.java
 package com.mygame;
 
-=======
->>>>>>> d81553b87e43d0650d2ca9bb3a3e90060fcdc776:BaiTapLon/src/main/java/GameController.java
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;         // Đảm bảo import này
