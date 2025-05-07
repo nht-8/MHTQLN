@@ -4,23 +4,34 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Nhắc lại: Nên sửa groupId thành cái gì đó chuẩn hơn, ví dụ com.example -->
+<<<<<<< HEAD
+    <!-- ===================================================================== -->
+    <!-- THAY THẾ CÁC THÔNG TIN SAU BẰNG THÔNG TIN DỰ ÁN CỤ THỂ CỦA BẠN       -->
+    <!-- ===================================================================== -->
+    <groupId>com.mygame</groupId> <!-- Ví dụ: com.yourname.btl -->
+    <artifactId>BTLGame</artifactId> <!-- Ví dụ: TenGameCuaBan -->
+=======
     <groupId>src</groupId>
     <artifactId>BaiTapLon</artifactId>
+>>>>>>> main
     <version>1.0-SNAPSHOT</version>
-    <name>BaiTapLon</name>
+    <name>BTLGame</name> <!-- Tên hiển thị của dự án -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.10.2</junit.version>
-        <!-- Có thể thêm thuộc tính cho phiên bản JavaFX và Java -->
+        <!-- Phiên bản Java bạn muốn sử dụng (phải cài đặt JDK tương ứng) -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <!-- Phiên bản JavaFX (đã đổi thành 17.0.6) -->
         <javafx.version>17.0.6</javafx.version>
-        <maven.compiler.source>17</maven.compiler.source> <!-- Hoặc 23 nếu bạn chắc chắn -->
-        <maven.compiler.target>17</maven.compiler.target> <!-- Hoặc 23 nếu bạn chắc chắn -->
+        <!-- Tên đầy đủ (bao gồm package) của lớp Application chính -->
+        <!-- Đảm bảo khớp với vị trí thực tế của GameApplication.java -->
+        <javafx.mainClass>com.mygame.GameApplication</javafx.mainClass>
+        <junit.version>5.10.2</junit.version> <!-- Phiên bản JUnit (nếu dùng) -->
     </properties>
 
-    <dependencies> <!-- Mở Dependencies -->
-        <!-- TẤT CẢ dependency phải nằm trong này -->
+    <dependencies>
+        <!-- JavaFX Dependencies Cơ bản -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -33,25 +44,14 @@
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
+            <artifactId>javafx-graphics</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.kordamp.ikonli</groupId>
-            <artifactId>ikonli-javafx</artifactId>
-            <version>12.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.almasb</groupId>
-            <artifactId>fxgl</artifactId>
-            <version>17.3</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
+        <!-- COMMENT OUT HOẶC XÓA TẤT CẢ CÁC DEPENDENCY KHÁC Ở ĐÂY -->
+        <!-- Ví dụ: javafx-web, controlsfx, formsfx, fxgl, v.v. -->
+
+        <!-- JUnit Dependencies (có thể giữ lại nếu muốn) -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -64,36 +64,43 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-    </dependencies> <!-- Đóng Dependencies ở đây, sau tất cả -->
+    </dependencies>
 
     <build>
         <plugins>
+            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.13.0</version> <!-- Phiên bản này khá mới và tốt -->
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+            <!-- JavaFX Maven Plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
+                <version>0.0.8</version> <!-- Phiên bản plugin JavaFX -->
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <!-- Nhắc lại: Sửa mainClass thành tên package.class đúng -->
+<<<<<<< HEAD
+                            <mainClass>${javafx.mainClass}</mainClass>
+                            <!-- Các tùy chọn jlink này thường dùng để tạo bản phân phối, có thể không cần thiết khi chạy từ IDE -->
+                            <!--
+=======
                             <mainClass>com.example.baitaplon.HelloApplication</mainClass>
+>>>>>>> main
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                            -->
                         </configuration>
                     </execution>
                 </executions>
