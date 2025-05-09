@@ -41,12 +41,6 @@ public class Explosion extends Entity {
         }
     }
 
-    /**
-     * Helper method để đặt giá trị cho biến `sprite` dựa trên loại lửa (`type`)
-     * và chỉ số frame animation hiện tại (0, 1, hoặc 2).
-     * Sử dụng các tên biến `Sprite` tĩnh tương ứng với định nghĩa NES.
-     * @param frameIndex Chỉ số frame animation (0, 1, hoặc 2).
-     */
     private void setSpriteForFrame(int frameIndex) {
         // Đảm bảo frameIndex nằm trong khoảng [0, 2]
         frameIndex = Math.max(0, Math.min(2, frameIndex));
