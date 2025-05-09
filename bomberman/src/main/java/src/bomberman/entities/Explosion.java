@@ -1,25 +1,18 @@
 package src.bomberman.entities; 
 
-import javafx.geometry.Rectangle2D; // Cần cho getBounds() trong checkCollisions
-import src.bomberman.Config;        // Hoặc package của bạn
-import src.bomberman.graphics.Sprite; // Hoặc package của bạn
-import src.bomberman.graphics.SpriteSheet; // Hoặc package của bạn
+import javafx.geometry.Rectangle2D;
+import src.bomberman.Config;        
+import src.bomberman.graphics.Sprite;
+import src.bomberman.graphics.SpriteSheet;
 
 import java.util.List;
 
-/**
- * Đại diện cho một đoạn lửa của vụ nổ (Flame Segment).
- * Có thời gian tồn tại ngắn, chạy animation và gây ảnh hưởng (phá hủy, sát thương)
- * lên các thực thể khác khi va chạm.
- */
 public class Explosion extends Entity {
 
-    private int duration; // Thời gian tồn tại còn lại (tính bằng số frame update)
-    private final ExplosionType type; // Loại (hình dạng) của đoạn lửa này
-    private int animationCounter = 0; // Bộ đếm để điều khiển tốc độ animation
+    private int duration;
+    private final ExplosionType type; 
+    private int animationCounter = 0; 
 
-    // Tốc độ animation: Số frame update hiển thị cho mỗi sprite lửa
-    // Chia đều thời gian tồn tại cho 3 frame animation
     private final int ANIMATION_SPEED = Math.max(1, Config.BOMB_EXPLOSION_DURATION / 3);
 
     /**
