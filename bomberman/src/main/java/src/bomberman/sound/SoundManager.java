@@ -3,16 +3,12 @@ package src.bomberman.sound;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration; // Cần cho MediaPlayer
+import javafx.util.Duration; 
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Quản lý việc tải và phát các file âm thanh (SFX và BGM).
- * Sử dụng mẫu Singleton để dễ dàng truy cập từ mọi nơi.
- */
 public class SoundManager {
 
     private static SoundManager instance;
