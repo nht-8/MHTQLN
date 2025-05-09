@@ -134,7 +134,7 @@ public class BombermanApp extends Application {
                 primaryStage.setTitle("Bomberman FX - Level " + gameHUDControllerInstance.getGame().getCurrentLevelNumber()); // Ví dụ cập nhật tiêu đề
                 SoundManager.getInstance().stopBackgroundMusic(); // Dừng nhạc menu
                 SoundManager.getInstance().playBackgroundMusic(SoundManager.GAME_BGM, true); // Phát nhạc nền game
-                gameLoop.start(); // Bắt đầu vòng lặp game
+                gameLoop.start(); 
                 System.out.println("Switched to Game scene and started game.");
             } else {
                 throw new IllegalStateException("Could not get GameHUDController instance after loading FXML.");
