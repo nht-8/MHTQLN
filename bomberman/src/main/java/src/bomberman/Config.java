@@ -21,20 +21,16 @@ public class Config {
     public static final int WINDOW_WIDTH = GAME_AREA_WIDTH;
     public static final int WINDOW_HEIGHT = GAME_AREA_HEIGHT + HUD_HEIGHT;
 
-    public static final int POINTS_PER_ENEMY = 200; // Hoặc một giá trị điểm bạn muốn
-
-
-    // Tốc độ di chuyển của Player
+    public static final int POINTS_PER_ENEMY = 200; 
+/
     public static final double PLAYER_SPEED = 1.5;
 
-    // Các hằng số game khác
     public static final int BOMB_TIMER = 120;
     public static final int BOMB_EXPLOSION_DURATION = 30;
     public static final int PLAYER_INIT_BOMBS = 1;
     public static final int PLAYER_INIT_FLAMES = 1;
     public static final int PLAYER_INIT_LIVES = 3;
 
-    // Đường dẫn tới các file spritesheet
     public static final String SPRITESHEET1_PATH = "/images/sheet1.png";
     public static final String SPRITESHEET2_PATH = "/images/sheet2.png";
 
