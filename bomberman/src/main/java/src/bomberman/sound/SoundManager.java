@@ -19,20 +19,16 @@ public class SoundManager {
 
 
     public static final String EXPLOSION = "boom";
-    public static final String LEVEL_CLEAR = "clear"; // Có thể dùng khi thắng level
-    public static final String PLAYER_DEATH = "dead1"; // Hoặc dead2
-    public static final String ENEMY_DEATH = "dead2"; // Hoặc dùng chung mob_dead nếu có
+    public static final String LEVEL_CLEAR = "clear"; 
+    public static final String PLAYER_DEATH = "dead1";
+    public static final String ENEMY_DEATH = "dead2"; 
     public static final String GET_ITEM = "getitem";
-    public static final String PLACE_BOMB = "putbomb"; // Hoặc putbomb2
+    public static final String PLACE_BOMB = "putbomb";
     public static final String GAMEOVER = "gameover";
 
-    // Các tên khác bạn có thể thêm: "flash", "intro", "homestart"
+    public static final String GAME_BGM = "gameaudio"; 
+    public static final String TITLE_BGM = "homestart"; 
 
-    // Tên file nhạc nền
-    public static final String GAME_BGM = "gameaudio"; // Nhạc nền chính
-    public static final String TITLE_BGM = "homestart"; // Nhạc màn hình tiêu đề
-
-    // Constructor riêng tư cho Singleton
     private SoundManager() {
         soundEffects = new HashMap<>();
     }
