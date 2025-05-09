@@ -1,4 +1,3 @@
-// src/main/java/src/bomberman/core/Game.java
 package src.bomberman.core;
 
 import javafx.geometry.Rectangle2D;
