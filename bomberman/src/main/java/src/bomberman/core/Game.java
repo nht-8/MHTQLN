@@ -97,8 +97,7 @@ public class Game {
             } else if (player.isDying()) {
                 player.update(deltaTime, null); // Chỉ chạy animation chết
             } else { // Player không alive và không dying, nghĩa là vừa chết xong (animation đã hoàn tất)
-                if (!player.isJustPermanentlyDeadAndDecrementLife()) {
-                } else {
+                if (player.isJustPermanentlyDeadAndDecrementLife()) {
                     player.consumePermanentlyDeadFlag(); // QUAN TRỌNG: Reset cờ
                     playerLoseLife(); // Xử lý mất mạng
                 }
@@ -364,8 +363,9 @@ public class Game {
                 handleGameOver();
             } else {
                 // Nếu còn mạng, hồi sinh người chơi
-                if (player != null) player.resetToStartPositionAndRevive();
-                else {
+                if (player != null) {
+                    player.resetToStartPositionAndRevive();
+                } else {
                     // Trường hợp hiếm, Player null nhưng mất mạng -> tải lại màn
                     System.err.println("Player is null but a life was lost. Attempting to reload level " + this.currentLevelNumber);
                     loadLevel(this.currentLevelNumber);
@@ -377,12 +377,9 @@ public class Game {
     private void handleGameOver() {
         System.out.println("GAME OVER - Final Score: " + playerScore);
         SoundManager.getInstance().playSound(SoundManager.GAME_OVER);
-        if (player != null) player.setPermanentlyDeadNoUpdates(); // Ngăn Player update
-        // Thông báo cho BombermanApp để chuyển sang màn hình Game Over
-        // mainApp.showGameOverScreen(playerScore); // Điều này sẽ được gọi từ GameHUDController
-        SoundManager.getInstance().playSound(SoundManager.GAMEOVER);
-        // GameHUDController sẽ kiểm tra playerLives <= 0 và xử lý việc chuyển màn hình
-        // hoặc dừng game loop. Game.java chỉ cần cập nhật trạng thái.
+        if (player != null) {
+            player.setPermanentlyDeadNoUpdates(); // Ngăn Player update
+        }
     }
 
 
