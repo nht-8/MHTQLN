@@ -1,4 +1,3 @@
-// src/main/java/src/bomberman/entities/Explosion.java
 package src.bomberman.entities; // Hoặc package của bạn: uet.oop.bomberman.entities
 
 // Import các lớp cần thiết
