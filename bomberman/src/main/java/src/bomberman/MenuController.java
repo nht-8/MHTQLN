@@ -17,7 +17,7 @@ import java.net.URL;
 public class MenuController {
 
     @FXML
-    private VBox rootVBox; // Đảm bảo fx:id="rootVBox" đã được đặt cho VBox gốc trong FXML
+    private VBox rootVBox; 
 
     @FXML
     private Button startGameButton;
@@ -27,7 +27,7 @@ public class MenuController {
 
     private BombermanApp mainApp;
 
-    // Phương thức này sẽ được gọi bởi BombermanApp để truyền tham chiếu
+   
     public void setMainApp(BombermanApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -35,7 +35,7 @@ public class MenuController {
     @FXML
     private void handleStartGame(ActionEvent event) {
         if (mainApp != null) {
-            mainApp.startGame(); // Gọi phương thức trong BombermanApp để bắt đầu game
+            mainApp.startGame(); 
         } else {
             System.err.println("MainApp reference not set in MenuController!");
         }
@@ -43,14 +43,12 @@ public class MenuController {
 
     @FXML
     private void handleExitGame(ActionEvent event) {
-        Platform.exit(); // Thoát ứng dụng JavaFX
-        System.exit(0);  // Đảm bảo JVM cũng thoát
+        Platform.exit();
+        System.exit(0); 
     }
-
-    // (Tùy chọn) Được gọi sau khi các trường @FXML đã được inject
     @FXML
     public void initialize() {
-        // Thêm hiệu ứng hover cho nút nếu muốn (ví dụ)
+       
         startGameButton.setOnMouseEntered(e -> startGameButton.setStyle("-fx-background-color: #45a049;" +
                 " -fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold; -fx-background-radius: 10;"));
         startGameButton.setOnMouseExited(e -> startGameButton.setStyle("-fx-background-color: #4CAF50; " +
@@ -59,21 +57,18 @@ public class MenuController {
         exitButton.setOnMouseEntered(e -> exitButton.setStyle("-fx-background-color: #e53935; -fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-background-radius: 10;"));
         exitButton.setOnMouseExited(e -> exitButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-background-radius: 10;"));
 
-        // ---- ĐẶT ẢNH NỀN TỪ CODE JAVA SỬ DỤNG HẰNG SỐ ----
         try {
-            // Sử dụng hằng số từ lớp Config
+           
             URL imageUrl = getClass().getResource(Config.MENU_BACKGROUND_IMAGE_PATH);
 
-            if (rootVBox == null) { // Kiểm tra xem rootVBox có được inject không
+            if (rootVBox == null) { 
                 System.err.println("ERROR: rootVBox is null. Check fx:id in FXML and @FXML in Controller.");
                 return;
             }
 
             if (imageUrl != null) {
                 Image backgroundImageFile = new Image(imageUrl.toExternalForm());
-                // Các tham số cho BackgroundSize:
-                // width, height, asPercentageWidth, asPercentageHeight, contain, cover
-                // true cho cover, false cho các cờ khác nếu không dùng
+               
                 BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true);
 
 
@@ -83,13 +78,11 @@ public class MenuController {
                 System.out.println("SUCCESS: Background image set from Java code for: " + Config.MENU_BACKGROUND_IMAGE_PATH);
             } else {
                 System.err.println("ERROR: Could NOT find image in Java code: " + Config.MENU_BACKGROUND_IMAGE_PATH);
-                // (Tùy chọn) Đặt màu nền mặc định nếu không tìm thấy ảnh
-                // rootVBox.setStyle("-fx-background-color: #2B2B2B;"); // Ví dụ màu nền tối
+            
             }
         } catch (Exception e) {
             System.err.println("EXCEPTION while setting background image from Java code: " + e.getMessage());
             e.printStackTrace();
         }
-        // ---- KẾT THÚC ĐẶT ẢNH NỀN ----
     }
 }
