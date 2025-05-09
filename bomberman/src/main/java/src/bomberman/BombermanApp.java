@@ -131,15 +131,15 @@ public class BombermanApp extends Application {
             if (gameHUDControllerInstance != null) {
                 gameHUDControllerInstance.setupGame(gameInputHandler, this);
                 primaryStage.setScene(gameScene); // Chuyển sang màn hình game
-                primaryStage.setTitle("Bomberman FX - Level " + gameHUDControllerInstance.getGame().getCurrentLevelNumber()); // Ví dụ cập nhật tiêu đề
+                primaryStage.setTitle("Bomberman FX - Level " + gameHUDControllerInstance.getGame().getCurrentLevelNumber()); 
                 SoundManager.getInstance().stopBackgroundMusic(); // Dừng nhạc menu
-                SoundManager.getInstance().playBackgroundMusic(SoundManager.GAME_BGM, true); // Phát nhạc nền game
+                SoundManager.getInstance().playBackgroundMusic(SoundManager.GAME_BGM, true); 
                 gameLoop.start(); 
                 System.out.println("Switched to Game scene and started game.");
             } else {
                 throw new IllegalStateException("Could not get GameHUDController instance after loading FXML.");
             }
-        } catch (Exception e) { // Bắt Exception chung để an toàn hơn
+        } catch (Exception e) {
             System.err.println("Failed to load game FXML or setup game: " + e.getMessage());
             e.printStackTrace();
             showMenu(); // Quay lại menu nếu có lỗi khi load game
