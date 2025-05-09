@@ -125,11 +125,9 @@ public class BombermanApp extends Application {
 
             gameScene = new Scene(gameRoot, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
 
-            // Tạo và khởi tạo InputHandler cho gameScene
             gameInputHandler = new InputHandler(gameScene);
             gameInputHandler.init();
 
-            // Setup trò chơi bên trong controller (controller sẽ tạo Game, Renderer, đặt kích thước Canvas...)
             if (gameHUDControllerInstance != null) {
                 gameHUDControllerInstance.setupGame(gameInputHandler, this);
                 primaryStage.setScene(gameScene); // Chuyển sang màn hình game
