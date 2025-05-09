@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random; // Để tạo PowerUp ngẫu nhiên
 
+import static src.bomberman.graphics.SpriteSheet.Sheet1;
 import static src.bomberman.graphics.SpriteSheet.Sheet2;
 
 /**
@@ -140,18 +141,38 @@ public class Level {
                         break;
                     case 'p': // Player - Vị trí bắt đầu của người chơi
                         if (game.getPlayer() == null) { // Chỉ tạo Player nếu chưa có
-                            game.addPlayer(new Player(x, y, modernSheet, input, game));
+                            game.addPlayer(new Player(x, y, Sheet1, input, game));
                         } else {
                             System.err.println("Warning: Multiple player ('p') start positions found in map file. Using the first one.");
                         }
                         mapData[y][x] = ' '; // Sau khi tạo Player, ô đó trở thành nền cỏ
                         break;
                     case '1':
-                        game.addEnemy(new Ballom(x, y, nesSheet, game)); // Truyền game vào Enemy
+                        game.addEnemy(new Ballom(x, y, Sheet2, game)); // Truyền game vào Enemy
                         mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
                         break;
                     case '2':
-                         game.addEnemy(new Kondoria(x, y, nesSheet, game));
+                         game.addEnemy(new Kondoria(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '3':
+                        game.addEnemy(new Doll(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '4':
+                        game.addEnemy(new Oneal(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '5':
+                        game.addEnemy(new Pass(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '6':
+                        game.addEnemy(new Ovapi(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '7':
+                        game.addEnemy(new Minvo(x, y, Sheet2, game));
                         mapData[y][x] = ' ';
                         break;
                     // TODO: Thêm các case cho các loại Enemy khác và PowerUp đặt sẵn trên map

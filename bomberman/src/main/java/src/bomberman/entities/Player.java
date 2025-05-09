@@ -380,8 +380,10 @@ public class Player extends Entity {
     }
 
     // --- Các phương thức nhận Power-up ---
-    public void addBombCapacity(int amount) { this.bombCapacity += amount; }
-    public void addFlameLength(int amount) { this.flameLength += amount; }
+    public void addBombCapacity(int amount) {
+        if(bombCapacity < 3) this.bombCapacity += amount; }
+    public void addFlameLength(int amount) {
+        if(flameLength < 3) this.flameLength += amount; }
     public void addSpeed(double amount) { this.speed = Math.max(0.5, this.speed + amount); }
 
     // --- Getters ---

@@ -62,7 +62,7 @@ public class Game {
             return;
         }
 
-        SoundManager.getInstance().playSound(SoundManager.LEVEL_START);
+//        SoundManager.getInstance().playSound(SoundManager.LEVEL_START);
         System.out.println("Level " + levelNumber + " loaded successfully.");
     }
 
@@ -299,6 +299,7 @@ public class Game {
         if (player != null) {
             player.setPermanentlyDeadNoUpdates(); // Ngăn player update thêm
         }
+        SoundManager.getInstance().playSound(SoundManager.GAMEOVER);
         // GameHUDController sẽ kiểm tra playerLives <= 0 và xử lý việc chuyển màn hình
         // hoặc dừng game loop. Game.java chỉ cần cập nhật trạng thái.
     }

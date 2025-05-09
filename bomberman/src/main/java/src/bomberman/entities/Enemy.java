@@ -18,7 +18,7 @@ public abstract class Enemy extends Entity {
     protected Direction currentDirection;
     protected Random random = new Random();
     protected int moveCounter = 0; // Đếm bước di chuyển theo một hướng
-    protected int stepsBeforeChangeDirection = 60; // Số bước trước khi có thể đổi hướng
+    protected int stepsBeforeChangeDirection = 120; // Số bước trước khi có thể đổi hướng
     protected int animationCounter = 0; // Bộ đếm cho animation
     protected Game game; // Tham chiếu đến Game để truy cập Level
 
