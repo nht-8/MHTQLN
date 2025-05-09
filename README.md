@@ -51,7 +51,7 @@ Có nhiều loại Enemy trong Bomberman, tuy nhiên trong phiên bản này ch�
     4. Nếu bạn muốn thay đổi dữ liệu, bạn có thể thay đổi các tệp level.txt
 
 
-### Tham khảo: <img src="https://raw.githubusercontent.com/gilbarbara/logos/master/logos/github-icon.svg" alt="GitHub" width="24" height="24"> <img src="https://joplinapp.org/images/Icon512.png" alt="Joplin" width="24" height="24">
+### Tham khảo: <img src="https://raw.githubusercontent.com/gilbarbara/logos/master/logos/github-icon.svg" alt="GitHub" width="24" height="24"> <img src="https://raw.githubusercontent.com/gilbarbara/logos/master/logos/google-icon.svg" alt="Google AI" width="24" height="24">
 
 
 
