@@ -73,23 +73,22 @@ public class Explosion extends Entity {
                 else if (frameIndex == 1) targetSprite = Sprite.explosion_left1;
                 else targetSprite = Sprite.explosion_left2;
                 break;
-            case END_RIGHT: // Right last
+            case END_RIGHT: 
                 if (frameIndex == 0) targetSprite = Sprite.explosion_right;
                 else if (frameIndex == 1) targetSprite = Sprite.explosion_right1;
                 else targetSprite = Sprite.explosion_right2;
                 break;
-            default: // Trường hợp không xác định (không nên xảy ra)
+            default: 
                 System.err.println("Warning: Unknown ExplosionType: " + type);
-                targetSprite = Sprite.explosion_center; // Mặc định về tâm nổ frame 1
+                targetSprite = Sprite.explosion_center; 
                 break;
         }
 
-        // Gán sprite và kiểm tra null
         this.sprite = targetSprite;
         if (this.sprite == null) {
             System.err.println("Warning: Explosion sprite is null after assignment for type: " + type +
                     ", frameIndex: " + frameIndex + ". Defaulting to center.");
-            this.sprite = Sprite.explosion_center; // Fallback cuối cùng
+            this.sprite = Sprite.explosion_center; 
             if (this.sprite == null) {
                 System.err.println("CRITICAL ERROR: Default explosion sprite (explosion_center) is also null!");
             }
