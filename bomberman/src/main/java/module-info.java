@@ -9,6 +9,4 @@ module bomberman {
     opens src.bomberman.graphics to javafx.graphics; // Nếu có Node trong package này
     opens src.bomberman.entities to javafx.graphics; // Nếu có Node trong package này
 
-    // Nếu bạn đặt tài nguyên ở package khác, cần opens package đó, ví dụ:
-    // opens images to javafx.graphics; // Nếu ảnh nằm trong package 'images' (ít phổ biến)
 }
