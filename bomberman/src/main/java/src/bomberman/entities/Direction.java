@@ -2,5 +2,8 @@
 package src.bomberman.entities; // HOẶC uet.oop.bomberman.entities
 
 public enum Direction {
-    UP, DOWN, LEFT, RIGHT, NONE
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
 }

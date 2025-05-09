@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import src.bomberman.Config;
 import src.bomberman.entities.*;
+import src.bomberman.entities.Portal;
 import src.bomberman.graphics.Sprite;
 import src.bomberman.graphics.SpriteSheet;
 import src.bomberman.input.InputHandler; // Cần cho Player
@@ -39,6 +40,7 @@ public class Level {
      */
     public Level(String levelPath, Game game) {
         this.game = game;
+        System.out.println("[Level Constructor] Attempting to load level: " + levelPath);
         loadLevelFromFile(levelPath);
     }
 
@@ -49,10 +51,17 @@ public class Level {
      * @param path Đường dẫn đến file map.
      */
     private void loadLevelFromFile(String path) {
+        System.out.println("[loadLevelFromFile] Loading from path: " + path);
         try (InputStream is = getClass().getResourceAsStream(path);
              BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
 
-            // Đọc dòng đầu tiên: height width
+            if (is == null) { // <<< KIỂM TRA QUAN TRỌNG
+                System.err.println("CRITICAL ERROR [loadLevelFromFile]: Could not find resource file: " + path + ". Check path and ensure file is in resources/levels and marked as resource.");
+                this.width = 0; this.height = 0; // Đánh dấu là không load được
+                return;
+            }
+
+
             String firstLine = reader.readLine();
             if (firstLine == null) {
                 System.err.println("ERROR: Level file is empty: " + path);
@@ -65,6 +74,7 @@ public class Level {
             }
             this.height = Integer.parseInt(dimensions[0]);
             this.width = Integer.parseInt(dimensions[1]);
+            System.out.println("[loadLevelFromFile] Successfully read dimensions: " + this.height + "x" + this.width);
 
             if (this.width <= 0 || this.height <= 0) {
                 System.err.println("ERROR: Invalid level dimensions (<=0) in " + path + ". Dimensions: " + width + "x" + height);
@@ -82,13 +92,13 @@ public class Level {
                     for (int fillY = y; fillY < height; fillY++) {
                         java.util.Arrays.fill(mapData[fillY], ' ');
                     }
-                    break; // Thoát vòng lặp đọc dòng
+                    break;
                 }
                 for (int x = 0; x < width; x++) {
                     if (x < line.length()) {
                         mapData[y][x] = line.charAt(x);
                     } else {
-                        mapData[y][x] = ' '; // Nếu dòng map ngắn hơn chiều rộng, điền ô trống
+                        mapData[y][x] = ' ';
                     }
                 }
             }
@@ -110,6 +120,7 @@ public class Level {
      * các ký tự trong `mapData` và thêm chúng vào đối tượng Game.
      */
     private void createEntitiesFromMap() {
+        System.out.println("[createEntitiesFromMap] Creating entities...");
         if (mapData == null || game == null || width == 0 || height == 0) {
             System.err.println("Cannot create entities from map: mapData, game is null, or dimensions are zero.");
             return;
@@ -151,13 +162,21 @@ public class Level {
                         mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
                         break;
                     case '2':
-                         game.addEnemy(new Kondoria(x, y, nesSheet, game));
+                        game.addEnemy(new Kondoria(x, y, nesSheet, game));
                         mapData[y][x] = ' ';
                         break;
-                    // TODO: Thêm các case cho các loại Enemy khác và PowerUp đặt sẵn trên map
-                    // case 'b': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.BOMBS)); mapData[y][x] = ' '; break;
-                    // case 'f': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.FLAMES)); mapData[y][x] = ' '; break;
-                    // case 's': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.SPEED)); mapData[y][x] = ' '; break;
+                    case 'x':
+                        System.out.println("[Level DEBUG] Found 'x' for Portal at (" + x + "," + y + ")");
+                        if (game.getPortal() == null) { // Chỉ tạo một portal duy nhất mỗi level
+                            game.addPortal(new Portal(x, y, nesSheet)); // nesSheet là SpriteSheet.Sheet2
+                            // SAU KHI PORTAL ĐƯỢC TẠO, ĐẶT Ô NÀY LÀ NỀN CỎ
+                            // ĐỂ PORTAL CÓ THỂ ĐƯỢC VẼ LÊN TRÊN NỀN CỎ ĐÓ.
+                            // Portal sẽ tự quyết định có vẽ mình hay không dựa vào cờ 'revealed'.
+                            mapData[y][x] = ' '; // QUAN TRỌNG: Biến ô 'x' thành nền để Portal có thể hiện ra
+                        } else {
+                            System.err.println("[Level DEBUG] Portal already exists in this level, not creating new one.");
+                        }
+                        break;
                     default:
                         // Ký tự không xác định hoặc ' ' (ô trống) sẽ là nền cỏ (được vẽ bởi renderBackground)
                         break;
@@ -174,13 +193,15 @@ public class Level {
                 System.err.println("ERROR: Cannot add default player due to missing input or modernSheet.");
             }
         }
+        System.out.println("[createEntitiesFromMap] Finished creating entities.");
+
     }
 
     /**
      * Vẽ lớp nền (background) của Level lên màn hình.
      * Lặp qua từng ô của map và vẽ sprite nền (ví dụ: cỏ).
      * Kích thước vẽ ra của mỗi sprite nền sẽ bằng `Config.TILE_SIZE`.
-     * @param gc GraphicsContext của Canvas (đã được dịch chuyển nếu cần).
+     * @param gc GraphicsContext của Canvas.
      */
     public void renderBackground(GraphicsContext gc) {
         Sprite grassSprite = Sprite.grass; // Lấy sprite nền đã được load
@@ -191,34 +212,34 @@ public class Level {
                 grassSprite.sheet.getSheet().isError()) {
 
             // Nếu có lỗi, vẽ màu nền mặc định và báo lỗi
-            // Sử dụng kích thước vùng game từ Config đã cập nhật
             gc.setFill(Color.DARKSLATEGRAY); // Một màu nền tối để dễ debug
-            gc.fillRect(0, 0, Config.GAME_AREA_WIDTH, Config.GAME_AREA_HEIGHT); // <<< SỬA Ở ĐÂY
+            gc.fillRect(0, 0, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
             System.err.println("Cannot render background: Grass sprite, its Sheet is invalid/null, or map dimensions are zero.");
             return; // Không vẽ gì thêm
         }
 
         SpriteSheet sheet = grassSprite.sheet; // Lấy sheet chứa sprite cỏ
 
-        // Vẽ nền cỏ cho toàn bộ map game (không bao gồm HUD)
-        // Vòng lặp này dựa trên width và height của level (số ô), không phải kích thước màn hình pixel
+
+        // Vẽ nền cỏ cho toàn bộ map
         for (int yTile = 0; yTile < height; yTile++) { // Lặp qua hàng (ô tile)
             for (int xTile = 0; xTile < width; xTile++) { // Lặp qua cột (ô tile)
-                // Tính toán tọa độ pixel để vẽ (tọa độ này là tương đối với gốc của gc,
-                // mà gốc này có thể đã được dịch chuyển xuống dưới HUD bởi Renderer)
+                // Tính toán tọa độ pixel để vẽ
                 double dx = xTile * Config.TILE_SIZE;
                 double dy = yTile * Config.TILE_SIZE;
 
+                // Vẽ sprite nền cỏ tại vị trí ô map (xTile, yTile)
+                // Vẽ nó với kích thước của một ô Tile chuẩn (Config.TILE_SIZE)
                 gc.drawImage(
-                        sheet.getSheet(),
-                        grassSprite.getSourceX(),
-                        grassSprite.getSourceY(),
-                        grassSprite.getSourceWidth(),
-                        grassSprite.getSourceHeight(),
-                        dx,
-                        dy,
-                        Config.TILE_SIZE, // Vẽ mỗi ô cỏ với kích thước chuẩn
-                        Config.TILE_SIZE
+                        sheet.getSheet(),                 // Ảnh nguồn (spritesheet)
+                        grassSprite.getSourceX(),         // sx: Tọa độ X của sprite cỏ trên sheet
+                        grassSprite.getSourceY(),         // sy: Tọa độ Y của sprite cỏ trên sheet
+                        grassSprite.getSourceWidth(),     // sw: Chiều rộng nguồn của sprite cỏ (ví dụ: 16)
+                        grassSprite.getSourceHeight(),    // sh: Chiều cao nguồn của sprite cỏ (ví dụ: 16)
+                        dx,                               // xTile * Config.TILE_SIZE
+                        dy,                               // yTile * Config.TILE_SIZE
+                        Config.TILE_SIZE,                 // dw
+                        Config.TILE_SIZE                  // dh
                 );
             }
         }

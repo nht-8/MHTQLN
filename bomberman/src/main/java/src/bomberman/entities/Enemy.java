@@ -42,15 +42,14 @@ public abstract class Enemy extends Entity {
 
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        if (!alive && !dying) return; // Đã chết hẳn
-        if (dying) {
-            handleDeathAnimation();
-            deathTimer++;
-            if (deathTimer > DEATH_ANIMATION_DURATION) {
-                alive = false;
-                dying = false;// Đánh dấu chết hẳn sau animation
-            }
+        // Nếu đã chết hẳn và không còn đang trong animation chết -> không làm gì cả
+        if (!this.alive && !this.dying) {
             return;
+        }
+
+        if (this.dying) {
+            handleDeathAnimation(); // Chỉ xử lý animation chết
+            return; // Không làm gì khác khi đang chết
         }
 
         // Nếu còn sống và không đang dying
@@ -159,38 +158,38 @@ public abstract class Enemy extends Entity {
 
     @Override
     public void destroy() {
-        if (alive && !dying) { // Chỉ chết một lần
-            System.out.println(this.getClass().getSimpleName() + " is dying!");
-            dying = true; // Bắt đầu trạng thái "đang chết"
-            animationCounter = 0; // Reset cho animation chết
-            deathTimer = 0;
-            // Lớp con có thể đặt sprite chết đầu tiên ở đây nếu muốn,
-            // hoặc handleDeathAnimation sẽ tự xử lý
+        if (this.alive && !this.dying) {
+            System.out.println(this.getClass().getSimpleName() + " is dying! ID: " + System.identityHashCode(this));
+            this.dying = true;
+            this.deathTimer = 0; // QUAN TRỌNG: Reset deathTimer khi bắt đầu chết
+            SoundManager.getInstance().playSound(SoundManager.ENEMY_DEATH);
         }
-        SoundManager.getInstance().playSound(SoundManager.ENEMY_DEATH);
     }
 
     /**
      * Xử lý animation khi Enemy đang trong trạng thái chết.
      */
     protected void handleDeathAnimation() {
-        animationCounter++;
-        int deathFrameTime = DEATH_ANIMATION_DURATION / 3; // Giả sử có 3 frame chết (mob_dead1/2/3)
-
-        Sprite targetSprite = null;
-        if (animationCounter < deathFrameTime) {
-            targetSprite = Sprite.mob_dead1;
-        } else if (animationCounter < deathFrameTime * 2) {
-            targetSprite = Sprite.mob_dead2;
-        } else if (animationCounter <= DEATH_ANIMATION_DURATION) {
-            targetSprite = Sprite.mob_dead3;
-        } else {
-            targetSprite = Sprite.mob_dead3; // Giữ frame cuối
+        // Cập nhật sprite cho animation chết dựa trên deathTimer
+        if (deathTimer < DEATH_ANIMATION_DURATION / 3) {
+            this.sprite = Sprite.mob_dead1;
+        } else if (deathTimer < (DEATH_ANIMATION_DURATION * 2) / 3) {
+            this.sprite = Sprite.mob_dead2;
+        } else { // Giai đoạn cuối của animation, giữ sprite cuối cùng cho đến khi hết duration
+            this.sprite = Sprite.mob_dead3;
         }
-        this.sprite = targetSprite;
+
         if (this.sprite == null) {
-            System.err.println("Warning: Enemy death animation sprite is null.");
-            // Có thể không làm gì để enemy biến mất nếu không có sprite chết
+            System.err.println("Warning [Enemy handleDeathAnimation]: Enemy death animation sprite (mob_dead) is null. deathTimer: " + deathTimer);
+        }
+
+        this.deathTimer++; // << QUAN TRỌNG: Tăng bộ đếm thời gian cho animation chết
+
+        // Khi animation chết hoàn tất
+        if (this.deathTimer > DEATH_ANIMATION_DURATION) {
+            System.out.println("[Enemy " + this.getClass().getSimpleName() + "] ID: " + System.identityHashCode(this) + " - Death animation finished. Setting alive=false, dying=false.");
+            this.alive = false; // << QUAN TRỌNG: Đánh dấu là đã chết
+            this.dying = false; // << QUAN TRỌNG: Đánh dấu là đã kết thúc quá trình dying
         }
     }
 

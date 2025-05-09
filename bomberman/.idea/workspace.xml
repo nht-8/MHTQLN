@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1197fa43-e790-436b-b686-d1dc8ddee21c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Portal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/levels/level2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/levels/level3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/levels/level4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/levels/level5.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/levels/level2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/levels/level3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/levels/level4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/levels/level5.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.." beforeDir="false" afterPath="$PROJECT_DIR$/../.." afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/BombermanApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/BombermanApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/GameHUDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/GameHUDController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/core/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/core/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/core/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/core/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Brick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Brick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Direction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/graphics/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/graphics/Renderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/graphics/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/graphics/Sprite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/bomberman/sound/SoundManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/bomberman/sound/SoundManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/levels/level1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/levels/level1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/levels/level1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/levels/level1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/BombermanApp$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/BombermanApp$AppState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/BombermanApp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/Config.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/GameHUDController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/GameOverController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/MenuController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/core/Game.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/core/Level.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Ballom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Bomb.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Brick.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Direction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Doll.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Enemy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Enemy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Entity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Explosion$ExplosionType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Explosion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Kondoria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Minvo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Oneal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Ovapi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Pass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Player$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/PowerUp$PowerUpType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/PowerUp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/entities/Wall.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/graphics/Renderer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/graphics/Sprite.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/graphics/SpriteSheet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/src/bomberman/sound/SoundManager.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;minh-ui&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/nht-8/MHTQLN.git&quot;,
+    &quot;accountId&quot;: &quot;74d00aaf-6cd2-44b9-a554-56543ab2c0f1&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2wL38OLWrHPEhikfY17LTJ8CDc8" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BombermanApp.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "#10 on qlhn",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/OOP/BTL/bomberman",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.fileTypes",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\file in\2k7 tsa\bomberman\src\main\resources\images" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1197fa43-e790-436b-b686-d1dc8ddee21c" name="Changes" comment="" />
+      <created>1746505243093</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1746505243093</updated>
+      <workItem from="1746814323254" duration="938000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
