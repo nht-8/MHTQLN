@@ -126,18 +126,14 @@ public class Level {
                          game.addEnemy(new Kondoria(x, y, nesSheet, game));
                         mapData[y][x] = ' ';
                         break;
-                    // TODO: Thêm các case cho các loại Enemy khác và PowerUp đặt sẵn trên map
-                    // case 'b': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.BOMBS)); mapData[y][x] = ' '; break;
-                    // case 'f': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.FLAMES)); mapData[y][x] = ' '; break;
-                    // case 's': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.SPEED)); mapData[y][x] = ' '; break;
+                
                     default:
-                        // Ký tự không xác định hoặc ' ' (ô trống) sẽ là nền cỏ (được vẽ bởi renderBackground)
+                        
                         break;
                 }
             }
         }
 
-        // Đảm bảo có Player nếu map không định nghĩa vị trí 'p'
         if (game.getPlayer() == null) {
             System.err.println("Warning: No player start ('p') found in map. Adding default player at (1,1).");
             if(input != null && modernSheet != null && modernSheet.getSheet() != null) {
@@ -155,9 +151,8 @@ public class Level {
      * @param gc GraphicsContext của Canvas (đã được dịch chuyển nếu cần).
      */
     public void renderBackground(GraphicsContext gc) {
-        Sprite grassSprite = Sprite.grass; // Lấy sprite nền đã được load
+        Sprite grassSprite = Sprite.grass; 
 
-        // Kiểm tra xem sprite nền và sheet của nó có hợp lệ không
         if (mapData == null || width == 0 || height == 0 || grassSprite == null ||
                 grassSprite.sheet == null || grassSprite.sheet.getSheet() == null ||
                 grassSprite.sheet.getSheet().isError()) {
