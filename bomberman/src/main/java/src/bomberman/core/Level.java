@@ -259,9 +259,6 @@ public class Level {
         return tileChar == '#' || tileChar == '*';
     }
 
-    /**
-     * In bản đồ (mapData) ra console để debug.
-     */
     public void printMap() {
         System.out.println("--- Level Map (" + width + "x" + height + ") ---");
         if (mapData == null) {
