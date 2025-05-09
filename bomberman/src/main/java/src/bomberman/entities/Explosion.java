@@ -1,6 +1,5 @@
-package src.bomberman.entities; // Hoặc package của bạn: uet.oop.bomberman.entities
+package src.bomberman.entities; 
 
-// Import các lớp cần thiết
 import javafx.geometry.Rectangle2D; // Cần cho getBounds() trong checkCollisions
 import src.bomberman.Config;        // Hoặc package của bạn
 import src.bomberman.graphics.Sprite; // Hoặc package của bạn
