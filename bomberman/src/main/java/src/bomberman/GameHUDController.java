@@ -43,31 +43,23 @@ public class GameHUDController {
         gameCanvasGC.setImageSmoothing(false);
 
         this.game = new Game(inputHandler);
-        this.renderer = new Renderer(); // Renderer giờ chỉ vẽ nội dung game
+        this.renderer = new Renderer(); 
 
         System.out.println("GameHUDController setup complete. Canvas and Game ready.");
-
-        // Cập nhật HUD lần đầu tiên
+        
         updateHUDLabels();
     }
 
-    /**
-     * Đặt kích thước cho các phần tử FXML dựa trên hằng số trong Config.
-     */
     private void setElementSizesFromConfig() {
-        // BorderPane gốc thường sẽ tự khớp với Scene, không cần đặt cứng ở đây
-        // if (rootPane != null) {
-        //     rootPane.setPrefSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
-        // }
 
         if (hudPane != null) {
-            hudPane.setPrefHeight(Config.HUD_HEIGHT); // Đặt chiều cao cho thanh HUD
+            hudPane.setPrefHeight(Config.HUD_HEIGHT); 
         } else {
             System.err.println("Warning: hudPane is null in setElementSizesFromConfig.");
         }
 
         if (gameCanvas != null) {
-            // Đặt kích thước chính xác cho Canvas là vùng chơi game
+        
             gameCanvas.setWidth(Config.GAME_AREA_WIDTH);
             gameCanvas.setHeight(Config.GAME_AREA_HEIGHT);
             System.out.println("Canvas size set to: " + gameCanvas.getWidth() + "x" + gameCanvas.getHeight());
@@ -77,13 +69,8 @@ public class GameHUDController {
     }
 
 
-    /**
-     * Phương thức chính được gọi liên tục từ AnimationTimer trong BombermanApp.
-     * Cập nhật trạng thái game, HUD, và vẽ lại màn hình game.
-     * @param deltaTime Thời gian (tính bằng giây) trôi qua kể từ frame trước (hiện đang dùng giá trị cố định).
-     */
     public void updateAndRender(double deltaTime) {
-        // Kiểm tra các đối tượng cần thiết đã sẵn sàng chưa
+    
         if (game == null || renderer == null || gameCanvasGC == null) {
         
             return;
