@@ -24,13 +24,13 @@ public class Game {
     
     private int currentLevelNumber = 0;
     private int playerScore = 0;
-    private int playerLives; // Sẽ được khởi tạo trong constructor
+    private int playerLives; 
 
     public Game(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
         this.playerLives = Config.PLAYER_INIT_LIVES;
 
-        // Khởi tạo các danh sách
+       
         this.enemies = new ArrayList<>();
         this.bombs = new ArrayList<>();
         this.explosions = new ArrayList<>();
