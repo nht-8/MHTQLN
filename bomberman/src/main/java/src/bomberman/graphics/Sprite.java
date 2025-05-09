@@ -11,6 +11,7 @@ public class Sprite {
     // Kích thước cơ bản của ô lưới trên spritesheet NES
     // (Quan trọng để tính tọa độ pixel từ col/row)
     public static final int DEFAULT_SIZE = 32;
+    public static Sprite portal;
     // Kích thước hiển thị sau khi scale (nếu dùng getFxImage, nhưng chúng ta không dùng)
     // public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
     // Màu trong suốt (không cần thiết với cách vẽ mới)

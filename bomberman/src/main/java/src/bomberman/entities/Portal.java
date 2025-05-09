@@ -27,4 +27,8 @@ public class Portal extends Entity {
     public boolean isSolid() {
         return false; // Player có thể đi qua
     }
+    boolean revealed;
+    public boolean isRevealed() {
+        return revealed;
+    }
 }

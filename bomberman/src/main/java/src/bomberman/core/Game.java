@@ -404,4 +404,12 @@ public class Game {
     public SpriteSheet getModernSheet() { return SpriteSheet.Sheet1; }
     public SpriteSheet getNesSheet() { return SpriteSheet.Sheet2; }
     public InputHandler getInputHandler() { return inputHandler; }
+
+    public int getPlayerLives() {
+        return playerLives;
+    }
+
+    public int getPlayerScore() {
+        return playerScore;
+    }
 }
