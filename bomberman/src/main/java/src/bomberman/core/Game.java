@@ -37,7 +37,6 @@ public class Game {
         this.staticEntities = new ArrayList<>();
         this.powerUps = new ArrayList<>();
 
-        // Tải level đầu tiên
         loadLevel(1);
     }
 
@@ -45,20 +44,18 @@ public class Game {
         System.out.println("Loading level " + levelNumber + "...");
         this.currentLevelNumber = levelNumber;
 
-        // Xóa các thực thể của level cũ
         enemies.clear();
         bombs.clear();
         explosions.clear();
         staticEntities.clear();
         powerUps.clear();
-        player = null; // Reset player
+        player = null;
 
-        // Tạo đối tượng Level mới
         level = new Level(Config.LEVEL_PATH_PREFIX + "level" + levelNumber + ".txt", this);
 
         if (level.getWidth() == 0 || level.getHeight() == 0) {
             System.err.println("CRITICAL ERROR: Level " + levelNumber + " data is invalid (zero dimensions).");
-            // Có thể thêm xử lý thoát game hoặc load level mặc định ở đây
+        
             return;
         }
 
@@ -67,34 +64,31 @@ public class Game {
     }
 
     public void update(double deltaTime) {
-        // Nếu đã hết mạng và player không còn tồn tại hoặc đã chết hẳn, không update nữa
-        // Điều này sẽ được GameHUDController hoặc BombermanApp kiểm tra để dừng game loop hoặc chuyển màn hình
+        
         if (playerLives <= 0 && (player == null || (!player.isAlive() && !player.isDying()))) {
-            return; // Game đã kết thúc logic, chờ controller xử lý
+            return; 
         }
 
-        // 1. Cập nhật Player
         if (player != null) {
             if (player.isAlive()) {
                 player.update(deltaTime, getAllEntities());
                 checkPlayerCollectPowerUps();
             } else if (player.isDying()) {
-                player.update(deltaTime, null); // Chỉ update animation chết
-            } else { // Player đã chết hẳn (alive = false, dying = false)
-                // Kiểm tra xem có phải vừa mới chết hẳn không để xử lý mất mạng
+                player.update(deltaTime, null); ]
+            } else { 
+                
                 if (player.isJustPermanentlyDeadAndDecrementLife()) {
                     playerLoseLife();
                 }
             }
         }
 
-        // 2. Cập nhật Enemies
         Iterator<Enemy> enemyIterator = enemies.iterator();
         while (enemyIterator.hasNext()) {
             Enemy enemy = enemyIterator.next();
             if (enemy.isAlive()) {
                 enemy.update(deltaTime, getAllEntities());
-                // Kiểm tra va chạm giữa Enemy và Player còn sống
+                
                 if (player != null && player.isAlive() && enemy.intersects(player)) {
                     player.destroy(); // Player chết nếu chạm Enemy
                 }
