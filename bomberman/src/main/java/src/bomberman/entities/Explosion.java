@@ -95,30 +95,18 @@ public class Explosion extends Entity {
         }
     }
 
-    /**
-     * Cập nhật trạng thái Explosion mỗi frame:
-     * Giảm thời gian tồn tại và cập nhật frame animation.
-     * Việc kiểm tra va chạm được thực hiện một lần khi tạo ra trong Game.addExplosion().
-     */
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        if (!alive) return; // Không làm gì nếu đã hết hạn
+        if (!alive) return; 
 
         duration--;
         if (duration <= 0) {
-            alive = false; // Hết thời gian, đánh dấu để Game xóa đi
+            alive = false; 
             return;
         }
 
-        // Cập nhật frame animation dựa trên thời gian đã trôi qua
         animationCounter++;
-        int totalAnimationTime = ANIMATION_SPEED * 3; // Tổng thời gian cho 3 frame
-        // Không cần reset animationCounter nếu không muốn lặp lại animation
-
-        // Xác định chỉ số frame hiện tại (0, 1, hoặc 2)
-        // Chia thời gian tồn tại đã trôi qua cho tốc độ mỗi frame
-        // Ví dụ: duration = 30, speed = 10.
-        // counter 0-9 -> frame 0. counter 10-19 -> frame 1. counter 20-29 -> frame 2.
+        int totalAnimationTime = ANIMATION_SPEED * 3; 
         int elapsedCounter = Config.BOMB_EXPLOSION_DURATION - duration; // Thời gian đã trôi qua
         int currentFrameIndex = elapsedCounter / ANIMATION_SPEED;
         if (currentFrameIndex > 2) currentFrameIndex = 2; // Đảm bảo không vượt quá frame cuối
