@@ -40,4 +40,6 @@ public class Config {
     public static final String LEVEL_PATH_PREFIX = "/levels/";
 
     public static final String MENU_BACKGROUND_IMAGE_PATH = "/images/menu_background.png"; // Hoặc .jpg
+
+    public static final int MAX_LEVELS = 5;
 }
