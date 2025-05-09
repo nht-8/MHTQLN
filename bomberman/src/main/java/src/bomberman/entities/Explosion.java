@@ -192,10 +192,7 @@ public class Explosion extends Entity {
         }
     }
 
-    /**
-     * Vụ nổ không phải là vật cản rắn, các thực thể khác có thể đi xuyên qua.
-     * @return luôn trả về false.
-     */
+
     @Override
     public boolean isSolid() {
         return false;
