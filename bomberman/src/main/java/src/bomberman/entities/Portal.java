@@ -1,9 +1,8 @@
-// src/main/java/src/bomberman/entities/Portal.java
 package src.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import src.bomberman.Config;
-import javafx.scene.paint.Color; // Import Color
+import javafx.scene.paint.Color; 
 import src.bomberman.graphics.Sprite;
 import src.bomberman.graphics.SpriteSheet;
 
@@ -29,12 +28,12 @@ public class Portal extends Entity {
         }  }
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        // Portal thường không có logic update phức tạp.
+
     }
 
     @Override
     public boolean isSolid() {
-        return false; // Player có thể đi qua
+        return false; 
     }
     public boolean isRevealed() {
         return revealed;
@@ -43,8 +42,6 @@ public class Portal extends Entity {
         this.revealed = revealed;
         if (revealed) {
             System.out.println("Portal at (" + getTileX() + "," + getTileY() + ") is now REVEALED.");
-            // Có thể đổi sprite ở đây nếu bạn có sprite khác cho portal khi active
-            // this.sprite = Sprite.portal_active; (nếu có)
         }
     }
 }
