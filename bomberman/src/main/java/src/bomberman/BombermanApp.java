@@ -49,8 +49,7 @@ public class BombermanApp extends Application {
             Platform.exit(); 
             return;
         }
-
-        // --- Tạo Scene cho Menu ---
+        
         try {
             URL menuFxmlUrl = getClass().getResource("/menu-view.fxml");
             if (menuFxmlUrl == null) {
@@ -71,44 +70,40 @@ public class BombermanApp extends Application {
             e.printStackTrace(); Platform.exit(); return;
         }
 
-        // --- Thiết lập Game Loop ---
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
-                // Chỉ chạy update/render nếu đang ở trạng thái PLAYING và controller đã sẵn sàng
+               
                 if (currentAppState == AppState.PLAYING && gameHUDControllerInstance != null) {
                     try {
-                        gameHUDControllerInstance.updateAndRender(1.0 / 60.0); // Giả định 60 FPS
+                        gameHUDControllerInstance.updateAndRender(1.0 / 60.0); 
                     } catch (Exception e) {
                         System.err.println("Error during game update/render loop:");
                         e.printStackTrace();
-                        stop(); // Dừng AnimationTimer nếu có lỗi nghiêm trọng
-                        showMenu(); // Quay về menu nếu có lỗi trong game loop
+                        stop(); 
+                        showMenu(); 
                     }
                 }
             }
         };
 
-        showMenu(); // Bắt đầu bằng việc hiển thị menu
+        showMenu();
 
-        primaryStage.setResizable(false); // Không cho thay đổi kích thước cửa sổ
-        // Xử lý sự kiện đóng cửa sổ
+        primaryStage.setResizable(false); 
+     
         primaryStage.setOnCloseRequest(event -> {
-            stopApplication(); // Dọn dẹp tài nguyên
-            Platform.exit();   // Đảm bảo JavaFX thoát
-            System.exit(0);    // Đảm bảo JVM thoát hoàn toàn
+            stopApplication(); 
+            Platform.exit();   
+            System.exit(0);   
         });
         primaryStage.show();
         System.out.println("Application started successfully, showing menu.");
     }
 
-    /**
-     * Hiển thị giao diện Menu chính.
-     */
     public void showMenu() {
         currentAppState = AppState.MENU;
         if (gameLoop != null) {
-            gameLoop.stop(); // Dừng game loop nếu đang chạy
+            gameLoop.stop(); 
         }
         primaryStage.setScene(menuScene);
         primaryStage.setTitle("Bomberman FX - Menu"); // Cập nhật tiêu đề cửa sổ
