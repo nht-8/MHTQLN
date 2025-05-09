@@ -97,7 +97,7 @@ public class SoundManager {
         }
 
         stopBackgroundMusic();
-        currentBackgroundMusicPath = null; // Reset đường dẫn
+        currentBackgroundMusicPath = null; 
 
         try {
             URL resourceUrl = getClass().getResource(filePath);
@@ -108,7 +108,6 @@ public class SoundManager {
             Media media = new Media(resourceUrl.toExternalForm());
             backgroundMusicPlayer = new MediaPlayer(media);
 
-            // Xử lý lỗi khi media không sẵn sàng
             backgroundMusicPlayer.setOnError(() -> {
                 System.err.println("MediaPlayer Error: " + backgroundMusicPlayer.getError());
                 backgroundMusicPlayer.stop();
@@ -117,16 +116,15 @@ public class SoundManager {
                 currentBackgroundMusicPath = null;
             });
 
-            // Đảm bảo media sẵn sàng trước khi cài đặt và play
             backgroundMusicPlayer.setOnReady(() -> {
                 if (loop) {
-                    backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Lặp vô hạn
+                    backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE); 
                 } else {
-                    backgroundMusicPlayer.setCycleCount(1); // Chỉ phát 1 lần
+                    backgroundMusicPlayer.setCycleCount(1); 
                 }
-                // backgroundMusicPlayer.setVolume(0.7); // Đặt âm lượng mặc định nếu muốn
+                
                 backgroundMusicPlayer.play();
-                currentBackgroundMusicPath = filePath; // Lưu lại đường dẫn nhạc đang phát
+                currentBackgroundMusicPath = filePath; 
                 System.out.println("Playing background music: " + musicName);
             });
 
