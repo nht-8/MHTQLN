@@ -23,17 +23,15 @@ public class BombermanApp extends Application {
     private Scene gameScene;    
     private Scene gameOverScene; 
 
-    private InputHandler gameInputHandler; // Input handler cho game scene
-    private AnimationTimer gameLoop;       // Vòng lặp chính của game
+    private InputHandler gameInputHandler;
+    private AnimationTimer gameLoop;      
 
-    // Giữ tham chiếu đến các controller để tương tác nếu cần
     private MenuController menuControllerInstance;
     private GameHUDController gameHUDControllerInstance;
     private GameOverController gameOverControllerInstance;
 
-    // Trạng thái ứng dụng
-    public enum AppState { MENU, PLAYING, GAME_OVER } // Public để Controller truy cập nếu cần
-    private AppState currentAppState = AppState.MENU; // Khởi tạo trạng thái ban đầu
+    public enum AppState { MENU, PLAYING, GAME_OVER } 
+    private AppState currentAppState = AppState.MENU; 
 
     @Override
     public void start(Stage primaryStage) {
@@ -41,7 +39,6 @@ public class BombermanApp extends Application {
         System.out.println("Starting Bomberman Application...");
         primaryStage.setTitle("Bomberman FX");
 
-        // --- Khởi tạo tài nguyên tĩnh một lần ---
         try {
             SpriteSheet.loadAllSheets();
             Sprite.loadSprites(SpriteSheet.Sheet1, SpriteSheet.Sheet2);
@@ -49,7 +46,7 @@ public class BombermanApp extends Application {
         } catch (Exception e) {
             System.err.println("CRITICAL ERROR during static resource initialization!");
             e.printStackTrace();
-            Platform.exit(); // Thoát nếu tài nguyên cơ bản không load được
+            Platform.exit(); 
             return;
         }
 
