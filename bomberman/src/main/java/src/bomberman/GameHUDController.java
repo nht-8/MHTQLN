@@ -98,27 +98,19 @@ public class GameHUDController {
     public void updateAndRender(double deltaTime) {
         // Kiểm tra các đối tượng cần thiết đã sẵn sàng chưa
         if (game == null || renderer == null || gameCanvasGC == null) {
-            // In lỗi ra console nếu có vấn đề (chỉ nên xảy ra lúc khởi tạo)
-            // System.err.println("Attempted to update/render before game/renderer/gc was ready.");
+        
             return;
         }
 
-        // 1. Cập nhật logic game
         game.update(deltaTime);
 
-        // 2. Cập nhật các Label trên HUD
         updateHUDLabels();
 
-        // 3. Yêu cầu Renderer vẽ nội dung game lên GraphicsContext của Canvas
-        renderer.render(gameCanvasGC, game); // Renderer chỉ vẽ phần game
+        renderer.render(gameCanvasGC, game); 
 
-        // 4. Kiểm tra điều kiện Game Over sau khi đã update và render frame hiện tại
-        // Đảm bảo player không null trước khi kiểm tra trạng thái
         if (game.getPlayerLives() <= 0 && game.getPlayer() != null && !game.getPlayer().isAlive() && !game.getPlayer().isDying()) {
             if(mainApp != null && mainApp.getCurrentAppState() != BombermanApp.AppState.GAME_OVER) {
-                // Dừng vòng lặp game TRƯỚC KHI hiển thị màn hình game over
-                // mainApp.stopGameLoopAndShowMenu(); // Không, cái này là về menu
-                // Thay vào đó, BombermanApp.showGameOverScreen sẽ dừng gameLoop.start()
+               
                 mainApp.showGameOverScreen(game.getPlayerScore());
             } else if (mainApp == null) {
                 System.err.println("Cannot trigger Game Over screen: mainApp is null in GameHUDController");
@@ -126,12 +118,9 @@ public class GameHUDController {
         }
     }
 
-    /**
-     * Cập nhật nội dung text của các Label trên HUD dựa trên trạng thái hiện tại của Game.
-     */
     private void updateHUDLabels() {
         if (game != null) {
-            // Cập nhật chỉ khi các Label đã được inject
+         
             if (levelLabel != null) {
                 levelLabel.setText("LEVEL: " + game.getCurrentLevelNumber());
             }
@@ -144,21 +133,12 @@ public class GameHUDController {
         }
     }
 
-    /**
-     * Cung cấp truy cập đến đối tượng Game (nếu cần từ bên ngoài, ví dụ BombermanApp).
-     * @return Đối tượng Game hiện tại.
-     */
     public Game getGame() {
         return game;
     }
-
-    // Phương thức initialize chuẩn của FXML, được gọi sau khi các @FXML đã được inject.
-    // Bạn có thể đặt code khởi tạo giao diện ban đầu ở đây nếu không cần truyền tham số từ ngoài vào.
-    // Tuy nhiên, vì chúng ta cần InputHandler và mainApp từ BombermanApp, nên dùng phương thức setupGame() tùy chỉnh.
+    
     @FXML
     public void initialize() {
         System.out.println("GameHUDController FXML components injected.");
-        // Không nên khởi tạo Game, Renderer ở đây vì cần InputHandler từ Scene
-        // và mainApp từ BombermanApp. Việc đó được thực hiện trong setupGame().
     }
 }
