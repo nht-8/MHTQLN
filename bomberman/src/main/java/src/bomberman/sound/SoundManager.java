@@ -33,9 +33,6 @@ public class SoundManager {
         soundEffects = new HashMap<>();
     }
 
-    /**
-     * Lấy thể hiện duy nhất của SoundManager (Singleton).
-     */
     public static SoundManager getInstance() {
         if (instance == null) {
             instance = new SoundManager();
@@ -43,10 +40,6 @@ public class SoundManager {
         return instance;
     }
 
-    /**
-     * Tải tất cả các hiệu ứng âm thanh cần thiết vào bộ nhớ.
-     * Nên gọi một lần khi game khởi động.
-     */
     public void loadSounds() {
         System.out.println("Loading sound effects...");
         loadSoundEffect(EXPLOSION, "/sounds/boom.wav");
@@ -60,17 +53,12 @@ public class SoundManager {
         System.out.println("Sound effects loading finished.");
     }
 
-    /**
-     * Helper method để tải một file âm thanh và lưu vào map.
-     * @param name Tên định danh cho âm thanh (dùng khi playSound).
-     * @param filePath Đường dẫn resource đến file âm thanh.
-     */
     private void loadSoundEffect(String name, String filePath) {
         try {
             URL resourceUrl = getClass().getResource(filePath);
             if (resourceUrl == null) {
                 System.err.println("ERROR: Cannot find sound resource: " + filePath);
-                soundEffects.put(name, null); // Đánh dấu là không load được
+                soundEffects.put(name, null);
                 return;
             }
             AudioClip clip = new AudioClip(resourceUrl.toExternalForm());
@@ -79,46 +67,35 @@ public class SoundManager {
         } catch (Exception e) {
             System.err.println("ERROR: Failed to load sound effect '" + name + "' from " + filePath);
             e.printStackTrace();
-            soundEffects.put(name, null); // Đánh dấu là không load được
+            soundEffects.put(name, null); 
         }
     }
 
-    /**
-     * Phát một hiệu ứng âm thanh đã được tải.
-     * @param name Tên định danh của âm thanh (ví dụ: SoundManager.EXPLOSION).
-     */
     public void playSound(String name) {
         AudioClip clip = soundEffects.get(name);
         if (clip != null) {
-            // clip.setVolume(0.5); // Có thể điều chỉnh âm lượng nếu muốn
+            
             clip.play();
         } else {
             System.err.println("Warning: Sound effect not found or failed to load: " + name);
         }
     }
 
-    /**
-     * Phát nhạc nền. Nếu đang có nhạc khác phát, nó sẽ bị dừng.
-     * @param musicName Tên file nhạc nền (không có đuôi, ví dụ: SoundManager.GAME_BGM).
-     * @param loop true nếu muốn lặp lại nhạc nền, false nếu chỉ phát một lần.
-     */
     public void playBackgroundMusic(String musicName, boolean loop) {
 
-        String filePath = "/sounds/" + musicName + ".wav"; // Hoặc .wav
+        String filePath = "/sounds/" + musicName + ".wav"; 
 
-        // Nếu đang phát đúng nhạc này rồi thì không làm gì cả
         if (backgroundMusicPlayer != null && filePath.equals(currentBackgroundMusicPath)) {
             if (backgroundMusicPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
                 return;
             } else {
-                // Nếu đang dừng hoặc hết thì phát lại từ đầu
+                
                 backgroundMusicPlayer.seek(Duration.ZERO);
                 backgroundMusicPlayer.play();
                 return;
             }
         }
 
-        // Dừng nhạc nền cũ nếu có
         stopBackgroundMusic();
         currentBackgroundMusicPath = null; // Reset đường dẫn
 
