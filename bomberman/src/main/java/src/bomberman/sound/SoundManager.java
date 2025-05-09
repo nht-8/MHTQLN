@@ -162,64 +162,54 @@ public class SoundManager {
             System.err.println("ERROR: Failed to play background music from " + filePath);
             e.printStackTrace();
             if (backgroundMusicPlayer != null) {
-                backgroundMusicPlayer.dispose(); // Giải phóng tài nguyên nếu lỗi
+                backgroundMusicPlayer.dispose(); 
                 backgroundMusicPlayer = null;
             }
             currentBackgroundMusicPath = null;
         }
     }
 
-    /**
-     * Dừng nhạc nền đang phát (nếu có).
-     */
     public void stopBackgroundMusic() {
         if (backgroundMusicPlayer != null) {
             try {
                 if (backgroundMusicPlayer.getStatus() != MediaPlayer.Status.DISPOSED) {
                     backgroundMusicPlayer.stop();
                     System.out.println("Stopped background music.");
-                    // backgroundMusicPlayer.dispose(); // Cân nhắc dispose để giải phóng hẳn tài nguyên
+            
                 }
             } catch (Exception e) {
                 System.err.println("Error stopping background music: " + e.getMessage());
             } finally {
-                // backgroundMusicPlayer = null; // Đặt là null sau khi dispose nếu muốn
+              
                 currentBackgroundMusicPath = null;
             }
 
         }
     }
 
-    /**
-     * Đặt âm lượng cho nhạc nền.
-     * @param volume Giá trị từ 0.0 đến 1.0.
-     */
     public void setBackgroundMusicVolume(double volume) {
         if (backgroundMusicPlayer != null && backgroundMusicPlayer.getStatus() != MediaPlayer.Status.DISPOSED) {
-            // Đảm bảo volume trong khoảng hợp lệ
+        
             volume = Math.max(0.0, Math.min(1.0, volume));
             backgroundMusicPlayer.setVolume(volume);
         }
     }
 
-    /**
-     * (Tùy chọn) Dọn dẹp tài nguyên khi game kết thúc.
-     */
     public void cleanup() {
         System.out.println("Cleaning up SoundManager...");
         stopBackgroundMusic();
         if (backgroundMusicPlayer != null) {
-            backgroundMusicPlayer.dispose(); // Giải phóng MediaPlayer
+            backgroundMusicPlayer.dispose(); 
         }
-        soundEffects.clear(); // Xóa các AudioClip
-        instance = null; // Reset Singleton (nếu cần)
+        soundEffects.clear(); 
+        instance = null; 
     }
 <<<<<<< HEAD
-    public static final String GAME_OVER = "GameOverSound"; // Đặt tên file âm thanh game over (không có đuôi .wav)
-    public static final String GAME_WIN = "GameWinSound"; // Đặt tên file âm thanh thắng game
+    public static final String GAME_OVER = "GameOverSound";
+    public static final String GAME_WIN = "GameWinSound"; 
 
 =======
 
-    public static final String GAME_OVER = "gameover"; // Đặt tên file âm thanh game over (không có đuôi .wav)
+    public static final String GAME_OVER = "gameover"; 
 >>>>>>> 049d609ca10667fbbf060b092f596aee531d74e5
 }
