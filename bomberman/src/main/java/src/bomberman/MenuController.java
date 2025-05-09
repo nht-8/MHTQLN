@@ -42,8 +42,8 @@ public class MenuController {
 
     @FXML
     private void handleExitGame(ActionEvent event) {
-        Platform.exit(); // Thoát ứng dụng JavaFX
-        System.exit(0);  // Đảm bảo JVM cũng thoát
+        Platform.exit();
+        System.exit(0); 
     }
 
     @FXML
