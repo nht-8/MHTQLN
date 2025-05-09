@@ -18,7 +18,7 @@ import java.net.URL;
 
 public class BombermanApp extends Application {
 
-    private Stage primaryStage; // Stage chính của ứng dụng
+    private Stage primaryStage; 
     private Scene menuScene;    // Scene cho màn hình menu
     private Scene gameScene;    // Scene cho màn hình chơi game (từ FXML)
     private Scene gameOverScene; // Scene cho màn hình Game Over
