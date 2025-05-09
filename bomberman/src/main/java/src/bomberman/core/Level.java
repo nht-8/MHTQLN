@@ -189,25 +189,17 @@ public class Level {
                         grassSprite.getSourceHeight(),
                         dx,
                         dy,
-                        Config.TILE_SIZE, // Vẽ mỗi ô cỏ với kích thước chuẩn
+                        Config.TILE_SIZE,
                         Config.TILE_SIZE
                 );
             }
         }
     }
 
-    // --- Getters ---
-    /** Lấy số ô chiều rộng của map. */
     public int getWidth() { return width; }
-    /** Lấy số ô chiều cao của map. */
+
     public int getHeight() { return height; }
 
-    /**
-     * Lấy ký tự tại một vị trí ô (tileX, tileY) trên bản đồ.
-     * @param tileX Chỉ số cột của ô.
-     * @param tileY Chỉ số hàng của ô.
-     * @return Ký tự tại ô đó, hoặc '#' (Wall) nếu ra ngoài biên hoặc mapData null.
-     */
     public char getTileChar(int tileX, int tileY) {
         if (mapData == null || tileX < 0 || tileX >= width || tileY < 0 || tileY >= height) {
             return '#'; // Coi như là tường nếu ra ngoài map hoặc map chưa load
