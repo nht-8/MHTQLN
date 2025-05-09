@@ -245,9 +245,6 @@ public class BombermanApp extends Application {
         System.out.println("Application stopped (JavaFX stop method).");
     }
 
-    /**
-     * Phương thức main để khởi chạy ứng dụng.
-     */
     public static void main(String[] args) {
         try {
             launch(args);
