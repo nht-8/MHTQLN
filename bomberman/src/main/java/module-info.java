@@ -4,6 +4,7 @@ module bomberman { // Đặt tên module của bạn (ví dụ: bomberman hoặc
     requires javafx.media;
     requires javafx.graphics;
     requires javafx.fxml;
+    requires java.desktop;
 
     // Mở các package chứa Node và tài nguyên cho JavaFX
     // Sửa lại tên package cho đúng với project của bạn

@@ -2,31 +2,31 @@
 package src.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
+import src.bomberman.Config;
+import javafx.scene.paint.Color; // Import Color
 import src.bomberman.graphics.Sprite;
 import src.bomberman.graphics.SpriteSheet;
+
 import java.util.List;
+
+import static java.awt.Color.BLUE;
 
 public class Portal extends Entity {
     private boolean revealed =false;
 
     public Portal(double xTile, double yTile, SpriteSheet sheet) {
         super(xTile, yTile, sheet);
-        this.sprite = Sprite.portal; // Sprite đã được định nghĩa trong Sprite.java
-        if (this.sprite == null) {
-            System.err.println("CRITICAL WARNING: Sprite.portal is null during Portal construction!");
-        }
-        if (this.entitySheet == null || this.entitySheet.getSheet() == null) {
-            System.err.println("CRITICAL WARNING [Portal Constructor]: Portal's entitySheet or its underlying image is null!");
-        }
+
     }
 
     @Override
     public void render(GraphicsContext gc) {
-        if (this.alive && this.revealed) { // Chỉ vẽ nếu còn sống VÀ đã lộ diện
-            super.render(gc); // Gọi render của lớp cha để vẽ sprite
-        }
-        // Nếu không revealed, không vẽ gì cả (nền cỏ sẽ hiển thị qua)
-    }
+        System.out.println("[Portal DEBUG Render] Called. Revealed: " + this.revealed + ", Alive: " + this.alive);
+        if (this.alive && this.revealed) {
+            System.out.println("[Portal DEBUG Render] Drawing BLUE square for portal.");
+            gc.setFill(Color.BLUE);
+            gc.fillRect(this.x, this.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        }  }
     @Override
     public void update(double deltaTime, List<Entity> entities) {
         // Portal thường không có logic update phức tạp.

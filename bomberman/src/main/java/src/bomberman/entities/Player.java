@@ -258,6 +258,7 @@ public class Player extends Entity {
             }
             SoundManager.getInstance().playSound(SoundManager.PLAYER_DEATH);
         }
+
     }
 
     private void handleDeathAnimation() {

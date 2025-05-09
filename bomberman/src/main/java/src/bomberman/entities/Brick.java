@@ -143,6 +143,11 @@ public class Brick extends Entity {
         return breaking && alive; // Đang vỡ và chưa bị xóa hẳn
     }
 
+    public void setContainedPowerUpType(PowerUp.PowerUpType type) {
+        this.containedPowerUpType = type;
+
+    }
+
     // (Tùy chọn) Getter để Game có thể kiểm tra loại powerup (nếu cần)
     // public PowerUp.PowerUpType getContainedPowerUpType() {
     //     return containedPowerUpType;

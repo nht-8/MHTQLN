@@ -166,16 +166,17 @@ public class Level {
                         mapData[y][x] = ' ';
                         break;
                     case 'x':
-                        if (game.getPortal() == null) {
-                            game.addPortal(new Portal(x, y, nesSheet));
-                            System.out.println("[Level] Portal created at (" + x + "," + y + ")");
+                        System.out.println("[Level DEBUG] Found 'x' for Portal at (" + x + "," + y + ")");
+                        if (game.getPortal() == null) { // Chỉ tạo một portal duy nhất mỗi level
+                            game.addPortal(new Portal(x, y, nesSheet)); // nesSheet là SpriteSheet.Sheet2
+                            // SAU KHI PORTAL ĐƯỢC TẠO, ĐẶT Ô NÀY LÀ NỀN CỎ
+                            // ĐỂ PORTAL CÓ THỂ ĐƯỢC VẼ LÊN TRÊN NỀN CỎ ĐÓ.
+                            // Portal sẽ tự quyết định có vẽ mình hay không dựa vào cờ 'revealed'.
+                            mapData[y][x] = ' '; // QUAN TRỌNG: Biến ô 'x' thành nền để Portal có thể hiện ra
                         } else {
-                            System.err.println("Warning: Multiple portal ('x') positions found. Using the first one.");
+                            System.err.println("[Level DEBUG] Portal already exists in this level, not creating new one.");
                         }
-                        // TODO: Thêm các case cho các loại Enemy khác và PowerUp đặt sẵn trên map
-                        // case 'b': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.BOMBS)); mapData[y][x] = ' '; break;
-                        // case 'f': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.FLAMES)); mapData[y][x] = ' '; break;
-                        // case 's': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.SPEED)); mapData[y][x] = ' '; break;
+                        break;
                     default:
                         // Ký tự không xác định hoặc ' ' (ô trống) sẽ là nền cỏ (được vẽ bởi renderBackground)
                         break;

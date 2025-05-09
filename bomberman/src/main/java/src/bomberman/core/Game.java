@@ -8,6 +8,7 @@ import src.bomberman.graphics.SpriteSheet;
 import src.bomberman.input.InputHandler;
 import src.bomberman.sound.SoundManager;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,7 @@ public class Game {
         this.inputHandler = inputHandler;
         this.playerLives = Config.PLAYER_INIT_LIVES;
 
+
         this.enemies = new ArrayList<>();
         this.bombs = new ArrayList<>();
         this.explosions = new ArrayList<>();
@@ -47,7 +49,6 @@ public class Game {
     }
 
     public void loadLevel(int levelNumber) {
-        portal=null;
         System.out.println("Loading level " + levelNumber + "...");
         this.currentLevelNumber = levelNumber;
         this.allEnemiesDefeatedAndPortalActive = false; // Reset cờ khi load level mới
@@ -57,7 +58,6 @@ public class Game {
         explosions.clear();
         staticEntities.clear();
         powerUps.clear();
-        player = null;
         portal = null; // Reset portal khi load level mới
 
         level = new Level(Config.LEVEL_PATH_PREFIX + "level" + levelNumber + ".txt", this);
@@ -92,9 +92,7 @@ public class Game {
             if (player.isAlive()) {
                 player.update(deltaTime, getAllEntities());
                 checkPlayerCollectPowerUps();
-                if (allEnemiesDefeatedAndPortalActive) {
-                    checkPlayerReachedPortal();
-                }
+
             } else if (player.isDying()) {
                 player.update(deltaTime, null); // Chỉ chạy animation chết
             } else { // Player không alive và không dying, nghĩa là vừa chết xong (animation đã hoàn tất)
@@ -104,6 +102,8 @@ public class Game {
                 }
             }
         }
+        boolean enemiesWerePresentLastFrame = !enemies.isEmpty(); // Kiểm tra trước khi cập nhật
+
 
         // 2. Cập nhật Enemies
         Iterator<Enemy> enemyIterator = enemies.iterator();
@@ -121,23 +121,33 @@ public class Game {
                 addScore(Config.POINTS_PER_ENEMY); // Sử dụng Config cho điểm số
                 System.out.println("Enemy removed. Current Score: " + playerScore);
             }
-            if (!allEnemiesDefeatedAndPortalActive && enemies.isEmpty() && portal != null) {
-                allEnemiesDefeatedAndPortalActive = true;
-                portal.setRevealed(true);
-                System.out.println("All enemies defeated. Portal is now active and revealed!");
-                SoundManager.getInstance().playSound(SoundManager.LEVEL_CLEAR);
+        }
+        if (enemies.isEmpty()) {
+            System.out.println("[Game DEBUG Update] Enemies are empty.");
+            if (this.portal != null) {
+                System.out.println("[Game DEBUG Update] Portal object in Game is NOT NULL. Actual Type: " + this.portal.getClass().getName());
+                System.out.println("[Game DEBUG Update] Portal revealed status: " + this.portal.isRevealed());
+            } else {
+                System.out.println("[Game DEBUG Update] Portal object in Game IS NULL.");
             }
+            System.out.println("[Game DEBUG Update] allEnemiesDefeatedAndPortalActive flag: " + this.allEnemiesDefeatedAndPortalActive);
         }
 
         // Kiểm tra sau khi cập nhật enemies, nếu tất cả enemies đã bị tiêu diệt
         // và portal đã được thêm vào game (tức là nó tồn tại trên bản đồ).
-        if (!allEnemiesDefeatedAndPortalActive && enemies.isEmpty() && portal != null) {
-            allEnemiesDefeatedAndPortalActive = true;
-            System.out.println("All enemies defeated. Portal is now active!");
-            // Có thể thêm âm thanh hoặc hiệu ứng cho việc portal kích hoạt
-            // SoundManager.getInstance().playSound(SoundManager.PORTAL_ACTIVATE);
-        }
+        if (enemiesWerePresentLastFrame && enemies.isEmpty() && player != null && player.isAlive()) {
+            SoundManager.getInstance().playSound(SoundManager.LEVEL_CLEAR); // Phát âm thanh hoàn thành màn
+            System.out.println("All enemies defeated in level " + currentLevelNumber + "!");
 
+            int nextLevel = currentLevelNumber + 1;
+            if (nextLevel > Config.MAX_LEVELS) {
+                System.out.println("Congratulations! You have completed all " + Config.MAX_LEVELS + " levels!");
+                handleGameWin();
+            } else {
+                System.out.println("Proceeding to level " + nextLevel);
+                loadLevel(nextLevel); // TỰ ĐỘNG TẢI LEVEL MỚI
+            }
+        }
 
         // 3. Cập nhật Bombs
         Iterator<Bomb> bombIterator = bombs.iterator();
@@ -193,7 +203,9 @@ public class Game {
                 powerUpIterator.remove();
             }
         }
+
     }
+
 
     private void checkPlayerCollectPowerUps() {
         if (player == null || !player.isAlive()) return;
@@ -207,22 +219,7 @@ public class Game {
         }
     }
 
-    private void checkPlayerReachedPortal() {
-        if (portal != null && player != null && player.isAlive()) {
-            // Cờ allEnemiesDefeatedAndPortalActive đảm bảo enemies đã hết
-            if (player.getBounds().intersects(portal.getBounds())) {
-                System.out.println("Player reached portal in level " + currentLevelNumber + "!");
-                SoundManager.getInstance().playSound(SoundManager.LEVEL_CLEAR);
-                int nextLevel = currentLevelNumber + 1;
-                if (nextLevel > MAX_LEVELS) {
-                    System.out.println("Congratulations! You have completed all " + MAX_LEVELS + " levels!");
-                    handleGameWin(); // Gọi hàm xử lý thắng game
-                } else {
-                    loadLevel(nextLevel);
-                }
-            }
-        }
-    }
+
 
     public void addPlayer(Player p) {
         this.player = p;
