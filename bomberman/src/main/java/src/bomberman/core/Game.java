@@ -1,11 +1,9 @@
-// src/main/java/src/bomberman/core/Game.java
-package src.bomberman.core; // HOẶC uet.oop.bomberman.core
+package src.bomberman.core;
 
-// Import các lớp cần thiết
 import javafx.geometry.Rectangle2D;
 import src.bomberman.Config;
-import src.bomberman.entities.*; // Import tất cả các lớp Entity
-import src.bomberman.graphics.SpriteSheet; // Import SpriteSheet để dùng các sheet tĩnh
+import src.bomberman.entities.*;
+import src.bomberman.graphics.SpriteSheet;
 import src.bomberman.input.InputHandler;
 import src.bomberman.sound.SoundManager;
 
@@ -13,51 +11,41 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Lớp chính quản lý logic của trò chơi Bomberman.
- * Bao gồm quản lý level, các thực thể (player, enemies, bombs, explosions),
- * vòng lặp cập nhật game, xử lý va chạm và các sự kiện game.
- */
 public class Game {
-    private Level level;        // Level hiện tại của game
-    private Player player;      // Đối tượng người chơi
-    private List<Enemy> enemies;    // Danh sách các Enemy
-    private List<Bomb> bombs;       // Danh sách các Bomb đang hoạt động
-    private List<Explosion> explosions; // Danh sách các đoạn lửa Explosion
-    private List<Entity> staticEntities; // Danh sách các thực thể tĩnh (Wall, Brick)
-    private List<PowerUp> powerUps;     // Danh sách các PowerUp trên bản đồ
+    private Level level;
+    private Player player;
+    private List<Enemy> enemies;
+    private List<Bomb> bombs;
+    private List<Explosion> explosions;
+    private List<Entity> staticEntities;
+    private List<PowerUp> powerUps;
+    private InputHandler inputHandler;
 
-    // Không cần lưu trữ instance của SpriteSheet ở đây nữa,
-    // vì chúng ta sẽ dùng các biến tĩnh từ lớp SpriteSheet.
-    private InputHandler inputHandler; // Đối tượng xử lý input
+    // Biến cho trạng thái game và HUD
+    private int currentLevelNumber = 0;
+    private int playerScore = 0;
+    private int playerLives; // Sẽ được khởi tạo trong constructor
 
-    /**
-     * Constructor cho lớp Game.
-     * Khởi tạo các danh sách thực thể và tải level đầu tiên.
-     * @param input InputHandler để xử lý điều khiển của người chơi.
-     */
-    public Game(InputHandler input) {
-        this.inputHandler = input;
+    public Game(InputHandler inputHandler) {
+        this.inputHandler = inputHandler;
+        this.playerLives = Config.PLAYER_INIT_LIVES;
 
-        // Khởi tạo các danh sách để chứa các thực thể của game
-        enemies = new ArrayList<>();
-        bombs = new ArrayList<>();
-        explosions = new ArrayList<>();
-        staticEntities = new ArrayList<>();
-        powerUps = new ArrayList<>();
+        // Khởi tạo các danh sách
+        this.enemies = new ArrayList<>();
+        this.bombs = new ArrayList<>();
+        this.explosions = new ArrayList<>();
+        this.staticEntities = new ArrayList<>();
+        this.powerUps = new ArrayList<>();
 
-        // Tải level đầu tiên khi game bắt đầu
-        loadLevel(1); // Giả sử level bắt đầu từ 1
+        // Tải level đầu tiên
+        loadLevel(1);
     }
 
-    /**
-     * Tải một level mới dựa trên số thứ tự của level.
-     * Xóa tất cả các thực thể của level cũ trước khi tải level mới.
-     * @param levelNumber Số thứ tự của level cần tải.
-     */
     public void loadLevel(int levelNumber) {
         System.out.println("Loading level " + levelNumber + "...");
-        // Xóa sạch các thực thể của level trước đó
+        this.currentLevelNumber = levelNumber;
+
+        // Xóa các thực thể của level cũ
         enemies.clear();
         bombs.clear();
         explosions.clear();
@@ -65,40 +53,40 @@ public class Game {
         powerUps.clear();
         player = null; // Reset player
 
-        // Tạo đối tượng Level mới, truyền vào đường dẫn file map và tham chiếu 'this' (Game)
-        // Level sẽ tự động đọc map và gọi các phương thức addEntity của Game để tạo thực thể
-        System.out.println("Loading Level " + levelNumber + "...");
+        // Tạo đối tượng Level mới
         level = new Level(Config.LEVEL_PATH_PREFIX + "level" + levelNumber + ".txt", this);
 
-        if (level.getWidth() <= 0 || level.getHeight() <= 0 || player == null) {
+        if (level.getWidth() == 0 || level.getHeight() == 0) {
             System.err.println("CRITICAL ERROR: Level " + levelNumber + " data is invalid (zero dimensions).");
-            // Xử lý lỗi, ví dụ: thoát game hoặc load level mặc định an toàn
+            // Có thể thêm xử lý thoát game hoặc load level mặc định ở đây
             return;
         }
 
         SoundManager.getInstance().playSound(SoundManager.LEVEL_START);
-
         System.out.println("Level " + levelNumber + " loaded successfully.");
-        // level.printMap(); // Bỏ comment nếu muốn in map ra console để debug
     }
 
-    /**
-     * Vòng lặp cập nhật chính của game.
-     * Được gọi liên tục bởi AnimationTimer trong BombermanApp.
-     * @param deltaTime Thời gian (thường là 1.0/60.0 giây) trôi qua kể từ lần cập nhật trước.
-     */
     public void update(double deltaTime) {
+        // Nếu đã hết mạng và player không còn tồn tại hoặc đã chết hẳn, không update nữa
+        // Điều này sẽ được GameHUDController hoặc BombermanApp kiểm tra để dừng game loop hoặc chuyển màn hình
+        if (playerLives <= 0 && (player == null || (!player.isAlive() && !player.isDying()))) {
+            return; // Game đã kết thúc logic, chờ controller xử lý
+        }
+
         // 1. Cập nhật Player
         if (player != null) {
             if (player.isAlive()) {
                 player.update(deltaTime, getAllEntities());
-                checkPlayerCollectPowerUps(); // Kiểm tra nhặt powerup
-            } else if (player.isDying()) { // Nếu player đang chạy animation chết
-                player.update(deltaTime, null); // Chỉ update animation
+                checkPlayerCollectPowerUps();
+            } else if (player.isDying()) {
+                player.update(deltaTime, null); // Chỉ update animation chết
+            } else { // Player đã chết hẳn (alive = false, dying = false)
+                // Kiểm tra xem có phải vừa mới chết hẳn không để xử lý mất mạng
+                if (player.isJustPermanentlyDeadAndDecrementLife()) {
+                    playerLoseLife();
+                }
             }
-            // Nếu player chết hẳn (isAlive()=false, isDying()=false), không update nữa
         }
-
 
         // 2. Cập nhật Enemies
         Iterator<Enemy> enemyIterator = enemies.iterator();
@@ -110,13 +98,12 @@ public class Game {
                 if (player != null && player.isAlive() && enemy.intersects(player)) {
                     player.destroy(); // Player chết nếu chạm Enemy
                 }
-            } else if (enemy.isDying()){ // Nếu enemy đang chạy animation chết
-                enemy.update(deltaTime, null); // Chỉ update animation
-            }
-            else { // Enemy đã chết hẳn
+            } else if (enemy.isDying()){
+                enemy.update(deltaTime, null); // Chỉ update animation chết
+            } else { // Enemy đã chết hẳn
                 enemyIterator.remove();
-                // TODO: Thêm logic tính điểm khi Enemy chết
-                System.out.println("Enemy removed.");
+                addScore(100); // Ví dụ: cộng 100 điểm khi Enemy chết
+                System.out.println("Enemy removed. Current Score: " + playerScore);
             }
         }
 
@@ -148,41 +135,35 @@ public class Game {
             Entity entity = staticIterator.next();
             if (entity instanceof Brick) {
                 Brick brick = (Brick) entity;
-                if (brick.isAlive() || brick.isDying()) { // Cập nhật cả khi đang vỡ
+                if (brick.isAlive() || brick.isDying()) {
                     brick.update(deltaTime, null);
                 } else { // Gạch đã vỡ hoàn toàn
                     staticIterator.remove();
-                    // TODO: Xử lý spawn PowerUp tại vị trí gạch vỡ
-                    // if (brick.getContainedPowerUpType() != PowerUp.PowerUpType.NONE) {
-                    //     addPowerUp(new PowerUp(brick.getTileX(), brick.getTileY(), getNesSheet(), brick.getContainedPowerUpType()));
-                    // }
-                    System.out.println("Brick removed.");
+                    addScore(10); // Ví dụ: cộng 10 điểm khi phá gạch
+                    System.out.println("Brick removed. Current Score: " + playerScore);
                 }
-            } else if (!entity.isAlive()) {
+            } else if (entity != null && !entity.isAlive()) { // Đảm bảo entity không null
                 staticIterator.remove();
             }
         }
 
-        // 6. Cập nhật PowerUps (ví dụ: biến mất sau một thời gian)
+        // 6. Cập nhật PowerUps
         Iterator<PowerUp> powerUpIterator = powerUps.iterator();
         while (powerUpIterator.hasNext()) {
             PowerUp pu = powerUpIterator.next();
             if (pu.isAlive()) {
-                pu.update(deltaTime, null); // PowerUp có thể có logic update riêng (ví dụ: nhấp nháy, timer)
+                pu.update(deltaTime, null);
             } else {
-                powerUpIterator.remove(); // Xóa PowerUp đã được nhặt hoặc hết hạn
+                powerUpIterator.remove();
             }
         }
 
-
-        // TODO: Kiểm tra các điều kiện thắng/thua của game
-        // if (enemies.isEmpty() && player đã đến portal) -> thắng level
-        // if (player hết mạng và animation chết đã xong) -> game over
+        // TODO: Kiểm tra các điều kiện thắng level (ví dụ: hết enemies và đến portal)
+        // if (isLevelWon()) {
+        //    handleLevelWin();
+        // }
     }
 
-    /**
-     * Kiểm tra xem Player có nhặt được PowerUp nào không.
-     */
     private void checkPlayerCollectPowerUps() {
         if (player == null || !player.isAlive()) return;
 
@@ -192,7 +173,6 @@ public class Game {
             PowerUp pu = powerUpIterator.next();
             if (pu.isAlive() && playerBounds.intersects(pu.getBounds())) {
                 pu.collect(player); // Player nhặt powerup, powerup sẽ tự đánh dấu !alive
-                // Không cần xóa ở đây vì vòng lặp update powerup sẽ xóa
             }
         }
     }
@@ -203,28 +183,10 @@ public class Game {
     public void addWall(Wall w) { this.staticEntities.add(w); }
     public void addBrick(Brick b) { this.staticEntities.add(b); }
     public void addPowerUp(PowerUp pu) { this.powerUps.add(pu); }
+    public void addBomb(Bomb b) { this.bombs.add(b); }
 
-
-    /**
-     * Thêm một Bomb mới vào danh sách quản lý của game.
-     * Được gọi từ Player.placeBomb().
-     * @param b Đối tượng Bomb cần thêm.
-     */
-    public void addBomb(Bomb b) {
-        this.bombs.add(b);
-    }
-
-    /**
-     * Xử lý việc tạo ra các đoạn lửa (Explosion) khi một Bomb nổ.
-     * Được gọi từ Bomb.explode().
-     * @param tileX Tọa độ ô X của tâm vụ nổ.
-     * @param tileY Tọa độ ô Y của tâm vụ nổ.
-     * @param flameLength Độ dài của tia lửa (số ô).
-     * @param sheet SpriteSheet chứa hình ảnh của vụ nổ (thường là nesSheet).
-     */
     public void addExplosion(int tileX, int tileY, int flameLength, SpriteSheet sheet) {
         List<Explosion> newExplosionsThisTurn = new ArrayList<>();
-
         Explosion centerExplosion = new Explosion(tileX, tileY, sheet, Explosion.ExplosionType.CENTER);
         explosions.add(centerExplosion);
         newExplosionsThisTurn.add(centerExplosion);
@@ -242,9 +204,6 @@ public class Game {
         }
     }
 
-    /**
-     * Helper method để tạo các đoạn lửa (Explosion segments) theo một hướng nhất định.
-     */
     private void createFlameSegments(int startX, int startY, int dx, int dy, int length,
                                      SpriteSheet sheet, List<Explosion> newExplosionsList) {
         for (int i = 1; i <= length; i++) {
@@ -253,7 +212,7 @@ public class Game {
 
             Entity blockingEntity = getSolidEntityAtTile(currentX, currentY);
             if (blockingEntity instanceof Wall) {
-                break; // Tia lửa dừng lại nếu gặp Wall
+                break;
             }
 
             Explosion.ExplosionType type;
@@ -265,32 +224,23 @@ public class Game {
                 else if (dy > 0) type = Explosion.ExplosionType.END_DOWN;
                 else type = Explosion.ExplosionType.END_UP;
             }
-
             Explosion segment = new Explosion(currentX, currentY, sheet, type);
             explosions.add(segment);
             newExplosionsList.add(segment);
 
             if (blockingEntity instanceof Brick) {
-                break; // Tia lửa dừng lại sau khi chạm gạch (gạch sẽ bị phá hủy)
+                break;
             }
-            // Kiểm tra ngoài biên bản đồ
             if (currentX < 0 || currentX >= level.getWidth() || currentY < 0 || currentY >= level.getHeight()) {
                 break;
             }
         }
     }
 
-    /**
-     * Helper method để lấy Entity rắn (Wall, Brick, Bomb chưa nổ) tại một vị trí ô cụ thể.
-     * @param tileX Tọa độ ô X.
-     * @param tileY Tọa độ ô Y.
-     * @return Entity rắn tại vị trí đó, hoặc null nếu không có hoặc ô ngoài map.
-     */
     public Entity getSolidEntityAtTile(int tileX, int tileY) {
         if (level == null || tileX < 0 || tileX >= level.getWidth() || tileY < 0 || tileY >= level.getHeight()) {
-            return null; // Ngoài map hoặc level chưa load
+            return null;
         }
-        // Kiểm tra staticEntities (Wall, Brick)
         for (Entity entity : staticEntities) {
             if (entity.getTileX() == tileX && entity.getTileY() == tileY && entity.isAlive()) {
                 if (entity instanceof Wall || entity instanceof Brick) {
@@ -298,68 +248,62 @@ public class Game {
                 }
             }
         }
-        // Kiểm tra Bombs
         for (Bomb bomb : bombs) {
             if (bomb.getTileX() == tileX && bomb.getTileY() == tileY && bomb.isSolid()) {
                 return bomb;
             }
         }
-        return null; // Không có entity rắn nào tại ô đó
-    }
-
-    /**
-     * Helper method để lấy Entity tĩnh (Wall, Brick) hoặc Bomb rắn
-     * tại một vị trí ô [tileX, tileY] cụ thể.
-     * Được sử dụng để kiểm tra va chạm chính xác hơn.
-     *
-     * @param tileX Chỉ số cột của ô cần kiểm tra.
-     * @param tileY Chỉ số hàng của ô cần kiểm tra.
-     * @return Entity rắn tại vị trí đó, hoặc null nếu ô trống, ngoài map, hoặc entity không rắn.
-     */
-    public Entity getEntityAtTile(int tileX, int tileY) {
-        // Kiểm tra xem có nằm ngoài biên map của Level không
-        if (level == null || tileX < 0 || tileX >= level.getWidth() || tileY < 0 || tileY >= level.getHeight()) {
-            return null; // Ngoài map -> không có entity
-        }
-
-        // 1. Ưu tiên kiểm tra Bomb trước (vì chúng có thể nằm trên ô trống)
-        for (Bomb bomb : bombs) {
-            // Chỉ kiểm tra bom còn sống tại đúng ô đó VÀ đang ở trạng thái rắn
-            if (bomb.isAlive() && bomb.getTileX() == tileX && bomb.getTileY() == tileY && bomb.isSolid()) {
-                return bomb; // Tìm thấy Bomb rắn tại ô đó
-            }
-        }
-
-        // 2. Kiểm tra các thực thể tĩnh (Wall, Brick)
-        for (Entity entity : staticEntities) {
-            // Chỉ kiểm tra entity còn sống tại đúng ô đó
-            if (entity.isAlive() && entity.getTileX() == tileX && entity.getTileY() == tileY) {
-                // Chỉ trả về nếu là Wall hoặc Brick (vì chúng chắc chắn isSolid())
-                if (entity instanceof Wall || entity instanceof Brick) {
-                    return entity; // Tìm thấy Wall hoặc Brick tại ô đó
-                }
-            }
-        }
-
-        // Nếu không tìm thấy Wall, Brick, hoặc Bomb rắn tại ô đó
         return null;
     }
 
-    /**
-     * Kiểm tra xem có thể đặt bom tại một vị trí ô cụ thể hay không.
-     */
     public boolean canPlaceBombAt(int tileX, int tileY) {
-        // Không cho đặt bom nếu ô đó đã có bom hoặc là tường/gạch
         Entity entityAtTarget = getSolidEntityAtTile(tileX, tileY);
-        if (entityAtTarget instanceof Bomb || entityAtTarget instanceof Wall || entityAtTarget instanceof Brick) {
-            return false;
-        }
-        // TODO: (Tùy chọn) Không cho đặt nếu Player đang đứng ở đó
-        return true;
+        return !(entityAtTarget instanceof Bomb || entityAtTarget instanceof Wall || entityAtTarget instanceof Brick);
     }
 
+    // --- Getters cho HUD và trạng thái game ---
+    public int getCurrentLevelNumber() { return currentLevelNumber; }
+    public int getPlayerScore() { return playerScore; }
+    public int getPlayerLives() { return playerLives; }
 
-    // --- Getters để các lớp khác truy cập thông tin ---
+    public void addScore(int points) {
+        if (playerLives > 0) { // Chỉ cộng điểm nếu chưa game over
+            this.playerScore += points;
+        }
+    }
+
+    public void playerLoseLife() {
+        if (this.playerLives > 0) { // Chỉ xử lý nếu còn mạng để mất
+            this.playerLives--;
+            // Âm thanh chết nên được gọi bởi Player.destroy() để đồng bộ với animation
+            System.out.println("Player lost a life. Lives remaining: " + this.playerLives);
+
+            if (this.playerLives <= 0) {
+                handleGameOver();
+            } else {
+                // Nếu còn mạng, hồi sinh player
+                if(player != null) {
+                    player.resetToStartPositionAndRevive();
+                } else {
+                    // Trường hợp hiếm: player null nhưng vẫn mất mạng?
+                    // Có thể cần load lại level nếu player không thể hồi sinh
+                    System.err.println("Player is null but a life was lost. Attempting to reload level.");
+                    loadLevel(this.currentLevelNumber);
+                }
+            }
+        }
+    }
+
+    private void handleGameOver() {
+        System.out.println("GAME OVER (from Game.java) - Final Score: " + playerScore);
+        if (player != null) {
+            player.setPermanentlyDeadNoUpdates(); // Ngăn player update thêm
+        }
+        // GameHUDController sẽ kiểm tra playerLives <= 0 và xử lý việc chuyển màn hình
+        // hoặc dừng game loop. Game.java chỉ cần cập nhật trạng thái.
+    }
+
+    // --- Getters cho các thành phần game khác ---
     public Level getLevel() { return level; }
     public Player getPlayer() { return player; }
     public List<Enemy> getEnemies() { return enemies; }
@@ -368,24 +312,24 @@ public class Game {
     public List<Entity> getStaticEntities() { return staticEntities; }
     public List<PowerUp> getPowerUps() { return powerUps; }
 
-
-    /**
-     * Trả về danh sách tất cả các thực thể đang hoạt động trong game.
-     * Dùng cho việc kiểm tra va chạm.
-     */
     public List<Entity> getAllEntities() {
         List<Entity> all = new ArrayList<>();
-        all.addAll(staticEntities);
-        if (player != null && player.isAlive()) { // Chỉ thêm player nếu còn sống
+        all.addAll(staticEntities); // Nên thêm các entity tĩnh trước
+        if (player != null && (player.isAlive() || player.isDying())) { // Thêm cả khi đang dying để render
             all.add(player);
         }
-        for(Enemy e : enemies) { if(e.isAlive()) all.add(e); }
-        for(Bomb b : bombs) { if(b.isAlive() && b.isSolid()) all.add(b); } // Chỉ thêm bom rắn
-        all.addAll(powerUps); // PowerUp không rắn nhưng player cần kiểm tra va chạm để nhặt
+        // Thêm enemies đang sống hoặc đang dying
+        for(Enemy e : enemies) { if(e.isAlive() || e.isDying()) all.add(e); }
+        // Thêm bomb đang hoạt động và là vật rắn
+        for(Bomb b : bombs) { if(b.isAlive() && b.isSolid()) all.add(b); }
+        // Thêm powerups đang hoạt động
+        for(PowerUp pu : powerUps) { if(pu.isAlive()) all.add(pu); }
+        // Explosions không cần trong list này vì chúng không phải là đối tượng va chạm vật lý
+        // và được render riêng.
         return all;
     }
 
-    // Getters cho SpriteSheet và InputHandler
+    // Getters cho SpriteSheet và InputHandler (Renderer không còn dùng trực tiếp)
     public SpriteSheet getModernSheet() { return SpriteSheet.Sheet1; }
     public SpriteSheet getNesSheet() { return SpriteSheet.Sheet2; }
     public InputHandler getInputHandler() { return inputHandler; }

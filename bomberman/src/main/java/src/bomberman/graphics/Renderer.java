@@ -1,91 +1,106 @@
-// src/main/java/src/bomberman/graphics/Renderer.java
 package src.bomberman.graphics;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+// import javafx.scene.text.Font; // Không cần Font ở đây nữa nếu HUD do FXML quản lý
+// import javafx.scene.text.FontWeight;
+// import javafx.scene.text.TextAlignment;
 import src.bomberman.Config;
 import src.bomberman.core.Game;
 import src.bomberman.core.Level;
-import src.bomberman.entities.*; // Import entities
+import src.bomberman.entities.*;
 
 import java.util.List;
 
 public class Renderer {
+    // Không còn biến hudFont hoặc các hằng số liên quan đến HUD ở đây
 
-    public void render(GraphicsContext gc, Game game) {
-        // 1. Xóa màn hình bằng màu nền cơ bản (Ví dụ: Đen)
-        // Tránh để lộ màu nền magenta của cửa sổ nếu có lỗi vẽ
-        clearScreen(gc);
+    public Renderer() {
+        // Constructor giờ có thể rỗng hoặc làm việc khác nếu cần
+    }
+
+    /**
+     * Phương thức này giờ chỉ vẽ nội dung game lên GraphicsContext được cung cấp.
+     * HUD sẽ được quản lý bởi FXML và GameHUDController.
+     */
+    public void renderGameContent(GraphicsContext gc, Game game) {
+        // 1. Xóa vùng Canvas của game (không phải toàn bộ màn hình)
+        // Màu nền cho vùng game, có thể khác với màu nền chung của cửa sổ
+        gc.setFill(Color.rgb(60, 100, 60)); // Ví dụ màu xanh lá cây tối cho nền game
+        gc.fillRect(0, 0, Config.GAME_AREA_WIDTH, Config.GAME_AREA_HEIGHT);
+
 
         Level level = game.getLevel();
-        // Kiểm tra Level có tồn tại không
         if (level == null) {
-            System.err.println("Renderer Error: Level is null, cannot render map.");
-            return; // Không vẽ gì thêm
+            gc.setFill(Color.RED);
+            // gc.setFont(Font.font(20)); // Nếu muốn đặt font
+            gc.fillText("Error: Level not loaded in Renderer!", 10, 30);
+            return;
         }
 
-        // 2. Vẽ nền (Cỏ) cho toàn bộ map LÊN TRÊN màu nền đen
-        level.renderBackground(gc);
+        // 2. Vẽ nền game (Cỏ)
+        level.renderBackground(gc); // Phương thức này cần vẽ trong giới hạn của nó
 
-        // 3. Vẽ các thực thể tĩnh (Tường '#', Gạch '*') ĐÈ LÊN nền cỏ
-        // Lấy danh sách Wall, Brick từ Game (đã được tạo trong Level.createEntitiesFromMap)
+        // 3. Vẽ các thực thể tĩnh
         List<Entity> staticEntities = game.getStaticEntities();
         if (staticEntities != null) {
             for (Entity entity : staticEntities) {
-                // Wall và Brick sẽ tự gọi render() của chúng để vẽ Sprite.wall/Sprite.brick
-                entity.render(gc);
+                if (entity.isAlive() || (entity instanceof Brick && ((Brick)entity).isDying())) {
+                    entity.render(gc);
+                }
             }
         }
 
-        // 4. POWERUPS (Sau nền/tường/gạch, trước bom/player)
+        // 3.5 Vẽ PowerUps
         List<PowerUp> powerUps = game.getPowerUps();
         if (powerUps != null) {
             for (PowerUp pu : powerUps) {
-                if (pu.isAlive()) { // Chỉ vẽ powerup nào chưa được nhặt
+                if (pu.isAlive()) {
                     pu.render(gc);
                 }
             }
         }
 
-        // 5. Vẽ Bombs (Đè lên nền, tường, gạch nếu trùng vị trí)
+        // 4. Vẽ Bombs
         List<Bomb> bombs = game.getBombs();
         if (bombs != null) {
             for (Bomb bomb : bombs) {
-                bomb.render(gc);
+                if (bomb.isAlive()) {
+                    bomb.render(gc);
+                }
             }
         }
 
-        // 6. Vẽ Explosions (Đè lên mọi thứ trừ Player/Enemy nếu trùng)
+        // 5. Vẽ Explosions
         List<Explosion> explosions = game.getExplosions();
         if (explosions != null) {
             for (Explosion explosion : explosions) {
-                explosion.render(gc);
+                if (explosion.isAlive()) {
+                    explosion.render(gc);
+                }
             }
         }
 
-        // 7. Vẽ Enemies
+        // 6. Vẽ Enemies
         List<Enemy> enemies = game.getEnemies();
         if (enemies != null) {
             for (Enemy enemy : enemies) {
-                if (enemy.isAlive()) { // Chỉ vẽ enemy còn sống
+                if (enemy.isAlive() || enemy.isDying()) {
                     enemy.render(gc);
                 }
             }
         }
 
-        // 8. Vẽ Player (Lớp trên cùng)
+        // 7. Vẽ Player
         Player player = game.getPlayer();
-        if (player != null && (player.isAlive() || player.isDying())) { // Chỉ vẽ player còn sống
-            player.render(gc);
+        if (player != null) {
+            if (player.isAlive() || player.isDying()) {
+                player.render(gc);
+            }
         }
-        // Nếu muốn vẽ animation chết thì bỏ điều kiện isAlive() hoặc thêm isDying()
-
     }
 
-    private void clearScreen(GraphicsContext gc) {
-        gc.setFill(Color.BLACK); // <<< Đặt màu nền ở đây (ví dụ: Đen)
-        gc.fillRect(0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
-    }
-
-    // ... (drawUI) ...
+    // Phương thức clearScreen và drawHUD cũ có thể được xóa hoặc comment lại
+    // private void clearScreen(GraphicsContext gc) { ... }
+    // private void drawHUD(GraphicsContext gc, Game game) { ... }
 }

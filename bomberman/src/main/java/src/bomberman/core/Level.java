@@ -131,6 +131,11 @@ public class Level {
                     case '*': // Brick - Gạch vỡ được
                         // Brick sẽ tự quyết định có chứa powerup không
                         Brick brick = new Brick(x, y, Sheet2, this.game);
+                        // TODO: Thêm logic quyết định PowerUp cho Brick ở đây hoặc trong constructor Brick
+                        // Ví dụ: if (random.nextDouble() < 0.3) { // 30% cơ hội
+                        //           PowerUp.PowerUpType type = PowerUp.PowerUpType.values()[random.nextInt(PowerUp.PowerUpType.values().length-1)]; // Trừ NONE
+                        //           brick.setContainedPowerUp(type);
+                        //        }
                         game.addBrick(brick);
                         break;
                     case 'p': // Player - Vị trí bắt đầu của người chơi
@@ -149,27 +154,10 @@ public class Level {
                          game.addEnemy(new Kondoria(x, y, nesSheet, game));
                         mapData[y][x] = ' ';
                         break;
-                    case '3':
-                         game.addEnemy(new Minvo(x, y, nesSheet, game));
-                        mapData[y][x] = ' ';
-                        break;
-                    case '4':
-                         game.addEnemy(new Oneal(x, y, nesSheet, game));
-                        mapData[y][x] = ' ';
-                        break;
-                    case '5':
-                         game.addEnemy(new Pass(x, y, nesSheet, game));
-                        mapData[y][x] = ' ';
-                        break;
-                    case '6':
-                         game.addEnemy(new Doll(x, y, nesSheet, game));
-                        mapData[y][x] = ' ';
-                        break;
-                    case '7':
-                         game.addEnemy(new Ovapi(x, y, nesSheet, game));
-                        mapData[y][x] = ' ';
-                        break;
-
+                    // TODO: Thêm các case cho các loại Enemy khác và PowerUp đặt sẵn trên map
+                    // case 'b': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.BOMBS)); mapData[y][x] = ' '; break;
+                    // case 'f': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.FLAMES)); mapData[y][x] = ' '; break;
+                    // case 's': game.addPowerUp(new PowerUp(x,y,nesSheet,PowerUp.PowerUpType.SPEED)); mapData[y][x] = ' '; break;
                     default:
                         // Ký tự không xác định hoặc ' ' (ô trống) sẽ là nền cỏ (được vẽ bởi renderBackground)
                         break;
@@ -192,7 +180,7 @@ public class Level {
      * Vẽ lớp nền (background) của Level lên màn hình.
      * Lặp qua từng ô của map và vẽ sprite nền (ví dụ: cỏ).
      * Kích thước vẽ ra của mỗi sprite nền sẽ bằng `Config.TILE_SIZE`.
-     * @param gc GraphicsContext của Canvas.
+     * @param gc GraphicsContext của Canvas (đã được dịch chuyển nếu cần).
      */
     public void renderBackground(GraphicsContext gc) {
         Sprite grassSprite = Sprite.grass; // Lấy sprite nền đã được load
@@ -203,34 +191,34 @@ public class Level {
                 grassSprite.sheet.getSheet().isError()) {
 
             // Nếu có lỗi, vẽ màu nền mặc định và báo lỗi
+            // Sử dụng kích thước vùng game từ Config đã cập nhật
             gc.setFill(Color.DARKSLATEGRAY); // Một màu nền tối để dễ debug
-            gc.fillRect(0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+            gc.fillRect(0, 0, Config.GAME_AREA_WIDTH, Config.GAME_AREA_HEIGHT); // <<< SỬA Ở ĐÂY
             System.err.println("Cannot render background: Grass sprite, its Sheet is invalid/null, or map dimensions are zero.");
             return; // Không vẽ gì thêm
         }
 
         SpriteSheet sheet = grassSprite.sheet; // Lấy sheet chứa sprite cỏ
 
-
-        // Vẽ nền cỏ cho toàn bộ map
+        // Vẽ nền cỏ cho toàn bộ map game (không bao gồm HUD)
+        // Vòng lặp này dựa trên width và height của level (số ô), không phải kích thước màn hình pixel
         for (int yTile = 0; yTile < height; yTile++) { // Lặp qua hàng (ô tile)
             for (int xTile = 0; xTile < width; xTile++) { // Lặp qua cột (ô tile)
-                // Tính toán tọa độ pixel để vẽ
+                // Tính toán tọa độ pixel để vẽ (tọa độ này là tương đối với gốc của gc,
+                // mà gốc này có thể đã được dịch chuyển xuống dưới HUD bởi Renderer)
                 double dx = xTile * Config.TILE_SIZE;
                 double dy = yTile * Config.TILE_SIZE;
 
-                // Vẽ sprite nền cỏ tại vị trí ô map (xTile, yTile)
-                // Vẽ nó với kích thước của một ô Tile chuẩn (Config.TILE_SIZE)
                 gc.drawImage(
-                        sheet.getSheet(),                 // Ảnh nguồn (spritesheet)
-                        grassSprite.getSourceX(),         // sx: Tọa độ X của sprite cỏ trên sheet
-                        grassSprite.getSourceY(),         // sy: Tọa độ Y của sprite cỏ trên sheet
-                        grassSprite.getSourceWidth(),     // sw: Chiều rộng nguồn của sprite cỏ (ví dụ: 16)
-                        grassSprite.getSourceHeight(),    // sh: Chiều cao nguồn của sprite cỏ (ví dụ: 16)
-                        dx,                               // xTile * Config.TILE_SIZE
-                        dy,                               // yTile * Config.TILE_SIZE
-                        Config.TILE_SIZE,                 // dw
-                        Config.TILE_SIZE                  // dh
+                        sheet.getSheet(),
+                        grassSprite.getSourceX(),
+                        grassSprite.getSourceY(),
+                        grassSprite.getSourceWidth(),
+                        grassSprite.getSourceHeight(),
+                        dx,
+                        dy,
+                        Config.TILE_SIZE, // Vẽ mỗi ô cỏ với kích thước chuẩn
+                        Config.TILE_SIZE
                 );
             }
         }

@@ -10,7 +10,7 @@ import java.util.List;
 public class PowerUp extends Entity {
 
     public enum PowerUpType {
-        BOMBS, FLAMES, SPEED, NONE
+        BOMBS, FLAMES, SPEED, WALLPASS, DETONATOR, BOMBPASS, FLAMEPASS, NONE
         // Thêm phương thức getRandom() nếu muốn
     }
 

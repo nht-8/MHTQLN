@@ -43,7 +43,7 @@ public class Brick extends Entity {
         // Bạn có thể điều chỉnh tỉ lệ này
         Random random = new Random();
         // Ví dụ: 30% cơ hội có powerup (có thể tùy chỉnh tỉ lệ hoặc đọc từ map)
-        if (random.nextDouble() < 0.2) {
+        if (random.nextDouble() < 0.3) {
             // Lấy ngẫu nhiên một loại powerup từ enum (trừ NONE)
             PowerUp.PowerUpType[] allPowerUps = PowerUp.PowerUpType.values();
             // Chọn ngẫu nhiên 1 trong các loại (BOMBS, FLAMES, SPEED,...)

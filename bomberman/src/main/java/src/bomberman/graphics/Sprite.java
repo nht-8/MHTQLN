@@ -29,7 +29,6 @@ public class Sprite {
     public static Sprite grass;
     public static Sprite brick;
     public static Sprite wall;
-    public static Sprite portal;
 
     /* Bomber (Sẽ lấy từ sheet modern) */
     public static Sprite player_u1, player_u2, player_u3, player_u4;
@@ -59,14 +58,6 @@ public class Sprite {
     public static Sprite enemy_kondoria_left1, enemy_kondoria_left2, enemy_kondoria_left3;
     public static Sprite enemy_kondoria_right1, enemy_kondoria_right2, enemy_kondoria_right3;
     public static Sprite enemy_kondoria_dead;
-    // OVAPI
-    public static Sprite enemy_ovapi_left1, enemy_ovapi_left2, enemy_ovapi_left3, enemy_ovapi_left4;
-    public static Sprite enemy_ovapi_right1, enemy_ovapi_right2, enemy_ovapi_right3, enemy_ovapi_right4;
-    public static Sprite enemy_ovapi_dead;
-    // PASS
-    public static Sprite enemy_pass_left1, enemy_pass_left2, enemy_pass_left3;
-    public static Sprite enemy_pass_right1, enemy_pass_right2, enemy_pass_right3;
-    public static Sprite enemy_pass_dead;
     // ALL Enemies
     public static Sprite mob_dead1, mob_dead2, mob_dead3;
 
@@ -89,7 +80,10 @@ public class Sprite {
     public static Sprite powerup_bombs;
     public static Sprite powerup_flames;
     public static Sprite powerup_speed;
-    public static Sprite powerup_heart;
+    public static Sprite powerup_wallpass;
+    public static Sprite powerup_detonator;
+    public static Sprite powerup_bombpass;
+    public static Sprite powerup_flamepass;
 
 
     /**
@@ -206,10 +200,6 @@ public class Sprite {
         }
 
         if (Sheet2 != null && Sheet2.getSheet() != null && !Sheet2.getSheet().isError()) {
-
-            // Board
-            portal = new Sprite(Sheet2, 299, 215, 32, 32);
-
             // Enemies
             // BALLOM
             enemy_ballom_left1 = new Sprite(Sheet2, 5, 5, 32, 32);
@@ -251,34 +241,19 @@ public class Sprite {
             enemy_kondoria_right2 = new Sprite(Sheet2, 89, 173, 32, 32);
             enemy_kondoria_right3 = new Sprite(Sheet2, 89, 215, 32, 32);
             enemy_kondoria_dead = new Sprite(Sheet2, 89, 257, 32, 32);
-            // PASS
-            enemy_pass_left1 = new Sprite(Sheet2, 257, 5, 32, 32);
-            enemy_pass_left2 = new Sprite(Sheet2, 257, 47, 32, 32);
-            enemy_pass_left3 = new Sprite(Sheet2, 257, 89, 32, 32);
-            enemy_pass_right1 = new Sprite(Sheet2, 257, 131, 32, 32);
-            enemy_pass_right2 = new Sprite(Sheet2, 257,173, 32, 32);
-            enemy_pass_right3 = new Sprite(Sheet2, 257, 215, 32, 32);
-            enemy_pass_dead = new Sprite(Sheet2, 257, 257, 32, 32);
-            // OVAPI
-            enemy_ovapi_left1 = new Sprite(Sheet2, 215, 5, 32, 32);
-            enemy_ovapi_left2 = new Sprite(Sheet2, 215, 47, 32, 32);
-            enemy_ovapi_left3 = new Sprite(Sheet2, 215, 89, 32, 32);
-            enemy_ovapi_left4 = new Sprite(Sheet2, 215, 131, 32, 32);
-            enemy_ovapi_right1 = new Sprite(Sheet2, 215, 173, 32, 32);
-            enemy_ovapi_right2 = new Sprite(Sheet2, 215,215, 32, 32);
-            enemy_ovapi_right3 = new Sprite(Sheet2, 215, 257, 32, 32);
-            enemy_ovapi_right4 = new Sprite(Sheet2, 299, 5, 32, 32);
-            enemy_ovapi_dead = new Sprite(Sheet2, 299, 47, 32, 32);
             // Mob Dead Animation
             mob_dead1 = new Sprite(Sheet2, 299, 89, 32, 32);
             mob_dead2 = new Sprite(Sheet2, 299, 131, 32, 32);
             mob_dead3 = new Sprite(Sheet2, 299, 173, 32, 32);
 
             // Powerups
-            powerup_bombs = new Sprite(Sheet2, 299, 257 , 32, 32);
-            powerup_flames = new Sprite(Sheet2, 89, 299 , 32, 32);
-            powerup_speed = new Sprite(Sheet2, 131, 299 , 32, 32);
-            powerup_heart = new Sprite(Sheet2, 215, 299 , 32, 32);
+            powerup_bombs = new Sprite(Sheet2, 0 , 10 , 32, 32);
+            powerup_flames = new Sprite(Sheet2, 1 , 10 , 32, 32);
+            powerup_speed = new Sprite(Sheet2, 2 , 10 , 32, 32);
+            powerup_wallpass = new Sprite(Sheet2, 3 , 10 , 32, 32);
+            powerup_detonator = new Sprite(Sheet2, 4 , 10 , 32, 32);
+            powerup_bombpass = new Sprite(Sheet2, 5 , 10 , 32, 32);
+            powerup_flamepass = new Sprite(Sheet2, 6 , 10 , 32, 32);
 
         } else {
             System.err.println("Failed to initialize sprites from NES sheet.");

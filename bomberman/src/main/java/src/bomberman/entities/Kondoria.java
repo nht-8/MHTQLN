@@ -3,6 +3,7 @@ package src.bomberman.entities;
 import src.bomberman.graphics.Sprite;
 import src.bomberman.graphics.SpriteSheet;
 import src.bomberman.core.Game;       // Thêm import Game
+import src.bomberman.entities.Direction; // Thêm import Direction
 
 public class Kondoria extends Enemy {
     // Tốc độ animation: Số frame update cho mỗi sprite của  kondoria
