@@ -1,4 +1,3 @@
-// src/main/java/src/bomberman/entities/Oneal.java
 package src.bomberman.entities;
 
 import src.bomberman.graphics.Sprite;
@@ -6,17 +5,15 @@ import src.bomberman.graphics.SpriteSheet;
 import src.bomberman.core.Game;
 
 import java.util.List;
-// import java.util.Random; // Random đã có trong Enemy
 
 public class Oneal extends Enemy {
     private final int ANIMATION_SPEED = 15;
     private int animationFrameIndex = 0;
 
-    // Tốc độ của Oneal khi đuổi theo Player (có thể nhanh hơn các Enemy khác)
+   
     private static final double ONEAL_CHASE_SPEED = 0.75;
 
 
-    // Khoảng cách (số ô) để Oneal bắt đầu đuổi theo Player
     private static final int CHASE_RADIUS_TILES = 5;
     private boolean isChasing = false;
 
@@ -27,9 +24,6 @@ public class Oneal extends Enemy {
         if (this.sprite == null) {}
     }
 
-    /**
-     * Ghi đè phương thức move của Enemy để cài đặt AI đuổi theo Player.
-     */
     @Override
     protected void move(double deltaTime, List<Entity> entities) {
         if (isDying() || !alive) return;
@@ -106,25 +100,18 @@ public class Oneal extends Enemy {
         }
     }
 
-    /**
-     * Kiểm tra xem có thể di chuyển theo một hướng cụ thể không.
-     */
     private boolean canMoveTowards(Direction direction, List<Entity> entities) {
         double testDx = 0, testDy = 0;
         switch (direction) {
-            case UP: testDy = -1; break; // Chỉ cần 1 pixel để test
+            case UP: testDy = -1; break; 
             case DOWN: testDy = 1; break;
             case LEFT: testDx = -1; break;
             case RIGHT: testDx = 1; break;
-            case NONE: return true; // Đứng yên luôn có thể
+            case NONE: return true; 
         }
         return canMoveTo(x + testDx, y + testDy, entities);
     }
 
-    /**
-     * Nếu không thể đi theo hướng Player, thử đổi hướng ngẫu nhiên,
-     * nhưng ưu tiên các hướng có thể giảm khoảng cách đến Player.
-     */
     private void changeDirectionTowardsPlayerOrRandomly(Player player, List<Entity> entities) {
         super.changeDirectionRandomly();
     }
@@ -142,12 +129,12 @@ public class Oneal extends Enemy {
 
     private void setSpriteBasedOnDirectionAndFrame() {
         Sprite targetSprite = null;
-        // Oneal dùng sprite riêng
+       
         if (currentDirection == Direction.LEFT || currentDirection == Direction.UP) {
             if (animationFrameIndex == 0) targetSprite = Sprite.enemy_oneal_left1;
             else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_oneal_left2;
             else targetSprite = Sprite.enemy_oneal_left3;
-        } else { // RIGHT, DOWN, hoặc NONE
+        } else { 
             if (animationFrameIndex == 0) targetSprite = Sprite.enemy_oneal_right1;
             else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_oneal_right2;
             else targetSprite = Sprite.enemy_oneal_right3;
@@ -165,12 +152,8 @@ public class Oneal extends Enemy {
     public void destroy() {
         if (isAlive() && !isDying()) {
             // System.out.println("Oneal specific die animation starts!");
-            this.sprite = Sprite.enemy_oneal_dead; // Đặt sprite Oneal chết
-            // Sau đó gọi super.die() để bắt đầu quá trình dying chung (timer, mob_dead animation)
-            // Hoặc bạn có thể không muốn Oneal dùng mob_dead mà chỉ hiện sprite enemy_oneal_dead
-            // và sau đó alive=false.
-            // Tạm thời, chúng ta sẽ để nó dùng mob_dead chung sau khi hiện sprite chết của nó 1 chút.
+            this.sprite = Sprite.enemy_oneal_dead; 
         }
-        super.destroy(); // Luôn gọi super.die() để xử lý logic dying chung
+        super.destroy(); 
     }
 }
