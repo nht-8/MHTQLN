@@ -1,4 +1,4 @@
-package src.bomberman.entities;s
+package src.bomberman.entities;
 
 import javafx.geometry.Rectangle2D; 
 import javafx.scene.input.KeyCode;
