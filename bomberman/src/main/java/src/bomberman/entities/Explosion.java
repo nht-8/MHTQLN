@@ -15,10 +15,6 @@ public class Explosion extends Entity {
 
     private final int ANIMATION_SPEED = Math.max(1, Config.BOMB_EXPLOSION_DURATION / 3);
 
-    /**
-     * Enum định nghĩa các loại (hình dạng) khác nhau của đoạn lửa.
-     * Tên tương ứng với các sprite trong định nghĩa NES.
-     */
     public enum ExplosionType {
         CENTER,                 // Tâm vụ nổ (sprite: explosion_center, _center1, _center2)
         HORIZONTAL_MIDDLE,      // Đoạn giữa tia ngang (sprite: explosion_horizontal, _horizontal1, _horizontal2)
@@ -29,13 +25,7 @@ public class Explosion extends Entity {
         END_RIGHT               // Đoạn cuối tia hướng phải (sprite: explosion_horizontal_right_last, _right_last1, _right_last2)
     }
 
-    /**
-     * Constructor cho một đoạn lửa Explosion.
-     * @param xTile Tọa độ ô X ban đầu trên lưới map.
-     * @param yTile Tọa độ ô Y ban đầu trên lưới map.
-     * @param sheet SpriteSheet chứa hình ảnh của vụ nổ (thường là nesSheet).
-     * @param type Loại (hình dạng) của đoạn lửa này (ExplosionType).
-     */
+  
     public Explosion(double xTile, double yTile, SpriteSheet sheet, ExplosionType type) {
         super(xTile, yTile, sheet); // Gọi constructor Entity
         this.duration = Config.BOMB_EXPLOSION_DURATION; // Lấy thời gian tồn tại từ Config
