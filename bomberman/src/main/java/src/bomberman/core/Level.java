@@ -1,14 +1,12 @@
-// src/main/java/src/bomberman/core/Level.java
-package src.bomberman.core; // HOẶC uet.oop.bomberman.core
+package src.bomberman.core; 
 
-// Import các lớp cần thiết
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import src.bomberman.Config;
 import src.bomberman.entities.*;
 import src.bomberman.graphics.Sprite;
 import src.bomberman.graphics.SpriteSheet;
-import src.bomberman.input.InputHandler; // Cần cho Player
+import src.bomberman.input.InputHandler; 
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -16,7 +14,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random; // Để tạo PowerUp ngẫu nhiên
+import java.util.Random;
 
 import static src.bomberman.graphics.SpriteSheet.Sheet2;
 
