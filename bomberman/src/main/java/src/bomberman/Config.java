@@ -42,4 +42,5 @@ public class Config {
     public static final String MENU_BACKGROUND_IMAGE_PATH = "/images/menu_background.png"; // Hoặc .jpg
 
     public static final int MAX_LEVELS = 5;
+    public static Object POINTS_PER_BRICK =10 ;
 }
