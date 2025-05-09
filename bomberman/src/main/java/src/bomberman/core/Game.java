@@ -74,7 +74,8 @@ public class Game {
         }
 
 
-        SoundManager.getInstance().playSound(SoundManager.LEVEL_START);
+
+
         System.out.println("Level " + levelNumber + " loaded successfully.");
 
     }
@@ -379,14 +380,11 @@ public class Game {
         if (player != null) {
             player.setPermanentlyDeadNoUpdates(); // Ngăn Player update
         }
-        // Thông báo cho BombermanApp để chuyển sang màn hình Game Over
-        // mainApp.showGameOverScreen(playerScore); // Điều này sẽ được gọi từ GameHUDController
     }
 
 
     private void handleGameWin() {
         System.out.println("YOU WIN! - Final Score: " + playerScore);
-        SoundManager.getInstance().playSound(SoundManager.GAME_WIN); // Thêm âm thanh thắng game
         if (player != null) {
             player.setPermanentlyDeadNoUpdates(); // Ngăn player update
         }

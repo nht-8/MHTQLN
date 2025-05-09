@@ -52,28 +52,11 @@ public abstract class Entity {
             double sw = sprite.getSourceWidth();
             double sh = sprite.getSourceHeight();
 
-//            double destW, destH;
-
-//            if (sprite.sheet == SpriteSheet.Sheet2) {
-//                double scale = (double)Config.TILE_SIZE / Sprite.DEFAULT_SIZE; // Ví dụ: 32/16 = 2.0
-//                destW = sw * scale;
-//                destH = sh * scale;
-//            } else {
-//                destW = sw;
-//                destH = sh;
-//            }
-            // Vẽ sprite với kích thước bằng Config.TILE_SIZE
-            // Điều này sẽ phóng to/thu nhỏ sprite gốc (ví dụ 16x16) cho vừa ô 32x32
             gc.drawImage(sourceImage, sx, sy, sw, sh,
                     this.x, this.y, Config.TILE_SIZE, Config.TILE_SIZE);
         } else {
-            // Vẽ hình báo lỗi nếu sprite không hợp lệ
             gc.setFill(Color.MAGENTA);
             gc.fillRect(this.x, this.y, Config.TILE_SIZE, Config.TILE_SIZE);
-            // if (sprite == null) System.err.println("Render failed: Sprite is null for " + this.getClass().getSimpleName());
-            // else if (sprite.sheet == null) System.err.println("Render failed: Sprite's sheet is null for " + this.getClass().getSimpleName());
-            // else if (sprite.sheet.getSheet() == null) System.err.println("Render failed: Sprite's sheet image is null for " + this.getClass().getSimpleName());
-            // else if (sprite.sheet.getSheet().isError()) System.err.println("Render failed: Sprite's sheet image has error for " + this.getClass().getSimpleName());
         }
     }
 
@@ -118,12 +101,10 @@ public abstract class Entity {
     }
 
     public boolean isDying() {
-        // Lớp con Player và Enemy sẽ override nếu có animation chết
         return !this.alive;
     }
 
     public boolean isSolid() {
-        // Mặc định là không rắn, lớp con Wall, Brick, Bomb sẽ override
         return false;
     }
 }
