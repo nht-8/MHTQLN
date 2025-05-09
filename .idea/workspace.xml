@@ -4,11 +4,66 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="" />
+    <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Portal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level5.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/graphics/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/graphics/Renderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/images/modern_spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/images/spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/levels/level1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/levels/level1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/BombermanApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/BombermanApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/Config.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/GameHUDController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/GameOverController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/core/Game.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/core/Level.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Ballom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Bomb.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Brick.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Direction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Doll.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Enemy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Enemy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Entity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Explosion$ExplosionType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Explosion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Kondoria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Minvo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Oneal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Ovapi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Pass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Player$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/PowerUp$PowerUpType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/PowerUp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Wall.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/graphics/Renderer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/graphics/Sprite.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/graphics/SpriteSheet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/sound/SoundManager.class" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -40,6 +95,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.BombermanApp.executor": "Run",
     "Application.GameApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -72,7 +128,7 @@
       <updated>1746642468437</updated>
       <workItem from="1746762610191" duration="81000" />
       <workItem from="1746762793285" duration="11000" />
-      <workItem from="1746763205426" duration="327000" />
+      <workItem from="1746763205426" duration="2954000" />
     </task>
     <servers />
   </component>
