@@ -113,7 +113,7 @@ public class BombermanApp extends Application {
     }
 
     public void startGame() {
-        currentAppState = AppState.PLAYING; // Đặt trạng thái trước khi load FXML
+        currentAppState = AppState.PLAYING;
         try {
             URL gameFxmlUrl = getClass().getResource("/game-hud-view.fxml");
             if (gameFxmlUrl == null) {
@@ -123,7 +123,6 @@ public class BombermanApp extends Application {
             Parent gameRoot = gameLoader.load();
             gameHUDControllerInstance = gameLoader.getController();
 
-            // Tạo Scene cho game với kích thước cửa sổ tổng thể
             gameScene = new Scene(gameRoot, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
 
             // Tạo và khởi tạo InputHandler cho gameScene
