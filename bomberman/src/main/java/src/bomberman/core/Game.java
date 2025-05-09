@@ -21,7 +21,7 @@ public class Game {
     private List<PowerUp> powerUps;
     private InputHandler inputHandler;
 
-    // Biến cho trạng thái game và HUD
+    
     private int currentLevelNumber = 0;
     private int playerScore = 0;
     private int playerLives; // Sẽ được khởi tạo trong constructor
