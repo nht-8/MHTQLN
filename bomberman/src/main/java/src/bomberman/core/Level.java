@@ -93,39 +93,33 @@ public class Level {
             return;
         }
 
-        // Lấy các tài nguyên cần thiết từ Game
         SpriteSheet modernSheet = game.getModernSheet();
         SpriteSheet nesSheet = game.getNesSheet();
-        InputHandler input = game.getInputHandler(); // Cần cho Player
+        InputHandler input = game.getInputHandler();
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 char tileChar = mapData[y][x];
-                // Tọa độ ô (x, y) sẽ được Entity constructor chuyển thành pixel
+               
                 switch (tileChar) {
-                    case '#': // Wall - Tường cứng
+                    case '#': 
                         game.addWall(new Wall(x, y, Sheet2));
                         break;
-                    case '*': // Brick - Gạch vỡ được
-                        // Brick sẽ tự quyết định có chứa powerup không
+                    case '*': 
                         Brick brick = new Brick(x, y, Sheet2, this.game);
-                        // TODO: Thêm logic quyết định PowerUp cho Brick ở đây hoặc trong constructor Brick
-                        // Ví dụ: if (random.nextDouble() < 0.3) { // 30% cơ hội
-                        //           PowerUp.PowerUpType type = PowerUp.PowerUpType.values()[random.nextInt(PowerUp.PowerUpType.values().length-1)]; // Trừ NONE
-                        //           brick.setContainedPowerUp(type);
-                        //        }
+                        
                         game.addBrick(brick);
                         break;
-                    case 'p': // Player - Vị trí bắt đầu của người chơi
-                        if (game.getPlayer() == null) { // Chỉ tạo Player nếu chưa có
+                    case 'p': 
+                        if (game.getPlayer() == null) { 
                             game.addPlayer(new Player(x, y, modernSheet, input, game));
                         } else {
                             System.err.println("Warning: Multiple player ('p') start positions found in map file. Using the first one.");
                         }
-                        mapData[y][x] = ' '; // Sau khi tạo Player, ô đó trở thành nền cỏ
+                        mapData[y][x] = ' '; 
                         break;
                     case '1':
-                        game.addEnemy(new Ballom(x, y, nesSheet, game)); // Truyền game vào Enemy
+                        game.addEnemy(new Ballom(x, y, nesSheet, game)); 
                         mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
                         break;
                     case '2':
