@@ -15,20 +15,21 @@ import java.util.Map;
  */
 public class SoundManager {
 
-    private static SoundManager instance; // Thể hiện Singleton
+    private static SoundManager instance;
 
-    private Map<String, AudioClip> soundEffects; // Lưu trữ các hiệu ứng âm thanh ngắn
-    private MediaPlayer backgroundMusicPlayer; // Trình phát nhạc nền
-    private String currentBackgroundMusicPath = null; // Đường dẫn nhạc nền hiện tại
+    private Map<String, AudioClip> soundEffects;
+    private MediaPlayer backgroundMusicPlayer;
+    private String currentBackgroundMusicPath = null;
 
-    // Các tên dùng để gọi sound effect (khớp với tên file không có đuôi)
+
     public static final String EXPLOSION = "boom";
     public static final String LEVEL_CLEAR = "clear"; // Có thể dùng khi thắng level
     public static final String PLAYER_DEATH = "dead1"; // Hoặc dead2
     public static final String ENEMY_DEATH = "dead2"; // Hoặc dùng chung mob_dead nếu có
     public static final String GET_ITEM = "getitem";
     public static final String PLACE_BOMB = "putbomb"; // Hoặc putbomb2
-    public static final String LEVEL_START = "StageStart";
+    public static final String GAMEOVER = "gameover";
+
     // Các tên khác bạn có thể thêm: "flash", "intro", "homestart"
 
     // Tên file nhạc nền
@@ -58,14 +59,11 @@ public class SoundManager {
         System.out.println("Loading sound effects...");
         loadSoundEffect(EXPLOSION, "/sounds/boom.wav");
         loadSoundEffect(LEVEL_CLEAR, "/sounds/clear.wav");
-        loadSoundEffect(PLAYER_DEATH, "/sounds/dead1.wav"); // Hoặc dead2.wav
-        loadSoundEffect(ENEMY_DEATH, "/sounds/dead2.wav"); // Hoặc dead1.wav
+        loadSoundEffect(PLAYER_DEATH, "/sounds/dead1.wav");
+        loadSoundEffect(ENEMY_DEATH, "/sounds/dead2.wav");
         loadSoundEffect(GET_ITEM, "/sounds/getitem.wav");
-        loadSoundEffect(PLACE_BOMB, "/sounds/putbomb.wav"); // Hoặc putbomb2.wav
-        loadSoundEffect(LEVEL_START, "/sounds/StageStart.wav");
-        // loadSoundEffect("flash", "/sounds/flash.wav"); // Nếu muốn dùng
-        // loadSoundEffect("intro", "/sounds/intro.wav");
-        // loadSoundEffect("homestart_sfx", "/sounds/homestart.wav"); // Dùng làm SFX nếu cần
+        loadSoundEffect(PLACE_BOMB, "/sounds/putbomb.wav");
+        loadSoundEffect(GAMEOVER, "/sounds/gameover.wav");
 
         System.out.println("Sound effects loading finished.");
     }
@@ -113,7 +111,7 @@ public class SoundManager {
      * @param loop true nếu muốn lặp lại nhạc nền, false nếu chỉ phát một lần.
      */
     public void playBackgroundMusic(String musicName, boolean loop) {
-        // ===>>> QUAN TRỌNG: Sửa lại đuôi file .wav thành .wav hoặc định dạng đúng <<<===
+
         String filePath = "/sounds/" + musicName + ".wav"; // Hoặc .wav
 
         // Nếu đang phát đúng nhạc này rồi thì không làm gì cả
@@ -220,7 +218,12 @@ public class SoundManager {
         soundEffects.clear(); // Xóa các AudioClip
         instance = null; // Reset Singleton (nếu cần)
     }
+<<<<<<< HEAD
     public static final String GAME_OVER = "GameOverSound"; // Đặt tên file âm thanh game over (không có đuôi .wav)
     public static final String GAME_WIN = "GameWinSound"; // Đặt tên file âm thanh thắng game
 
+=======
+
+    public static final String GAME_OVER = "gameover"; // Đặt tên file âm thanh game over (không có đuôi .wav)
+>>>>>>> 049d609ca10667fbbf060b092f596aee531d74e5
 }

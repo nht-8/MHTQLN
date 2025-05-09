@@ -58,6 +58,7 @@ public class PowerUp extends Entity {
         }
     }
 
+
     private void applyEffect(Player player) {
         switch (type) {
             case BOMBS: player.addBombCapacity(1); break;

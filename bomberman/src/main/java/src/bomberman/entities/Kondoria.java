@@ -5,6 +5,8 @@ import src.bomberman.graphics.SpriteSheet;
 import src.bomberman.core.Game;       // Thêm import Game
 import src.bomberman.entities.Direction; // Thêm import Direction
 
+import java.util.List;
+
 public class Kondoria extends Enemy {
     // Tốc độ animation: Số frame update cho mỗi sprite của  kondoria
     private final int ANIMATION_SPEED = 15;
@@ -18,9 +20,8 @@ public class Kondoria extends Enemy {
      * @param game Tham chiếu đến đối tượng Game.
      */
     public Kondoria(double xTile, double yTile, SpriteSheet nesSheet, Game game) {
-        super(xTile, yTile, nesSheet, game); // Gọi constructor của Enemy, truyền game vào
-        this.speed = 0.4; // Tốc độ di chuyển của  kondoria
-        // Đặt sprite ban đầu dựa trên hướng ngẫu nhiên được chọn trong Enemy constructor
+        super(xTile, yTile, nesSheet, game);
+        this.speed = 0.5;
         setSpriteBasedOnDirectionAndFrame();
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial  kondoria sprite is null!");
@@ -46,8 +47,6 @@ public class Kondoria extends Enemy {
      */
     private void setSpriteBasedOnDirectionAndFrame() {
         Sprite targetSprite = null;
-        //  kondoria chỉ có animation trái/phải.
-        // Nếu đi lên/xuống, có thể dùng sprite trái hoặc phải tùy ý.
         if (currentDirection == Direction.LEFT || currentDirection == Direction.UP) {
             if (animationFrameIndex == 0) targetSprite = Sprite.enemy_kondoria_left1;
             else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_kondoria_left2;
@@ -74,11 +73,8 @@ public class Kondoria extends Enemy {
      */
     @Override
     public void destroy() {
-        if (isAlive() && !isDying()) { // Kiểm tra cả isDying từ Enemy
-            // System.out.println(" kondoria is dying!");
-            // this.sprite = Sprite.enemy_ballom_dead; // Đặt sprite chết cụ thể nếu có
-            // Hoặc để handleDeathAnimation của lớp Enemy xử lý với mob_dead
-            super.destroy(); // Gọi die của Enemy để đặt cờ dying = true
+        if (isAlive() && !isDying()) {
+            super.destroy();
         }
     }
 }

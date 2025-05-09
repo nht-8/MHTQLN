@@ -2,7 +2,11 @@
 package src.bomberman.entities; // Hoặc uet.oop.bomberman.entities
 
 // Import các lớp cần thiết
+<<<<<<< HEAD
 import javafx.geometry.Rectangle2D;
+=======
+import javafx.geometry.Rectangle2D; // Vẫn cần cho checkCollision
+>>>>>>> 049d609ca10667fbbf060b092f596aee531d74e5
 import javafx.scene.input.KeyCode;
 import src.bomberman.Config;
 import src.bomberman.core.Game;
@@ -294,10 +298,13 @@ public class Player extends Entity {
         return dying; // Trả về trạng thái đang chạy animation chết
     }
 
+<<<<<<< HEAD
     // Power-up methods
     public void addBombCapacity(int amount) { this.bombCapacity += amount; }
     public void addFlameLength(int amount) { this.flameLength += amount; }
     public void addSpeed(double amount) { this.speed += amount; }
+=======
+>>>>>>> 049d609ca10667fbbf060b092f596aee531d74e5
 
     // Getters
     public int getFlameLength() { return flameLength; }
@@ -320,6 +327,32 @@ public class Player extends Entity {
 
         return new Rectangle2D(collisionX, collisionY, collisionWidth, collisionHeight);
 
+<<<<<<< HEAD
+    }
+    public void resetToStartPositionAndRevive() {
+        this.x = initialTileX * Config.TILE_SIZE;
+        this.y = initialTileY * Config.TILE_SIZE;
+        this.alive = true;
+        this.dying = false;
+        this.justPermanentlyDead = false; // Quan trọng: reset cờ này
+        this.deathTimer = 0;
+        this.animationCounter = 0;
+        this.currentDirection = Direction.DOWN;
+        setStandingSprite();
+        System.out.println("Player revived and reset to start position: (" + initialTileX + "," + initialTileY + ")");
+    }
+    public void setPermanentlyDeadNoUpdates() {
+        this.alive = false;
+        this.dying = false;
+        this.justPermanentlyDead = false;
+        // Bạn có thể thêm một cờ "permanentlyDead" nếu muốn bỏ qua hoàn toàn logic update
+        // trong phương thức update() của Player.
+    }
+    public void setInitialPosition(int tileX, int tileY) {
+        this.initialTileX = tileX;
+        this.initialTileY = tileY;
+=======
+>>>>>>> 049d609ca10667fbbf060b092f596aee531d74e5
     }
     public void resetToStartPositionAndRevive() {
         this.x = initialTileX * Config.TILE_SIZE;
@@ -344,4 +377,8 @@ public class Player extends Entity {
         this.initialTileX = tileX;
         this.initialTileY = tileY;
     }
+    // Power-up methods
+    public void addBombCapacity(int amount) { if(bombCapacity<3)  this.bombCapacity += amount; }
+    public void addFlameLength(int amount) { if(flameLength<2) this.flameLength += amount; }
+    public void addSpeed(double amount) { this.speed += amount; }
 }

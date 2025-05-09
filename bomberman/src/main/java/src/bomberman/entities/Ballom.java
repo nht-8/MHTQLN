@@ -20,13 +20,14 @@ public class Ballom extends Enemy {
      */
     public Ballom(double xTile, double yTile, SpriteSheet nesSheet, Game game) {
         super(xTile, yTile, nesSheet, game); // Gọi constructor của Enemy, truyền game vào
-        this.speed = 0.4; // Tốc độ di chuyển của Ballom
+        this.speed = 0.5; // Tốc độ di chuyển của Ballom
         // Đặt sprite ban đầu dựa trên hướng ngẫu nhiên được chọn trong Enemy constructor
         setSpriteBasedOnDirectionAndFrame();
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Ballom sprite is null!");
         }
     }
+
 
     /**
      * Cập nhật sprite animation dựa trên hướng di chuyển và frame hiện tại.
@@ -70,9 +71,6 @@ public class Ballom extends Enemy {
         }
     }
 
-    /**
-     * Ghi đè die() để sử dụng animation chết cụ thể của Ballom hoặc mob_dead chung.
-     */
     @Override
     public void destroy() {
         if (isAlive() && !isDying()) { // Kiểm tra cả isDying từ Enemy
