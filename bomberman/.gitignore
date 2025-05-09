@@ -1,29 +1,58 @@
-### IntelliJ IDEA ###
+# IDE specific files (IntelliJ IDEA)
+.idea/
+*.iml
+*.ipr
+*.iws
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# Maven build output
+target/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Maven build files (thường không cần commit)
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
 
-### VS Code ###
-.vscode/
+# Compiled Java class files
+*.class
 
-### Mac OS ###
+# Log files
+*.log
+logs/
+
+# Package Files #
+# Các tệp jar, war, ear thường được tạo ra trong thư mục target/
+# và target/ đã được ignore. Nếu bạn có chúng ở nơi khác thì thêm vào.
+# *.jar
+# *.war
+# *.ear
+
+# Java HotSpot VM error logs
+hs_err_pid*
+
+# OS generated files
 .DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*~
+
+# Nếu bạn có thư mục con 'bomberman' và nó cũng có thể có các file tạm/build riêng
+# mà không nằm trong 'bomberman/target/' hoặc 'bomberman/.idea/' (đã được ignore bởi quy tắc chung)
+# thì có thể thêm quy tắc cụ thể ở đây.
+# Ví dụ: bomberman/specific_temp_file.txt
+
+# CÁC QUY TẮC QUAN TRỌNG KHÁC CẦN LƯU Ý:
+# 1. KHÔNG ignore 'pom.xml'. Đây là file cốt lõi của dự án Maven.
+# 2. KHÔNG ignore thư mục 'src/'. Đây là nơi chứa mã nguồn của bạn.
+# 3. Nếu bạn có một tệp '.gitignore' khác bên trong thư mục 'bomberman'
+#    (ví dụ: D:\OOP\BTL\bomberman\.gitignore), hãy xem xét nội dung của nó.
+#    Thông thường, một tệp .gitignore ở thư mục gốc là đủ.
+#    Nếu 'bomberman/.gitignore' chỉ chứa các quy tắc đã có trong .gitignore gốc
+#    (như .idea/ hoặc target/), bạn có thể xóa 'bomberman/.gitignore'
+#    và để .gitignore gốc quản lý.
