@@ -38,11 +38,11 @@ public class Config {
     public static final String SPRITESHEET1_PATH = "/images/sheet1.png";
     public static final String SPRITESHEET2_PATH = "/images/sheet2.png";
 
-    // Đường dẫn tới thư mục chứa các file level
+  
     public static final String LEVEL_PATH_PREFIX = "/levels/";
 
-    public static final String MENU_BACKGROUND_IMAGE_PATH = "/images/menu_background.png"; // Hoặc .jpg
+    public static final String MENU_BACKGROUND_IMAGE_PATH = "/images/menu_background.png"; 
 
     public static final int MAX_LEVELS = 5;
-    public static final int POINTS_PER_BRICK = 10; // Đổi từ Object sang int
+    public static final int POINTS_PER_BRICK = 10; 
 }
