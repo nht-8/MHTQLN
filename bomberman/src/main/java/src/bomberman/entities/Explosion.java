@@ -28,11 +28,10 @@ public class Explosion extends Entity {
   
     public Explosion(double xTile, double yTile, SpriteSheet sheet, ExplosionType type) {
         super(xTile, yTile, sheet); 
-        this.duration = Config.BOMB_EXPLOSION_DURATION; // Lấy thời gian tồn tại từ Config
+        this.duration = Config.BOMB_EXPLOSION_DURATION;
         this.type = type;
-        setSpriteForFrame(0); // Đặt sprite cho frame đầu tiên (index 0)
-
-        // Kiểm tra ngay sau khi tạo xem sprite ban đầu có bị null không
+        setSpriteForFrame(0);
+        
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Explosion sprite is null for type: " + type +
                     ". Ensure Sprite.loadSprites() ran correctly and sprites exist.");
