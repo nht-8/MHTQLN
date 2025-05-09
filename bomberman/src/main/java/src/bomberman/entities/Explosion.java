@@ -36,15 +36,12 @@ public class Explosion extends Entity {
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Explosion sprite is null for type: " + type +
                     ". Ensure Sprite.loadSprites() ran correctly and sprites exist.");
-            // Có thể gán một sprite mặc định an toàn ở đây nếu cần, ví dụ wall hoặc grass
-            // this.sprite = Sprite.grass; // Ví dụ fallback cuối cùng
         }
     }
 
     private void setSpriteForFrame(int frameIndex) {
-        // Đảm bảo frameIndex nằm trong khoảng [0, 2]
         frameIndex = Math.max(0, Math.min(2, frameIndex));
-        Sprite targetSprite = null; // Sprite sẽ được gán
+        Sprite targetSprite = null; 
 
         switch (type) {
             case CENTER:
@@ -62,17 +59,17 @@ public class Explosion extends Entity {
                 else if (frameIndex == 1) targetSprite = Sprite.explosion_vertical1;
                 else targetSprite = Sprite.explosion_vertical2;
                 break;
-            case END_UP: // Top last
+            case END_UP:
                 if (frameIndex == 0) targetSprite = Sprite.explosion_top;
                 else if (frameIndex == 1) targetSprite = Sprite.explosion_top1;
                 else targetSprite = Sprite.explosion_top2;
                 break;
-            case END_DOWN: // Down last
+            case END_DOWN: 
                 if (frameIndex == 0) targetSprite = Sprite.explosion_bottom;
                 else if (frameIndex == 1) targetSprite = Sprite.explosion_bottom1;
                 else targetSprite = Sprite.explosion_bottom2;
                 break;
-            case END_LEFT: // Left last
+            case END_LEFT:
                 if (frameIndex == 0) targetSprite = Sprite.explosion_left;
                 else if (frameIndex == 1) targetSprite = Sprite.explosion_left1;
                 else targetSprite = Sprite.explosion_left2;
