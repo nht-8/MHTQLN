@@ -226,21 +226,14 @@ public class Level {
         return mapData[tileY][tileX];
     }
 
-    /**
-     * Kiểm tra xem một ô tại tọa độ tile (tx, ty) có phải là vật cản rắn hay không.
-     * Vật cản rắn bao gồm Wall ('#') và Brick ('*').
-     * @param tx Chỉ số cột (tile X).
-     * @param ty Chỉ số hàng (tile Y).
-     * @return true nếu ô là Wall hoặc Brick, false nếu là ô trống hoặc ngoài bản đồ.
-     */
     public boolean isSolidTile(int tx, int ty) {
-        // Kiểm tra xem tọa độ có nằm trong bản đồ không
+    
         if (tx < 0 || tx >= width || ty < 0 || ty >= height || mapData == null) {
-            return true; // Coi như ngoài bản đồ là tường (vật cản rắn)
+            return true; 
         }
-        // Lấy ký tự tại ô đó
+     
         char tileChar = mapData[ty][tx];
-        // Kiểm tra xem có phải là Wall hoặc Brick không
+       
         return tileChar == '#' || tileChar == '*';
     }
 
