@@ -17,7 +17,7 @@ import java.net.URL;
 public class MenuController {
 
     @FXML
-    private VBox rootVBox; // Đảm bảo fx:id="rootVBox" đã được đặt cho VBox gốc trong FXML
+    private VBox rootVBox; 
 
     @FXML
     private Button startGameButton;
@@ -27,7 +27,6 @@ public class MenuController {
 
     private BombermanApp mainApp;
 
-    // Phương thức này sẽ được gọi bởi BombermanApp để truyền tham chiếu
     public void setMainApp(BombermanApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -35,7 +34,7 @@ public class MenuController {
     @FXML
     private void handleStartGame(ActionEvent event) {
         if (mainApp != null) {
-            mainApp.startGame(); // Gọi phương thức trong BombermanApp để bắt đầu game
+            mainApp.startGame(); 
         } else {
             System.err.println("MainApp reference not set in MenuController!");
         }
