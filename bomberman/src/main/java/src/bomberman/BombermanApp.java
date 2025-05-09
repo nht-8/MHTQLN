@@ -106,9 +106,9 @@ public class BombermanApp extends Application {
             gameLoop.stop(); 
         }
         primaryStage.setScene(menuScene);
-        primaryStage.setTitle("Bomberman FX - Menu"); // Cập nhật tiêu đề cửa sổ
-        SoundManager.getInstance().stopBackgroundMusic(); // Dừng nhạc game/gameover (nếu có)
-        SoundManager.getInstance().playBackgroundMusic(SoundManager.TITLE_BGM, true); // Phát nhạc nền menu
+        primaryStage.setTitle("Bomberman FX - Menu"); 
+        SoundManager.getInstance().stopBackgroundMusic(); 
+        SoundManager.getInstance().playBackgroundMusic(SoundManager.TITLE_BGM, true); 
         System.out.println("Switched to Menu scene.");
     }
 
