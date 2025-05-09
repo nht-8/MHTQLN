@@ -152,8 +152,6 @@ public class Level {
                 grassSprite.sheet == null || grassSprite.sheet.getSheet() == null ||
                 grassSprite.sheet.getSheet().isError()) {
 
-            // Nếu có lỗi, vẽ màu nền mặc định và báo lỗi
-            // Sử dụng kích thước vùng game từ Config đã cập nhật
             gc.setFill(Color.DARKSLATEGRAY); 
             gc.fillRect(0, 0, Config.GAME_AREA_WIDTH, Config.GAME_AREA_HEIGHT); 
             System.err.println("Cannot render background: Grass sprite, its Sheet is invalid/null, or map dimensions are zero.");
