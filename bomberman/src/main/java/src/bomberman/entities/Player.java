@@ -294,10 +294,91 @@ public class Player extends Entity {
         return dying; // Trả về trạng thái đang chạy animation chết
     }
 
+<<<<<<< HEAD
     // Power-up methods
     public void addBombCapacity(int amount) { this.bombCapacity += amount; }
     public void addFlameLength(int amount) { this.flameLength += amount; }
     public void addSpeed(double amount) { this.speed += amount; }
+=======
+    public boolean isJustPermanentlyDeadAndDecrementLife() {
+        if (justPermanentlyDeadFlag) {
+            justPermanentlyDeadFlag = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void resetToStartPositionAndRevive() {
+        this.x = this.startTileX * Config.TILE_SIZE;
+        this.y = this.startTileY * Config.TILE_SIZE;
+        this.alive = true;
+        this.dying = false;
+        this.deathTimer = 0;
+        this.animationCounter = 0;
+        this.animationFrameIndex = 0;
+        this.justPermanentlyDeadFlag = false;
+        this.permanentlyDeadNoUpdates = false;
+        this.currentDirection = Direction.DOWN;
+        setStandingSprite(); // Đặt lại sprite đứng ban đầu
+
+        // Kích hoạt bất tử
+        activateInvincibility(INVINCIBILITY_DURATION_SECONDS);
+
+        System.out.println("Player revived, reset to start position, and is invincible.");
+    }
+
+    /**
+     * Kích hoạt trạng thái bất tử trong một khoảng thời gian.
+     * @param durationSeconds Thời gian bất tử (giây).
+     */
+    private void activateInvincibility(double durationSeconds) {
+        if (invincibilityTimer != null) {
+            invincibilityTimer.stop(); // Đảm bảo dừng timer cũ nếu có
+        }
+        invincible = true;
+        System.out.println("Player invincible for " + durationSeconds + " seconds.");
+        // TODO: Bắt đầu hiệu ứng nhấp nháy sprite hoặc thay đổi opacity ở đây
+
+        invincibilityTimer = new PauseTransition(Duration.seconds(durationSeconds));
+        invincibilityTimer.setOnFinished(event -> {
+            invincible = false;
+            System.out.println("Player invincibility ended.");
+            // TODO: Dừng hiệu ứng nhấp nháy và đảm bảo sprite/opacity trở lại bình thường
+            // Đặt lại sprite phù hợp sau khi hết bất tử
+            if (!moving) {
+                setStandingSprite();
+            } else {
+                // Cần cập nhật lại sprite di chuyển phù hợp với frame/hướng hiện tại
+                setMovingSpriteBasedOnFrameAndDirection();
+            }
+        });
+
+        // Đảm bảo timer chạy trên luồng JavaFX
+        if (Platform.isFxApplicationThread()) {
+            invincibilityTimer.play();
+        } else {
+            Platform.runLater(() -> invincibilityTimer.play());
+        }
+    }
+
+
+    public void setPermanentlyDeadNoUpdates() {
+        this.permanentlyDeadNoUpdates = true;
+        this.alive = false;
+        this.dying = false;
+        // Dừng timer bất tử nếu đang chạy khi game over
+        if (invincibilityTimer != null) {
+            invincibilityTimer.stop();
+        }
+    }
+
+    // --- Các phương thức nhận Power-up ---
+    public void addBombCapacity(int amount) {
+        if(bombCapacity < 3) this.bombCapacity += amount; }
+    public void addFlameLength(int amount) {
+        if(flameLength < 3) this.flameLength += amount; }
+    public void addSpeed(double amount) { this.speed = Math.max(0.5, this.speed + amount); }
+>>>>>>> ef99bca248f56c348ecf9ea292b520622c9d6971
 
     // Getters
     public int getFlameLength() { return flameLength; }

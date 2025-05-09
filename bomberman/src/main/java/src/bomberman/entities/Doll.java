@@ -5,10 +5,17 @@ import src.bomberman.graphics.SpriteSheet;
 import src.bomberman.core.Game;       // Thêm import Game
 import src.bomberman.entities.Direction; // Thêm import Direction
 
+import java.util.List;
+
 public class Doll extends Enemy {
     // Tốc độ animation: Số frame update cho mỗi sprite của Doll
     private final int ANIMATION_SPEED = 15;
     private int animationFrameIndex = 0; // Chỉ số frame animation hiện tại (0, 1, 2)
+
+    private static final double DOLL_MIN_SPEED = 0.4; // Tốc độ chậm nhất của Doll
+    private static final double DOLL_MAX_SPEED = 0.9; // Tốc độ nhanh nhất của Doll
+    private int stepsBeforeChangeSpeedDoll = 180; // Doll thay đổi tốc độ thường xuyên hơn hoặc ít hơn
+    private int speedChangeCounterDoll = 0;
 
     /**
      * Constructor cho Doll.
@@ -19,11 +26,40 @@ public class Doll extends Enemy {
      */
     public Doll(double xTile, double yTile, SpriteSheet nesSheet, Game game) {
         super(xTile, yTile, nesSheet, game); // Gọi constructor của Enemy, truyền game vào
-        this.speed = 0.4; // Tốc độ di chuyển của Doll
+        initializeSpeed(); // Tốc độ di chuyển của Doll
         // Đặt sprite ban đầu dựa trên hướng ngẫu nhiên được chọn trong Enemy constructor
         setSpriteBasedOnDirectionAndFrame();
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Doll sprite is null!");
+        }
+    }
+
+    protected void initializeSpeed() {
+        // Doll sẽ có tốc độ ngẫu nhiên trong khoảng riêng của nó khi được tạo
+        randomizeDollSpeed();
+    }
+
+    /**
+     * Đặt tốc độ ngẫu nhiên cho Doll trong khoảng DOLL_MIN_SPEED và DOLL_MAX_SPEED.
+     */
+    private void randomizeDollSpeed() {
+        this.speed = DOLL_MIN_SPEED + (DOLL_MAX_SPEED - DOLL_MIN_SPEED) * random.nextDouble();
+        // System.out.println("Doll new speed: " + String.format("%.2f", this.speed)); // Debug
+    }
+
+    @Override
+    public void update(double deltaTime, List<Entity> entities) {
+        super.update(deltaTime, entities);
+
+        if (isAlive() && !isDying()) {
+            // --- LOGIC THAY ĐỔI TỐC ĐỘ RIÊNG CỦA DOLL ---
+            speedChangeCounterDoll++;
+            if (speedChangeCounterDoll >= stepsBeforeChangeSpeedDoll) {
+                if (random.nextDouble() < 0.6) { // 60% cơ hội Doll thay đổi tốc độ
+                    randomizeDollSpeed();
+                }
+                speedChangeCounterDoll = 0; // Reset bộ đếm
+            }
         }
     }
 
@@ -46,27 +82,27 @@ public class Doll extends Enemy {
      */
     private void setSpriteBasedOnDirectionAndFrame() {
         Sprite targetSprite = null;
-        // Doll chỉ có animation trái/phải.
-        // Nếu đi lên/xuống, có thể dùng sprite trái hoặc phải tùy ý.
         if (currentDirection == Direction.LEFT || currentDirection == Direction.UP) {
-            if (animationFrameIndex == 0) targetSprite = Sprite.enemy_ballom_left1;
-            else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_ballom_left2;
-            else targetSprite = Sprite.enemy_ballom_left3;
+            if (animationFrameIndex == 0) targetSprite = Sprite.enemy_doll_left1;
+            else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_doll_left2;
+            else targetSprite = Sprite.enemy_doll_left3;
         } else { // RIGHT, DOWN, hoặc NONE (mặc định là phải)
-            if (animationFrameIndex == 0) targetSprite = Sprite.enemy_ballom_right1;
-            else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_ballom_right2;
-            else targetSprite = Sprite.enemy_ballom_right3;
+            if (animationFrameIndex == 0) targetSprite = Sprite.enemy_doll_right1;
+            else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_doll_right2;
+            else targetSprite = Sprite.enemy_doll_right3;
         }
 
         this.sprite = targetSprite;
         if (this.sprite == null) {
-            System.err.println("Warning: Doll sprite is null for direction " + currentDirection +
+            System.err.println("Warning: Minvo sprite is null for direction " + currentDirection +
                     ", frame " + animationFrameIndex + ". Defaulting to left1.");
-            this.sprite = Sprite.enemy_ballom_left1; // Fallback cuối cùng
+            this.sprite = Sprite.enemy_doll_left1; // Fallback cuối cùng
             if (this.sprite == null) {
-                System.err.println("CRITICAL ERROR: Default Doll sprite (enemy_ballom_left1) is also null!");
+                System.err.println("CRITICAL ERROR: Default Minvo sprite (enemy_doll_left1) is also null!");
             }
         }
+        this.sprite = targetSprite;
+        if (this.sprite == null) { this.sprite = Sprite.enemy_doll_right1; /* Log lỗi */ }
     }
 
     /**

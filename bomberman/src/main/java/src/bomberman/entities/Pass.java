@@ -18,7 +18,7 @@ public class Pass extends Enemy {
      */
     public Pass(double xTile, double yTile, SpriteSheet nesSheet, Game game) {
         super(xTile, yTile, nesSheet, game); // Gọi constructor của Enemy, truyền game vào
-        this.speed = 0.4; // Tốc độ di chuyển của Pass
+        this.speed = 0.5; // Tốc độ di chuyển của Pass
         // Đặt sprite ban đầu dựa trên hướng ngẫu nhiên được chọn trong Enemy constructor
         setSpriteBasedOnDirectionAndFrame();
         if (this.sprite == null) {
