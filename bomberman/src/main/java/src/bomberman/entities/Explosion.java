@@ -129,12 +129,12 @@ public class Explosion extends Entity {
                     if (entity instanceof Player) {
                         ((Player) entity).destroy(); 
                     } else if (entity instanceof Enemy) {
-                        ((Enemy) entity).destroy();   // Gọi phương thức xử lý khi Enemy chết
+                        ((Enemy) entity).destroy();  
                     } else if (entity instanceof Brick) {
-                        ((Brick) entity).startBreaking(); // Bắt đầu animation phá gạch
+                        ((Brick) entity).startBreaking(); 
                     } else if (entity instanceof Bomb) {
-                        // Kích hoạt vụ nổ của Bomb khác (tạo hiệu ứng nổ dây chuyền)
-                        ((Bomb) entity).triggerExplosion(); // Gọi phương thức kích nổ sớm
+                        
+                        ((Bomb) entity).triggerExplosion(); 
                     }
                 }
             }
