@@ -163,9 +163,6 @@ public class Level {
                         mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
                         break;
                     case '2':
-<<<<<<< HEAD
-                        game.addEnemy(new Kondoria(x, y, nesSheet, game));
-=======
                          game.addEnemy(new Kondoria(x, y, Sheet2, game));
                         mapData[y][x] = ' ';
                         break;
@@ -187,7 +184,6 @@ public class Level {
                         break;
                     case '7':
                         game.addEnemy(new Minvo(x, y, Sheet2, game));
->>>>>>> ef99bca248f56c348ecf9ea292b520622c9d6971
                         mapData[y][x] = ' ';
                         break;
                     case 'x':
