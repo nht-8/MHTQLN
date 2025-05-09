@@ -16,18 +16,18 @@ public class Explosion extends Entity {
     private final int ANIMATION_SPEED = Math.max(1, Config.BOMB_EXPLOSION_DURATION / 3);
 
     public enum ExplosionType {
-        CENTER,                 // Tâm vụ nổ (sprite: explosion_center, _center1, _center2)
-        HORIZONTAL_MIDDLE,      // Đoạn giữa tia ngang (sprite: explosion_horizontal, _horizontal1, _horizontal2)
-        VERTICAL_MIDDLE,        // Đoạn giữa tia dọc (sprite: explosion_vertical, _vertical1, _vertical2)
-        END_UP,                 // Đoạn cuối tia hướng lên (sprite: explosion_vertical_top_last, _top_last1, _top_last2)
-        END_DOWN,               // Đoạn cuối tia hướng xuống (sprite: explosion_vertical_down_last, _down_last1, _down_last2)
-        END_LEFT,               // Đoạn cuối tia hướng trái (sprite: explosion_horizontal_left_last, _left_last1, _left_last2)
-        END_RIGHT               // Đoạn cuối tia hướng phải (sprite: explosion_horizontal_right_last, _right_last1, _right_last2)
+        CENTER,                 
+        HORIZONTAL_MIDDLE,      
+        VERTICAL_MIDDLE,        
+        END_UP,                
+        END_DOWN,               
+        END_LEFT,               
+        END_RIGHT               
     }
 
   
     public Explosion(double xTile, double yTile, SpriteSheet sheet, ExplosionType type) {
-        super(xTile, yTile, sheet); // Gọi constructor Entity
+        super(xTile, yTile, sheet); 
         this.duration = Config.BOMB_EXPLOSION_DURATION; // Lấy thời gian tồn tại từ Config
         this.type = type;
         setSpriteForFrame(0); // Đặt sprite cho frame đầu tiên (index 0)
