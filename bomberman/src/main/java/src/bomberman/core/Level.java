@@ -159,20 +159,17 @@ public class Level {
 
             // Nếu có lỗi, vẽ màu nền mặc định và báo lỗi
             // Sử dụng kích thước vùng game từ Config đã cập nhật
-            gc.setFill(Color.DARKSLATEGRAY); // Một màu nền tối để dễ debug
-            gc.fillRect(0, 0, Config.GAME_AREA_WIDTH, Config.GAME_AREA_HEIGHT); // <<< SỬA Ở ĐÂY
+            gc.setFill(Color.DARKSLATEGRAY); 
+            gc.fillRect(0, 0, Config.GAME_AREA_WIDTH, Config.GAME_AREA_HEIGHT); 
             System.err.println("Cannot render background: Grass sprite, its Sheet is invalid/null, or map dimensions are zero.");
-            return; // Không vẽ gì thêm
+            return;
         }
 
-        SpriteSheet sheet = grassSprite.sheet; // Lấy sheet chứa sprite cỏ
-
-        // Vẽ nền cỏ cho toàn bộ map game (không bao gồm HUD)
-        // Vòng lặp này dựa trên width và height của level (số ô), không phải kích thước màn hình pixel
-        for (int yTile = 0; yTile < height; yTile++) { // Lặp qua hàng (ô tile)
-            for (int xTile = 0; xTile < width; xTile++) { // Lặp qua cột (ô tile)
-                // Tính toán tọa độ pixel để vẽ (tọa độ này là tương đối với gốc của gc,
-                // mà gốc này có thể đã được dịch chuyển xuống dưới HUD bởi Renderer)
+        SpriteSheet sheet = grassSprite.sheet; 
+        
+        for (int yTile = 0; yTile < height; yTile++) { 
+            
+            for (int xTile = 0; xTile < width; xTile++) { 
                 double dx = xTile * Config.TILE_SIZE;
                 double dy = yTile * Config.TILE_SIZE;
 
@@ -197,7 +194,7 @@ public class Level {
 
     public char getTileChar(int tileX, int tileY) {
         if (mapData == null || tileX < 0 || tileX >= width || tileY < 0 || tileY >= height) {
-            return '#'; // Coi như là tường nếu ra ngoài map hoặc map chưa load
+            return '#'; 
         }
         return mapData[tileY][tileX];
     }
