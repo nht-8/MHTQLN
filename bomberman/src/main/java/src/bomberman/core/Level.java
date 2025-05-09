@@ -35,13 +35,12 @@ public class Level {
         try (InputStream is = getClass().getResourceAsStream(path);
              BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
 
-            // Đọc dòng đầu tiên: height width
             String firstLine = reader.readLine();
             if (firstLine == null) {
                 System.err.println("ERROR: Level file is empty: " + path);
                 return;
             }
-            String[] dimensions = firstLine.trim().split("\\s+"); // Tách bằng khoảng trắng
+            String[] dimensions = firstLine.trim().split("\\s+"); 
             if (dimensions.length < 2) {
                 System.err.println("ERROR: Invalid dimensions format in level file (expected 'height width'): " + path);
                 return;
@@ -51,32 +50,32 @@ public class Level {
 
             if (this.width <= 0 || this.height <= 0) {
                 System.err.println("ERROR: Invalid level dimensions (<=0) in " + path + ". Dimensions: " + width + "x" + height);
-                this.width = 0; this.height = 0; // Đặt về 0 để báo lỗi
+                this.width = 0; this.height = 0; 
                 return;
             }
 
             mapData = new char[height][width];
-            // Đọc các dòng tiếp theo của map
+           
             for (int y = 0; y < height; y++) {
                 String line = reader.readLine();
                 if (line == null) {
                     System.err.println("ERROR: Unexpected end of file while reading map data at line " + (y + 2) + " in: " + path);
-                    // Điền phần còn lại của map bằng ô trống nếu file bị thiếu dòng
+                
                     for (int fillY = y; fillY < height; fillY++) {
                         java.util.Arrays.fill(mapData[fillY], ' ');
                     }
-                    break; // Thoát vòng lặp đọc dòng
+                    break;
                 }
                 for (int x = 0; x < width; x++) {
                     if (x < line.length()) {
                         mapData[y][x] = line.charAt(x);
                     } else {
-                        mapData[y][x] = ' '; // Nếu dòng map ngắn hơn chiều rộng, điền ô trống
+                        mapData[y][x] = ' '; 
                     }
                 }
             }
             System.out.println("Map data loaded: " + width + "x" + height + " from " + path);
-            createEntitiesFromMap(); // Tạo các thực thể dựa trên mapData
+            createEntitiesFromMap(); 
 
         } catch (NumberFormatException e) {
             System.err.println("ERROR: Invalid number format for dimensions in level file: " + path);
@@ -84,14 +83,10 @@ public class Level {
         } catch (Exception e) {
             System.err.println("ERROR: Could not load level file: " + path);
             e.printStackTrace();
-            this.width = 0; this.height = 0; // Đặt về 0 để báo lỗi
+            this.width = 0; this.height = 0;
         }
     }
 
-    /**
-     * Tạo ra các đối tượng Entity (Wall, Brick, Player, Enemy) dựa trên
-     * các ký tự trong `mapData` và thêm chúng vào đối tượng Game.
-     */
     private void createEntitiesFromMap() {
         if (mapData == null || game == null || width == 0 || height == 0) {
             System.err.println("Cannot create entities from map: mapData, game is null, or dimensions are zero.");
