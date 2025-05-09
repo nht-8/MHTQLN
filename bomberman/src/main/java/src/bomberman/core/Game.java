@@ -303,7 +303,7 @@ public class Game {
         // hoặc dừng game loop. Game.java chỉ cần cập nhật trạng thái.
     }
 
-    // --- Getters cho các thành phần game khác ---
+   
     public Level getLevel() { return level; }
     public Player getPlayer() { return player; }
     public List<Enemy> getEnemies() { return enemies; }
@@ -314,22 +314,21 @@ public class Game {
 
     public List<Entity> getAllEntities() {
         List<Entity> all = new ArrayList<>();
-        all.addAll(staticEntities); // Nên thêm các entity tĩnh trước
-        if (player != null && (player.isAlive() || player.isDying())) { // Thêm cả khi đang dying để render
+        all.addAll(staticEntities);
+        if (player != null && (player.isAlive() || player.isDying())) {
             all.add(player);
         }
-        // Thêm enemies đang sống hoặc đang dying
+     
         for(Enemy e : enemies) { if(e.isAlive() || e.isDying()) all.add(e); }
-        // Thêm bomb đang hoạt động và là vật rắn
+        
         for(Bomb b : bombs) { if(b.isAlive() && b.isSolid()) all.add(b); }
-        // Thêm powerups đang hoạt động
+       
         for(PowerUp pu : powerUps) { if(pu.isAlive()) all.add(pu); }
-        // Explosions không cần trong list này vì chúng không phải là đối tượng va chạm vật lý
-        // và được render riêng.
+        
         return all;
     }
 
-    // Getters cho SpriteSheet và InputHandler (Renderer không còn dùng trực tiếp)
+    
     public SpriteSheet getModernSheet() { return SpriteSheet.Sheet1; }
     public SpriteSheet getNesSheet() { return SpriteSheet.Sheet2; }
     public InputHandler getInputHandler() { return inputHandler; }
