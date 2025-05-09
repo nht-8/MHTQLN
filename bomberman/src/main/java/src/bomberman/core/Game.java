@@ -90,18 +90,17 @@ public class Game {
                 enemy.update(deltaTime, getAllEntities());
                 
                 if (player != null && player.isAlive() && enemy.intersects(player)) {
-                    player.destroy(); // Player chết nếu chạm Enemy
+                    player.destroy(); 
                 }
             } else if (enemy.isDying()){
-                enemy.update(deltaTime, null); // Chỉ update animation chết
-            } else { // Enemy đã chết hẳn
+                enemy.update(deltaTime, null); 
+            } else { 
                 enemyIterator.remove();
-                addScore(100); // Ví dụ: cộng 100 điểm khi Enemy chết
+                addScore(100);
                 System.out.println("Enemy removed. Current Score: " + playerScore);
             }
         }
 
-        // 3. Cập nhật Bombs
         Iterator<Bomb> bombIterator = bombs.iterator();
         while (bombIterator.hasNext()) {
             Bomb bomb = bombIterator.next();
@@ -112,7 +111,6 @@ public class Game {
             }
         }
 
-        // 4. Cập nhật Explosions
         Iterator<Explosion> explosionIterator = explosions.iterator();
         while (explosionIterator.hasNext()) {
             Explosion explosion = explosionIterator.next();
@@ -123,7 +121,6 @@ public class Game {
             }
         }
 
-        // 5. Cập nhật các thực thể tĩnh (chủ yếu là Brick đang vỡ)
         Iterator<Entity> staticIterator = staticEntities.iterator();
         while (staticIterator.hasNext()) {
             Entity entity = staticIterator.next();
@@ -131,17 +128,16 @@ public class Game {
                 Brick brick = (Brick) entity;
                 if (brick.isAlive() || brick.isDying()) {
                     brick.update(deltaTime, null);
-                } else { // Gạch đã vỡ hoàn toàn
+                } else { 
                     staticIterator.remove();
-                    addScore(10); // Ví dụ: cộng 10 điểm khi phá gạch
+                    addScore(10); 
                     System.out.println("Brick removed. Current Score: " + playerScore);
                 }
-            } else if (entity != null && !entity.isAlive()) { // Đảm bảo entity không null
+            } else if (entity != null && !entity.isAlive()) { 
                 staticIterator.remove();
             }
         }
 
-        // 6. Cập nhật PowerUps
         Iterator<PowerUp> powerUpIterator = powerUps.iterator();
         while (powerUpIterator.hasNext()) {
             PowerUp pu = powerUpIterator.next();
@@ -152,10 +148,6 @@ public class Game {
             }
         }
 
-        // TODO: Kiểm tra các điều kiện thắng level (ví dụ: hết enemies và đến portal)
-        // if (isLevelWon()) {
-        //    handleLevelWin();
-        // }
     }
 
     private void checkPlayerCollectPowerUps() {
@@ -166,12 +158,11 @@ public class Game {
         while (powerUpIterator.hasNext()) {
             PowerUp pu = powerUpIterator.next();
             if (pu.isAlive() && playerBounds.intersects(pu.getBounds())) {
-                pu.collect(player); // Player nhặt powerup, powerup sẽ tự đánh dấu !alive
+                pu.collect(player); 
             }
         }
     }
 
-    // --- Các phương thức được gọi bởi Level để thêm thực thể vào game ---
     public void addPlayer(Player p) { this.player = p; }
     public void addEnemy(Enemy e) { this.enemies.add(e); }
     public void addWall(Wall w) { this.staticEntities.add(w); }
@@ -185,10 +176,10 @@ public class Game {
         explosions.add(centerExplosion);
         newExplosionsThisTurn.add(centerExplosion);
 
-        createFlameSegments(tileX, tileY,  1,  0, flameLength, sheet, newExplosionsThisTurn); // Phải
-        createFlameSegments(tileX, tileY, -1,  0, flameLength, sheet, newExplosionsThisTurn); // Trái
-        createFlameSegments(tileX, tileY,  0,  1, flameLength, sheet, newExplosionsThisTurn); // Xuống
-        createFlameSegments(tileX, tileY,  0, -1, flameLength, sheet, newExplosionsThisTurn); // Lên
+        createFlameSegments(tileX, tileY,  1,  0, flameLength, sheet, newExplosionsThisTurn); 
+        createFlameSegments(tileX, tileY, -1,  0, flameLength, sheet, newExplosionsThisTurn); 
+        createFlameSegments(tileX, tileY,  0,  1, flameLength, sheet, newExplosionsThisTurn); 
+        createFlameSegments(tileX, tileY,  0, -1, flameLength, sheet, newExplosionsThisTurn); 
 
         List<Entity> allCurrentEntities = getAllEntities();
         for (Explosion exp : newExplosionsThisTurn) {
