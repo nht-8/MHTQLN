@@ -48,7 +48,7 @@ public class PowerUp extends Entity {
             System.out.println("Player collected powerup: " + type);
             applyEffect(player);
             collected = true;
-            alive = false; // Biến mất ngay sau khi nhặt
+            alive = false; 
             SoundManager.getInstance().playSound(SoundManager.GET_ITEM);
         }
     }
@@ -58,8 +58,8 @@ public class PowerUp extends Entity {
         switch (type) {
             case BOMBS: player.addBombCapacity(1); break;
             case FLAMES: player.addFlameLength(1); break;
-            case SPEED: player.addSpeed(0.3); break; // Điều chỉnh giá trị tăng
-            // ... thêm logic cho các powerup khác ...
+            case SPEED: player.addSpeed(0.3); break; 
+            
             default:
                 break;
         }
@@ -69,7 +69,6 @@ public class PowerUp extends Entity {
         return type;
     }
 
-    // PowerUp không phải là vật cản rắn
     @Override
     public boolean isSolid() {
         return false;
