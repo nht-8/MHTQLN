@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="" />
+    <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/PowerUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/PowerUp.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,7 +17,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="nht" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,22 +44,24 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2wmMoEPZyMhzyqzfkprMUpIe31O" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BombermanApp.executor&quot;: &quot;Run&quot;,
-    &quot;Application.GameApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-    &quot;last_opened_file_path&quot;: &quot;D:/Bomberman&quot;
-=======
-    &quot;last_opened_file_path&quot;: &quot;D:/OOP/MHTQLN/bomberman&quot;
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; ef99bca248f56c348ecf9ea292b520622c9d6971
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BombermanApp.executor": "Run",
+    "Application.GameApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "ntnm",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Bomberman",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
@@ -67,7 +73,48 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="" />
+      <created>1746642468437</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1746642468437</updated>
+    </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="nht" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.IOException" package="java.io" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

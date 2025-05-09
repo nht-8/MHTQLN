@@ -340,4 +340,8 @@ public class Player extends Entity {
         this.initialTileX = tileX;
         this.initialTileY = tileY;
     }
+    // Power-up methods
+    public void addBombCapacity(int amount) { this.bombCapacity += amount; }
+    public void addFlameLength(int amount) { this.flameLength += amount; }
+    public void addSpeed(double amount) { this.speed += amount; }
 }
