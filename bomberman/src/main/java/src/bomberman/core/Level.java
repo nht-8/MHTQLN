@@ -18,34 +18,19 @@ import java.util.Random;
 
 import static src.bomberman.graphics.SpriteSheet.Sheet2;
 
-/**
- * Quản lý bản đồ (map) của game, bao gồm việc tải dữ liệu map từ file
- * và tạo ra các thực thể ban đầu (Wall, Brick, Player, Enemies).
- */
 public class Level {
-    private int width; // Số ô chiều rộng của map
-    private int height; // Số ô chiều cao của map
-    private char[][] mapData; // Mảng 2D lưu trữ ký tự từ file map
-    private Game game; // Tham chiếu ngược lại đối tượng Game
+    private int width; 
+    private int height; 
+    private char[][] mapData;
+    private Game game; 
 
-    private Random random = new Random(); // Để tạo powerup ngẫu nhiên
+    private Random random = new Random();
 
-    /**
-     * Constructor cho Level.
-     * @param levelPath Đường dẫn đến file text chứa dữ liệu map.
-     * @param game Tham chiếu đến đối tượng Game.
-     */
     public Level(String levelPath, Game game) {
         this.game = game;
         loadLevelFromFile(levelPath);
     }
 
-    /**
-     * Tải dữ liệu map từ một file text.
-     * Dòng đầu tiên của file chứa chiều cao và chiều rộng.
-     * Các dòng tiếp theo là các ký tự đại diện cho từng ô trên map.
-     * @param path Đường dẫn đến file map.
-     */
     private void loadLevelFromFile(String path) {
         try (InputStream is = getClass().getResourceAsStream(path);
              BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
