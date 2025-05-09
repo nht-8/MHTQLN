@@ -385,7 +385,6 @@ public class Game {
 
     private void handleGameWin() {
         System.out.println("YOU WIN! - Final Score: " + playerScore);
-        SoundManager.getInstance().playSound(SoundManager.GAME_WIN); // Thêm âm thanh thắng game
         if (player != null) {
             player.setPermanentlyDeadNoUpdates(); // Ngăn player update
         }
