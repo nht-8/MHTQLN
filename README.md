@@ -58,3 +58,7 @@ Có nhiều loại Enemy trong Bomberman, tuy nhiên trong phiên bản này ch�
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/qlhn
