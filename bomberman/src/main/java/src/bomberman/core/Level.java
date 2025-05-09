@@ -193,6 +193,7 @@ public class Level {
             }
         }
         System.out.println("[createEntitiesFromMap] Finished creating entities.");
+
     }
 
     /**

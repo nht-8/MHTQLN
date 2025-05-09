@@ -193,6 +193,7 @@ public class Sprite {
             explosion_bottom1 = new Sprite(Sheet1, 5, 47, 32, 32);
             explosion_bottom2 = new Sprite(Sheet1, 5, 89, 32, 32);
 
+            portal = new Sprite(Sheet1,215,5,32,32);
         } else {
             System.err.println("Failed to initialize player sprites from modern sheet. Player may not render correctly.");
         }

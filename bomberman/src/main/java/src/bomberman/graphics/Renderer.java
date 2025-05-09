@@ -117,8 +117,6 @@ public class Renderer {
             }
         }
 
-        // 9. Vẽ UI (Thông tin level, điểm, mạng)
-        drawUI(gc, game);
     }
 
     /**
@@ -129,44 +127,6 @@ public class Renderer {
     private void clearScreen(GraphicsContext gc) {
         gc.setFill(Color.BLACK); // Màu nền đen (hoặc màu bạn muốn cho background mặc định)
         gc.fillRect(0, 0, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
-    }
-
-    /**
-     * Vẽ các yếu tố giao diện người dùng (UI) như level, điểm, mạng.
-     *
-     * @param gc   GraphicsContext để vẽ.
-     * @param game Đối tượng Game để lấy thông tin UI.
-     */
-    private void drawUI(GraphicsContext gc, Game game) {
-        // game đã được kiểm tra null ở phương thức render() chính
-
-        // Cài đặt font chữ và màu sắc chung cho UI
-        gc.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        gc.setFill(Color.WHITE); // Màu chữ trắng để nổi bật trên nền tối
-
-        double textXPosition = 15.0; // Cách lề trái
-        double initialYPosition = 25.0; // Cách lề trên cho dòng đầu tiên
-        double lineSpacing = 25.0; // Khoảng cách giữa các dòng
-
-        // Hiển thị Level
-        int currentLevelDisplay = game.getCurrentLevelNumber(); // Game.java trả về 1-based
-        String levelText = "Level: " + currentLevelDisplay;
-        gc.fillText(levelText, textXPosition, initialYPosition);
-
-        // Hiển thị Mạng (Lives)
-        int lives = game.getPlayerLives();
-        String livesText = "Lives: " + lives;
-        gc.fillText(livesText, textXPosition, initialYPosition + lineSpacing);
-
-        // Hiển thị Điểm (Score)
-        int score = game.getPlayerScore();
-        String scoreText = "Score: " + score;
-        gc.fillText(scoreText, textXPosition, initialYPosition + (lineSpacing * 2));
-
-        // Có thể thêm thời gian còn lại nếu game có timer
-        // int timeRemaining = game.getTimeRemaining(); // Cần Game có getter này
-        // String timeText = "Time: " + timeRemaining;
-        // gc.fillText(timeText, Config.WINDOW_WIDTH - 100, initialYPosition); // Căn phải
     }
 
     /**

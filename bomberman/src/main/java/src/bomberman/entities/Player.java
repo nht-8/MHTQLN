@@ -34,6 +34,9 @@ public class Player extends Entity {
 
     private final double COLLISION_BOUNDS_INSET = 4.0;
 
+    private int initialTileX;
+    private int initialTileY;
+    private boolean justPermanentlyDead=false;
     /**
      * Constructor cho Player.
      * @param xTile Tọa độ ô X ban đầu.
@@ -43,25 +46,29 @@ public class Player extends Entity {
      * @param game Tham chiếu đến đối tượng Game.
      */
     public Player(double xTile, double yTile, SpriteSheet modernSheet, InputHandler input, Game game) {
-        super(xTile, yTile, modernSheet); // Truyền modernSheet cho Entity
+        super(xTile, yTile, modernSheet);
         this.input = input;
         this.game = game;
-        this.sprite = Sprite.player_d1; // Sprite ban đầu là frame 1 nhìn xuống (player_d1)
+        this.sprite = Sprite.player_d1;
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Player sprite (player_d1) is null!");
         }
+        // Lưu vị trí ban đầu
+        this.initialTileX = (int) xTile;
+        this.initialTileY = (int) yTile;
     }
 
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        if (!alive) { // Nếu đã chết hẳn (sau animation)
+        if (!alive&&!dying) { // Nếu đã chết hẳn (sau animation)
             return; // Không làm gì cả
         }
         if (dying) { // Nếu đang trong quá trình chạy animation chết
             handleDeathAnimation();
             deathTimer++;
             if (deathTimer > DEATH_ANIMATION_DURATION + 30) { // Chờ thêm 0.5s sau animation
-                alive = false; // Đánh dấu là chết hẳn
+                alive = false;
+                // Đánh dấu là chết hẳn
                 System.out.println("Player permanently dead (handle game over logic in Game class)");
             }
             return;
@@ -72,6 +79,18 @@ public class Player extends Entity {
         handleBombPlacement();
     }
 
+    public boolean isJustPermanentlyDeadAndDecrementLife() {
+        if (justPermanentlyDead) {
+            // justPermanentlyDead = false; // Game sẽ reset cờ này sau khi xử lý
+            return true;
+        }
+        return false;
+    }
+
+
+    public void bombExploded(){
+        currentPlacedBombs = Math.max(0,currentPlacedBombs-1);
+    }
     private void handleInputAndMovement(List<Entity> entities) {
         double dx = 0;
         double dy = 0;
@@ -127,6 +146,13 @@ public class Player extends Entity {
             y = Math.max(0, Math.min(y, game.getLevel().getHeight() * Config.TILE_SIZE - getHeight()));
         }
     }
+    /**
+     * Reset cờ justPermanentlyDead. Được gọi bởi Game sau khi đã xử lý.
+     */
+    public void consumePermanentlyDeadFlag() {
+        this.justPermanentlyDead = false;
+    }
+
 
     private boolean checkCollision(List<Entity> entities) {
         Rectangle2D playerBounds = this.getBounds();
@@ -215,45 +241,49 @@ public class Player extends Entity {
         }
     }
 
-    public void bombExploded() {
-        currentPlacedBombs = Math.max(0, currentPlacedBombs - 1);
-    }
+
 
     @Override
     public void destroy() {
-        if (alive && !dying) { // Chỉ chết một lần
+        if (alive && !dying) {
             System.out.println("Player is dying!");
-            dying = true; // Bắt đầu trạng thái "đang chết"
+            dying = true;
             moving = false;
-            animationCounter = 0;
-            deathTimer = 0;
-            sprite = Sprite.player_dead1;
+            animationCounter = 0; // Reset animation di chuyển
+            deathTimer = 0;       // Reset animation chết
+            sprite = Sprite.player_dead1; // Bắt đầu animation chết
             if (sprite == null) {
-                System.err.println("Warning: Player_dead1 sprite is null.");
+                System.err.println("ERROR: Sprite.player_dead1 is null in Player.destroy()!");
                 sprite = Sprite.player_d1; // Fallback
             }
             SoundManager.getInstance().playSound(SoundManager.PLAYER_DEATH);
-            // Game sẽ xử lý logic giảm mạng, game over dựa trên trạng thái alive sau khi animation kết thúc
         }
     }
 
     private void handleDeathAnimation() {
-        animationCounter++;
+        deathTimer++; // Tăng bộ đếm thời gian cho animation chết
         int deathFrameTime = DEATH_ANIMATION_DURATION / 3;
 
         Sprite targetSprite = null;
-        if (animationCounter < deathFrameTime) {
+        if (deathTimer < deathFrameTime) {
             targetSprite = Sprite.player_dead1;
-        } else if (animationCounter < deathFrameTime * 2) {
+        } else if (deathTimer < deathFrameTime * 2) {
             targetSprite = Sprite.player_dead2;
-        } else if (animationCounter <= DEATH_ANIMATION_DURATION) { // Hiển thị frame cuối đủ thời gian
+        } else if (deathTimer <= DEATH_ANIMATION_DURATION) {
             targetSprite = Sprite.player_dead3;
         } else {
+            // Animation đã hoàn tất
             targetSprite = Sprite.player_dead3; // Giữ frame cuối
+            if (dying) { // Chỉ đặt cờ nếu thực sự đang trong quá trình dying
+                this.dying = false; // Kết thúc trạng thái "đang chết"
+                this.alive = false; // Đánh dấu là "không còn sống" (để Game xử lý)
+                this.justPermanentlyDead = true; // Báo cho Game biết là đã chết hẳn
+                System.out.println("Player death animation finished. Flags set: alive=false, dying=false, justPermanentlyDead=true");
+            }
         }
         this.sprite = targetSprite;
         if (this.sprite == null) {
-            System.err.println("Warning: Player dead animation sprite is null.");
+            System.err.println("Warning: Player dead animation sprite is null. deathTimer: " + deathTimer);
             this.sprite = Sprite.player_d1; // Fallback
         }
     }
@@ -288,5 +318,29 @@ public class Player extends Entity {
         collisionHeight = Math.max(1, collisionHeight);
 
         return new Rectangle2D(collisionX, collisionY, collisionWidth, collisionHeight);
+
+    }
+    public void resetToStartPositionAndRevive() {
+        this.x = initialTileX * Config.TILE_SIZE;
+        this.y = initialTileY * Config.TILE_SIZE;
+        this.alive = true;
+        this.dying = false;
+        this.justPermanentlyDead = false; // Quan trọng: reset cờ này
+        this.deathTimer = 0;
+        this.animationCounter = 0;
+        this.currentDirection = Direction.DOWN;
+        setStandingSprite();
+        System.out.println("Player revived and reset to start position: (" + initialTileX + "," + initialTileY + ")");
+    }
+    public void setPermanentlyDeadNoUpdates() {
+        this.alive = false;
+        this.dying = false;
+        this.justPermanentlyDead = false;
+        // Bạn có thể thêm một cờ "permanentlyDead" nếu muốn bỏ qua hoàn toàn logic update
+        // trong phương thức update() của Player.
+    }
+    public void setInitialPosition(int tileX, int tileY) {
+        this.initialTileX = tileX;
+        this.initialTileY = tileY;
     }
 }
