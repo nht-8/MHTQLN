@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="rootPane" prefHeight="515.0" prefWidth="672.0"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="src.bomberman.GameHUDController">
+    <top>
+        <HBox fx:id="hudPane" alignment="CENTER_LEFT" spacing="20.0" prefHeight="35.0"
+              style="-fx-background-color: #1A1A1A; -fx-border-color: #444444; -fx-border-width: 0 0 1 0;">
+            <padding>
+                <Insets left="15.0" right="15.0"/>
+            </padding>
+            <children>
+                <Label fx:id="levelLabel" text="LEVEL: 1" textFill="white">
+                    <font>
+                        <Font name="Arial Bold" size="16.0"/>
+                    </font>
+                </Label>
+                <HBox HBox.hgrow="ALWAYS"/> <!-- Spacer -->
+                <Label fx:id="livesLabel" text="LIVES: 3" textFill="white">
+                    <font>
+                        <Font name="Arial Bold" size="16.0"/>
+                    </font>
+                </Label>
+                <HBox HBox.hgrow="ALWAYS"/> <!-- Spacer -->
+                <Label fx:id="scoreLabel" text="SCORE: 000000" textFill="white">
+                    <font>
+                        <Font name="Arial Bold" size="16.0"/>
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <Canvas fx:id="gameCanvas" width="672.0" height="480.0" BorderPane.alignment="CENTER"/>
+    </center>
+</BorderPane>
