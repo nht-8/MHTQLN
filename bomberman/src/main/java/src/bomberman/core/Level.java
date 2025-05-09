@@ -211,7 +211,7 @@ public class Level {
 
             // Nếu có lỗi, vẽ màu nền mặc định và báo lỗi
             gc.setFill(Color.DARKSLATEGRAY); // Một màu nền tối để dễ debug
-            gc.fillRect(0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+            gc.fillRect(0, 0, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
             System.err.println("Cannot render background: Grass sprite, its Sheet is invalid/null, or map dimensions are zero.");
             return; // Không vẽ gì thêm
         }

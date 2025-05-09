@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="" />
+    <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Level.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +35,9 @@
     &quot;accountId&quot;: &quot;8765a2b4-ce10-4cdf-ae5e-336bd87522f2&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -46,7 +54,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "ntnm",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/demo"
+    "last_opened_file_path": "D:/file in/2k7 tsa/bomberman"
   }
 }]]></component>
   <component name="RunManager">
@@ -70,5 +78,28 @@
       <updated>1746642468437</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="nht" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
