@@ -80,10 +80,7 @@ public class Sprite {
     public static Sprite powerup_bombs;
     public static Sprite powerup_flames;
     public static Sprite powerup_speed;
-    public static Sprite powerup_wallpass;
-    public static Sprite powerup_detonator;
-    public static Sprite powerup_bombpass;
-    public static Sprite powerup_flamepass;
+    public static Sprite powerup_heart;
 
 
     /**
@@ -247,13 +244,10 @@ public class Sprite {
             mob_dead3 = new Sprite(Sheet2, 299, 173, 32, 32);
 
             // Powerups
-            powerup_bombs = new Sprite(Sheet2, 0 , 10 , 32, 32);
-            powerup_flames = new Sprite(Sheet2, 1 , 10 , 32, 32);
-            powerup_speed = new Sprite(Sheet2, 2 , 10 , 32, 32);
-            powerup_wallpass = new Sprite(Sheet2, 3 , 10 , 32, 32);
-            powerup_detonator = new Sprite(Sheet2, 4 , 10 , 32, 32);
-            powerup_bombpass = new Sprite(Sheet2, 5 , 10 , 32, 32);
-            powerup_flamepass = new Sprite(Sheet2, 6 , 10 , 32, 32);
+            powerup_bombs = new Sprite(Sheet2, 299, 257 , 32, 32);
+            powerup_flames = new Sprite(Sheet2, 89, 299 , 32, 32);
+            powerup_speed = new Sprite(Sheet2, 131, 299 , 32, 32);
+            powerup_heart = new Sprite(Sheet2, 215, 299 , 32, 32);
 
         } else {
             System.err.println("Failed to initialize sprites from NES sheet.");

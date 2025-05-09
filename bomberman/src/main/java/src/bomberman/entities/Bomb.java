@@ -105,10 +105,7 @@ public class Bomb extends Entity {
      */
     @Override
     public boolean isSolid() {
-        if (Entity instanceof Player) {
-            return false;
-        }
-        return alive;
+        return false;
     }
 
     /**

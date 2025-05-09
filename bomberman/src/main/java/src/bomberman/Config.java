@@ -5,8 +5,8 @@ public class Config {
     public static final int TILE_SIZE = 32;
 
     // Số lượng ô Tile hiển thị trên màn hình (cho vùng game)
-    public static final int SCREEN_TILES_WIDTH = 32;
-    public static final int SCREEN_TILES_HEIGHT = 20;
+    public static final int SCREEN_TILES_WIDTH = 21;
+    public static final int SCREEN_TILES_HEIGHT = 15;
 
     // Kích thước vùng game (Canvas) theo pixel
     public static final int GAME_AREA_WIDTH = SCREEN_TILES_WIDTH * TILE_SIZE;  // 672
@@ -33,8 +33,8 @@ public class Config {
     public static final int PLAYER_INIT_LIVES = 3;
 
     // Đường dẫn tới các file spritesheet
-    public static final String SPRITESHEET1_PATH = "/images/modern_spritesheet.png";
-    public static final String SPRITESHEET2_PATH = "/images/spritesheet.png";
+    public static final String SPRITESHEET1_PATH = "/images/sheet1.png";
+    public static final String SPRITESHEET2_PATH = "/images/sheet2.png";
 
     // Đường dẫn tới thư mục chứa các file level
     public static final String LEVEL_PATH_PREFIX = "/levels/";

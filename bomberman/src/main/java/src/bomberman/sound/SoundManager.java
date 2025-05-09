@@ -56,16 +56,16 @@ public class SoundManager {
      */
     public void loadSounds() {
         System.out.println("Loading sound effects...");
-        loadSoundEffect(EXPLOSION, "/sounds/boom.mp3");
-        loadSoundEffect(LEVEL_CLEAR, "/sounds/clear.mp3");
-        loadSoundEffect(PLAYER_DEATH, "/sounds/dead1.mp3"); // Hoặc dead2.mp3
-        loadSoundEffect(ENEMY_DEATH, "/sounds/dead2.mp3"); // Hoặc dead1.mp3
-        loadSoundEffect(GET_ITEM, "/sounds/getitem.mp3");
-        loadSoundEffect(PLACE_BOMB, "/sounds/putbomb.mp3"); // Hoặc putbomb2.mp3
-        loadSoundEffect(LEVEL_START, "/sounds/StageStart.mp3");
-        // loadSoundEffect("flash", "/sounds/flash.mp3"); // Nếu muốn dùng
-        // loadSoundEffect("intro", "/sounds/intro.mp3");
-        // loadSoundEffect("homestart_sfx", "/sounds/homestart.mp3"); // Dùng làm SFX nếu cần
+        loadSoundEffect(EXPLOSION, "/sounds/boom.wav");
+        loadSoundEffect(LEVEL_CLEAR, "/sounds/clear.wav");
+        loadSoundEffect(PLAYER_DEATH, "/sounds/dead1.wav"); // Hoặc dead2.wav
+        loadSoundEffect(ENEMY_DEATH, "/sounds/dead2.wav"); // Hoặc dead1.wav
+        loadSoundEffect(GET_ITEM, "/sounds/getitem.wav");
+        loadSoundEffect(PLACE_BOMB, "/sounds/putbomb.wav"); // Hoặc putbomb2.wav
+        loadSoundEffect(LEVEL_START, "/sounds/StageStart.wav");
+        // loadSoundEffect("flash", "/sounds/flash.wav"); // Nếu muốn dùng
+        // loadSoundEffect("intro", "/sounds/intro.wav");
+        // loadSoundEffect("homestart_sfx", "/sounds/homestart.wav"); // Dùng làm SFX nếu cần
 
         System.out.println("Sound effects loading finished.");
     }
@@ -113,8 +113,8 @@ public class SoundManager {
      * @param loop true nếu muốn lặp lại nhạc nền, false nếu chỉ phát một lần.
      */
     public void playBackgroundMusic(String musicName, boolean loop) {
-        // ===>>> QUAN TRỌNG: Sửa lại đuôi file .mp3 thành .mp3 hoặc định dạng đúng <<<===
-        String filePath = "/sounds/" + musicName + ".mp3"; // Hoặc .mp3
+        // ===>>> QUAN TRỌNG: Sửa lại đuôi file .wav thành .wav hoặc định dạng đúng <<<===
+        String filePath = "/sounds/" + musicName + ".wav"; // Hoặc .wav
 
         // Nếu đang phát đúng nhạc này rồi thì không làm gì cả
         if (backgroundMusicPlayer != null && filePath.equals(currentBackgroundMusicPath)) {

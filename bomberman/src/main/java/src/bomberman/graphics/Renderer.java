@@ -51,7 +51,7 @@ public class Renderer {
             }
         }
 
-        // 3.5 Vẽ PowerUps
+        // 4. Vẽ PowerUps
         List<PowerUp> powerUps = game.getPowerUps();
         if (powerUps != null) {
             for (PowerUp pu : powerUps) {
@@ -61,7 +61,7 @@ public class Renderer {
             }
         }
 
-        // 4. Vẽ Bombs
+        // 5. Vẽ Bombs
         List<Bomb> bombs = game.getBombs();
         if (bombs != null) {
             for (Bomb bomb : bombs) {
@@ -71,7 +71,7 @@ public class Renderer {
             }
         }
 
-        // 5. Vẽ Explosions
+        // 6. Vẽ Explosions
         List<Explosion> explosions = game.getExplosions();
         if (explosions != null) {
             for (Explosion explosion : explosions) {
@@ -81,7 +81,7 @@ public class Renderer {
             }
         }
 
-        // 6. Vẽ Enemies
+        // 7. Vẽ Enemies
         List<Enemy> enemies = game.getEnemies();
         if (enemies != null) {
             for (Enemy enemy : enemies) {
@@ -91,7 +91,7 @@ public class Renderer {
             }
         }
 
-        // 7. Vẽ Player
+        // 8. Vẽ Player
         Player player = game.getPlayer();
         if (player != null) {
             if (player.isAlive() || player.isDying()) {
@@ -100,6 +100,10 @@ public class Renderer {
         }
     }
 
+    private void clearScreen(GraphicsContext gc) {
+        gc.setFill(Color.BLACK); // <<< Đặt màu nền ở đây (ví dụ: Đen)
+        gc.fillRect(0, 0, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
+    }
     // Phương thức clearScreen và drawHUD cũ có thể được xóa hoặc comment lại
     // private void clearScreen(GraphicsContext gc) { ... }
     // private void drawHUD(GraphicsContext gc, Game game) { ... }

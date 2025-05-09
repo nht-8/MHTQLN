@@ -42,12 +42,13 @@ public abstract class Enemy extends Entity {
 
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        if (!alive) return; // Đã chết hẳn
+        if (!alive && !dying) return; // Đã chết hẳn
         if (dying) {
             handleDeathAnimation();
             deathTimer++;
             if (deathTimer > DEATH_ANIMATION_DURATION) {
-                alive = false; // Đánh dấu chết hẳn sau animation
+                alive = false;
+                dying = false;// Đánh dấu chết hẳn sau animation
             }
             return;
         }
