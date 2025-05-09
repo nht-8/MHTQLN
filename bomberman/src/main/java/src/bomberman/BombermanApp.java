@@ -231,17 +231,13 @@ public class BombermanApp extends Application {
         if (gameLoop != null) {
             gameLoop.stop();
         }
-        SoundManager.getInstance().cleanup(); // Dọn dẹp SoundManager
-        // Có thể thêm các dọn dẹp khác ở đây nếu cần
+        SoundManager.getInstance().cleanup();
     }
 
-    /**
-     * Ghi đè phương thức stop của Application để gọi phương thức dọn dẹp tùy chỉnh.
-     */
     @Override
     public void stop() throws Exception {
-        stopApplication(); // Gọi hàm dọn dẹp của chúng ta
-        super.stop();      // Gọi hàm stop của lớp cha
+        stopApplication(); 
+        super.stop();    
         System.out.println("Application stopped (JavaFX stop method).");
     }
 
