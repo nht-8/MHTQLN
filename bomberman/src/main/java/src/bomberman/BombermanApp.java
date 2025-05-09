@@ -112,9 +112,6 @@ public class BombermanApp extends Application {
         System.out.println("Switched to Menu scene.");
     }
 
-    /**
-     * Khởi tạo và chuyển sang màn hình chơi game.
-     */
     public void startGame() {
         currentAppState = AppState.PLAYING; // Đặt trạng thái trước khi load FXML
         try {
