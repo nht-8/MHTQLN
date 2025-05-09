@@ -107,34 +107,27 @@ public class Explosion extends Entity {
 
         animationCounter++;
         int totalAnimationTime = ANIMATION_SPEED * 3; 
-        int elapsedCounter = Config.BOMB_EXPLOSION_DURATION - duration; // Thời gian đã trôi qua
+        int elapsedCounter = Config.BOMB_EXPLOSION_DURATION - duration; 
         int currentFrameIndex = elapsedCounter / ANIMATION_SPEED;
-        if (currentFrameIndex > 2) currentFrameIndex = 2; // Đảm bảo không vượt quá frame cuối
+        if (currentFrameIndex > 2) currentFrameIndex = 2; 
 
-        setSpriteForFrame(currentFrameIndex); // Cập nhật sprite hiển thị
+        setSpriteForFrame(currentFrameIndex); 
     }
 
-    /**
-     * Thực hiện kiểm tra va chạm ban đầu ngay sau khi Explosion được tạo ra.
-     * Phương thức này được gọi từ `Game.addExplosion()`.
-     * @param entities Danh sách tất cả các thực thể hiện có trong game để kiểm tra va chạm.
-     */
     public void checkInitialCollisions(List<Entity> entities) {
-        // Lấy vùng bao của đoạn lửa này (sử dụng getBounds() từ lớp Entity)
+       
         Rectangle2D explosionBounds = this.getBounds();
 
-        // Lặp qua danh sách các thực thể trong game
         for (Entity entity : entities) {
-            // Bỏ qua kiểm tra với chính nó hoặc các thực thể đã "chết" (không còn hoạt động)
+           
             if (entity == this || !entity.isAlive()) continue;
 
-            // Chỉ kiểm tra va chạm với các loại thực thể có thể tương tác với lửa
             if (entity instanceof Player || entity instanceof Enemy || entity instanceof Brick || entity instanceof Bomb) {
-                // Kiểm tra xem vùng bao của lửa có giao cắt với vùng bao của thực thể kia không
+
                 if (explosionBounds.intersects(entity.getBounds())) {
-                    // Nếu có va chạm, xử lý tùy theo loại thực thể
+                
                     if (entity instanceof Player) {
-                        ((Player) entity).destroy(); // Gọi phương thức xử lý khi Player chết
+                        ((Player) entity).destroy(); 
                     } else if (entity instanceof Enemy) {
                         ((Enemy) entity).destroy();   // Gọi phương thức xử lý khi Enemy chết
                     } else if (entity instanceof Brick) {
@@ -145,8 +138,6 @@ public class Explosion extends Entity {
                     }
                 }
             }
-            // Có thể thêm kiểm tra va chạm với PowerUp ở đây nếu muốn lửa phá hủy PowerUp
-            // else if (entity instanceof PowerUp) { ... }
         }
     }
 
