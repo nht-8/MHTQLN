@@ -120,7 +120,7 @@ public class Level {
                         break;
                     case '1':
                         game.addEnemy(new Ballom(x, y, nesSheet, game)); 
-                        mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
+                        mapData[y][x] = ' '; 
                         break;
                     case '2':
                          game.addEnemy(new Kondoria(x, y, nesSheet, game));
@@ -144,12 +144,7 @@ public class Level {
         }
     }
 
-    /**
-     * Vẽ lớp nền (background) của Level lên màn hình.
-     * Lặp qua từng ô của map và vẽ sprite nền (ví dụ: cỏ).
-     * Kích thước vẽ ra của mỗi sprite nền sẽ bằng `Config.TILE_SIZE`.
-     * @param gc GraphicsContext của Canvas (đã được dịch chuyển nếu cần).
-     */
+
     public void renderBackground(GraphicsContext gc) {
         Sprite grassSprite = Sprite.grass; 
 
