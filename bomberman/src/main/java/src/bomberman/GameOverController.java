@@ -18,8 +18,7 @@ public class GameOverController {
     private Button mainMenuButton;
 
     @FXML
-    private Button exitButtonGameOver; // Đổi tên để tránh trùng với menu chính nếu cần
-
+    private Button exitButtonGameOver; 
     private BombermanApp mainApp;
 
     public void setMainApp(BombermanApp mainApp) {
