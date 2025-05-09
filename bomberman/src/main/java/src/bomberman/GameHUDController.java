@@ -12,49 +12,36 @@ import src.bomberman.input.InputHandler;
 
 public class GameHUDController {
 
-    @FXML private BorderPane rootPane; // Tham chiếu đến container gốc
-    @FXML private HBox hudPane;        // Tham chiếu đến HBox chứa HUD
-    @FXML private Label levelLabel;    // Label hiển thị Level
-    @FXML private Label livesLabel;    // Label hiển thị Mạng
-    @FXML private Label scoreLabel;    // Label hiển thị Điểm
-    @FXML private Canvas gameCanvas;   // Canvas để vẽ trò chơi
+    @FXML private BorderPane rootPane; 
+    @FXML private HBox hudPane;        
+    @FXML private Label levelLabel;   
+    @FXML private Label livesLabel; 
+    @FXML private Label scoreLabel;
+    @FXML private Canvas gameCanvas;   
 
-    private Game game;                 // Instance của logic game
-    private Renderer renderer;         // Đối tượng vẽ game
-    private GraphicsContext gameCanvasGC; // Context để vẽ lên Canvas
-    private BombermanApp mainApp;      // Tham chiếu đến ứng dụng chính để chuyển màn hình
+    private Game game;                 
+    private Renderer renderer;         
+    private GraphicsContext gameCanvasGC; 
+    private BombermanApp mainApp;      
 
-    /**
-     * Constructor mặc định (cần thiết cho FXMLLoader).
-     */
     public GameHUDController() {
         // Khởi tạo có thể thực hiện ở đây hoặc trong initialize()/setupGame()
     }
 
-    /**
-     * Phương thức này được gọi bởi BombermanApp sau khi FXML được load
-     * để truyền các đối tượng cần thiết và hoàn tất thiết lập.
-     * @param inputHandler Đối tượng xử lý input cho màn hình game.
-     * @param mainApp Tham chiếu đến ứng dụng chính (BombermanApp).
-     */
     public void setupGame(InputHandler inputHandler, BombermanApp mainApp) {
         this.mainApp = mainApp;
 
-        // Đặt kích thước cho các thành phần giao diện từ Config
         setElementSizesFromConfig();
 
-        // Lấy GraphicsContext từ Canvas SAU KHI đã đặt kích thước
         this.gameCanvasGC = gameCanvas.getGraphicsContext2D();
         if (this.gameCanvasGC == null) {
             System.err.println("CRITICAL ERROR: Failed to get GraphicsContext from Canvas in GameHUDController!");
-            // Có thể quay lại menu hoặc hiển thị lỗi
+            
             if (this.mainApp != null) this.mainApp.showMenu();
             return;
         }
-        gameCanvasGC.setImageSmoothing(false); // Tắt làm mịn ảnh (quan trọng cho pixel art)
+        gameCanvasGC.setImageSmoothing(false);
 
-        // Khởi tạo các thành phần game
-        // Truyền inputHandler đã được gắn với Scene của màn hình này
         this.game = new Game(inputHandler);
         this.renderer = new Renderer(); // Renderer giờ chỉ vẽ nội dung game
 
