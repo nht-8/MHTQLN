@@ -2,7 +2,7 @@ package src.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import src.bomberman.Config;
-import javafx.scene.paint.Color; 
+import javafx.scene.paint.Color;
 import src.bomberman.graphics.Sprite;
 import src.bomberman.graphics.SpriteSheet;
 
@@ -12,6 +12,15 @@ import static java.awt.Color.BLUE;
 
 public class Portal extends Entity {
     private boolean revealed =false;
+    private boolean active=false;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public Portal(double xTile, double yTile, SpriteSheet sheet) {
         super(xTile, yTile, sheet);
@@ -33,7 +42,7 @@ public class Portal extends Entity {
 
     @Override
     public boolean isSolid() {
-        return false; 
+        return false;
     }
     public boolean isRevealed() {
         return revealed;
@@ -44,4 +53,5 @@ public class Portal extends Entity {
             System.out.println("Portal at (" + getTileX() + "," + getTileY() + ") is now REVEALED.");
         }
     }
+
 }

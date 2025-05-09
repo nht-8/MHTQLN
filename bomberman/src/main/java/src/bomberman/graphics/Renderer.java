@@ -97,7 +97,7 @@ public class Renderer {
     }
 
     private void clearScreen(GraphicsContext gc) {
-        gc.setFill(Color.BLACK); /
+        gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
     }
 

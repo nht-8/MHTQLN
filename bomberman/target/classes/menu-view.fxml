@@ -9,9 +9,7 @@
 <VBox fx:id="rootVBox" alignment="CENTER" prefHeight="480.0" prefWidth="672.0" spacing="30.0"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17"
       fx:controller="src.bomberman.MenuController">
-    <!-- KHÔNG CÓ style -fx-background-image Ở ĐÂY NỮA -->
-    <!-- Bạn có thể đặt một màu nền mặc định ở đây nếu muốn, ví dụ: style="-fx-background-color: #2B2B2B;" -->
-    <!-- Hoặc để trống nếu muốn dựa hoàn toàn vào code Java -->
+    
 
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>

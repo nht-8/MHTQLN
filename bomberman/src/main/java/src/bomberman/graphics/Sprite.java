@@ -15,6 +15,7 @@ public class Sprite {
     public static Sprite grass;
     public static Sprite brick;
     public static Sprite wall;
+    public static Sprite door;
 
     public static Sprite player_u1, player_u2, player_u3, player_u4;
     public static Sprite player_d1, player_d2, player_d3, player_d4;
@@ -93,7 +94,6 @@ public class Sprite {
             grass = new Sprite(Sheet1, 299, 47, 32, 32);
             wall = new Sprite(Sheet1, 299, 5, 32, 32);
             brick = new Sprite(Sheet1, 107, 257, 32, 32);
-
             // Bomb
             bomb = new Sprite(Sheet1, 47, 131, 32, 32); 
             bomb_1 = new Sprite(Sheet1, 89, 131, 32, 32); 
@@ -102,6 +102,7 @@ public class Sprite {
             brick_exploded = new Sprite(Sheet1, 191, 257, 32, 32);
             brick_exploded1 = new Sprite(Sheet1, 233, 257, 32, 32);
 
+            player_d1 = new Sprite(Sheet1,5,173,24,32);
             player_d2 = new Sprite(Sheet1, 39, 173, 24, 32); 
             player_d3 = new Sprite(Sheet1, 73, 173, 24, 32); 
             player_d4 = new Sprite(Sheet1, 107, 173, 24, 32); 
@@ -204,6 +205,8 @@ public class Sprite {
             powerup_flames = new Sprite(Sheet2, 89, 299 , 32, 32);
             powerup_speed = new Sprite(Sheet2, 131, 299 , 32, 32);
             powerup_heart = new Sprite(Sheet2, 215, 299 , 32, 32);
+
+            door = new Sprite(Sheet2,299, 257,32,32);
 
         } else {
             System.err.println("Failed to initialize sprites from NES sheet.");

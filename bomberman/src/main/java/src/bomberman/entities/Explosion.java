@@ -121,7 +121,6 @@ public class Explosion extends Entity {
         for (Entity entity : entities) {
          
             if (entity == this || !entity.isAlive()) continue;
-a
             if (entity instanceof Player || entity instanceof Enemy || entity instanceof Brick || entity instanceof Bomb) {
                
                 if (explosionBounds.intersects(entity.getBounds())) {

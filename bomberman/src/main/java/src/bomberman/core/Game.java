@@ -29,20 +29,16 @@ public class Game {
     private int currentLevelNumber = 1; 
     private int playerScore = 0;
     private int playerLives;
-    private static final int MAX_LEVELS = 5;
-    private boolean allEnemiesDefeatedAndPortalActive = false; 
+    private boolean allEnemiesDefeatedAndPortalActive = false;
 
     public Game(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
         this.playerLives = Config.PLAYER_INIT_LIVES;
-
-
         this.enemies = new ArrayList<>();
         this.bombs = new ArrayList<>();
         this.explosions = new ArrayList<>();
         this.staticEntities = new ArrayList<>();
         this.powerUps = new ArrayList<>();
-
         loadLevel(this.currentLevelNumber);
     }
 
@@ -70,17 +66,14 @@ public class Game {
             player.resetToStartPositionAndRevive(); 
             System.out.println("Player initial position for level " + levelNumber + " set to: (" + playerInitialTileX + "," + playerInitialTileY + ")");
         }
-
-
-
-
         System.out.println("Level " + levelNumber + " loaded successfully.");
 
     }
 
     public void update(double deltaTime) {
        
-        if (playerLives <= 0 && (player == null || (!player.isAlive() && !player.isDying()))) {
+        if (playerLives <= 0 && (player == null
+                || (!player.isAlive() && !player.isDying()))) {
             
             return;
         }
@@ -89,7 +82,16 @@ public class Game {
             if (player.isAlive()) {
                 player.update(deltaTime, getAllEntities());
                 checkPlayerCollectPowerUps();
-
+                if (portal != null && portal.isActive() && player.getBounds().intersects(portal.getBounds())) {
+                    System.out.println("Player reached ACTIVE portal in level " + currentLevelNumber + "!");
+                    int nextLevel = currentLevelNumber + 1;
+                    if (nextLevel > Config.MAX_LEVELS) {
+                        handleGameWin();
+                    } else {
+                        loadLevel(nextLevel);
+                    }
+                    return;
+                }
             } else if (player.isDying()) {
                 player.update(deltaTime, null); 
             } else { 
@@ -99,7 +101,7 @@ public class Game {
                 }
             }
         }
-        boolean enemiesWerePresentLastFrame = !enemies.isEmpty(); 
+        boolean enemiesWerePresentLastFrame = !enemies.isEmpty();
 
         Iterator<Enemy> enemyIterator = enemies.iterator();
         while (enemyIterator.hasNext()) {
@@ -114,31 +116,15 @@ public class Game {
             } else {
                 enemyIterator.remove();
                 addScore(Config.POINTS_PER_ENEMY);
-                System.out.println("Enemy removed. Current Score: " + playerScore);
             }
         }
-        if (enemies.isEmpty()) {
-            System.out.println("[Game DEBUG Update] Enemies are empty.");
-            if (this.portal != null) {
-                System.out.println("[Game DEBUG Update] Portal object in Game is NOT NULL. Actual Type: " + this.portal.getClass().getName());
-                System.out.println("[Game DEBUG Update] Portal revealed status: " + this.portal.isRevealed());
-            } else {
-                System.out.println("[Game DEBUG Update] Portal object in Game IS NULL.");
-            }
-            System.out.println("[Game DEBUG Update] allEnemiesDefeatedAndPortalActive flag: " + this.allEnemiesDefeatedAndPortalActive);
-        }
 
-        if (enemiesWerePresentLastFrame && enemies.isEmpty() && player != null && player.isAlive()) {
-            SoundManager.getInstance().playSound(SoundManager.LEVEL_CLEAR); 
-            System.out.println("All enemies defeated in level " + currentLevelNumber + "!");
 
-            int nextLevel = currentLevelNumber + 1;
-            if (nextLevel > Config.MAX_LEVELS) {
-                System.out.println("Congratulations! You have completed all " + Config.MAX_LEVELS + " levels!");
-                handleGameWin();
-            } else {
-                System.out.println("Proceeding to level " + nextLevel);
-                loadLevel(nextLevel); 
+        if (portal != null && portal.isRevealed() && !portal.isActive() && enemies.isEmpty()) {
+            if (player != null && player.isAlive()) { // Thêm kiểm tra Player còn sống
+                portal.setActive(true);
+                System.out.println("All enemies defeated AND portal is visually revealed. Portal is now ACTIVE.");
+                SoundManager.getInstance().playSound(SoundManager.LEVEL_CLEAR);
             }
         }
 
@@ -161,6 +147,8 @@ public class Game {
                 explosionIterator.remove();
             }
         }
+
+
 
         Iterator<Entity> staticIterator = staticEntities.iterator();
         while (staticIterator.hasNext()) {
@@ -194,7 +182,13 @@ public class Game {
         }
 
     }
-
+    public Portal getPortalAt(int tileX, int tileY) {
+        if (this.portal != null && this.portal.getTileX() == tileX && this.portal.getTileY() == tileY) {
+            return this.portal;
+        }
+        System.err.println("Portal not found at (" + tileX + "," + tileY + ") in Game.getPortalAt. Current portal: " + (this.portal != null ? "exists at ("+this.portal.getTileX()+","+this.portal.getTileY()+")" : "is null"));
+        return null;
+    }
 
     private void checkPlayerCollectPowerUps() {
         if (player == null || !player.isAlive()) return;

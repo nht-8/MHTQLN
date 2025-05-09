@@ -32,7 +32,7 @@ public class Bomb extends Entity {
 
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        if (!alive) return;g
+        if (!alive) return;
 
         timer--;
 
