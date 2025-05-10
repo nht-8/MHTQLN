@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Direction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/images/menu_background.png" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/images/menu_background.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/images/menu_background.png" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/images/menu_background.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/target/classes/levels/level1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/levels/level1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/target/classes/levels/level2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/levels/level2.txt" afterDir="false" />
     </list>
@@ -72,6 +73,11 @@
     "project.structure.side.proportion": "0.0"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\OOP\BTL\MHTQLN\bomberman\src\main\resources\images" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
