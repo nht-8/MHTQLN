@@ -2,7 +2,7 @@ package src.bomberman.core;
 
 public enum GameState {
     PLAYING,            
-    LEVEL_TRANSITIONING, // Đang hiển thị màn hình chuyển level
+    LEVEL_TRANSITIONING, 
     GAME_OVER,           
     GAME_WON            
 }
