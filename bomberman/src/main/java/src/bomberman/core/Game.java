@@ -277,7 +277,7 @@ public class Game {
             }
         }
     }
-
+    
     private void handleGameOver() {
         System.out.println("GAME OVER (from Game.java) - Final Score: " + playerScore);
         if (player != null) {
@@ -309,7 +309,6 @@ public class Game {
         return all;
     }
 
-    
     public SpriteSheet getModernSheet() { return SpriteSheet.Sheet1; }
     public SpriteSheet getNesSheet() { return SpriteSheet.Sheet2; }
     public InputHandler getInputHandler() { return inputHandler; }
