@@ -36,10 +36,10 @@ public class Game {
         this.explosions = new ArrayList<>();
         this.staticEntities = new ArrayList<>();
         this.powerUps = new ArrayList<>();
-
+        
         loadLevel(1);
     }
-
+    
     public void loadLevel(int levelNumber) {
         System.out.println("Loading level " + levelNumber + "...");
         this.currentLevelNumber = levelNumber;
@@ -68,7 +68,7 @@ public class Game {
         if (playerLives <= 0 && (player == null || (!player.isAlive() && !player.isDying()))) {
             return; 
         }
-
+        
         if (player != null) {
             if (player.isAlive()) {
                 player.update(deltaTime, getAllEntities());
