@@ -1,6 +1,7 @@
 package src.bomberman.core;
 
 // Import các lớp cần thiết
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import src.bomberman.Config;
@@ -184,235 +185,245 @@ public class Level {
                     case 'p': // Player - Vị trí bắt đầu của người chơi
                         if (game.getPlayer() == null) { // Chỉ tạo Player nếu chưa có
                             game.addPlayer(new Player(x, y, Sheet1, input, game));
-                            case 'x':
-                                if (!portalMarkerProcessed) {
-                                    this.portalTileX = x; // Lưu tọa độ logic của Portal cho Level
-                                    this.portalTileY = y;
+                        }
+                    case 'x':
+                        if (!portalMarkerProcessed) {
+                            this.portalTileX = x; // Lưu tọa độ logic của Portal cho Level
+                            this.portalTileY = y;
 
-                                    // 1. Tạo đối tượng Portal
-                                    Portal gamePortal = new Portal(x, y, nesSheet, this.game);
-                                    game.setCurrentLevelPortal(gamePortal); // Thông báo cho Game về Portal này
+                            // 1. Tạo đối tượng Portal
+                            Portal gamePortal = new Portal(x, y, nesSheet, this.game);
+                            game.setCurrentLevelPortal(gamePortal); // Thông báo cho Game về Portal này
 
-                                    // 2. Tạo một Brick để che Portal này
-                                    Brick portalCoverBrick = new Brick(x, y, nesSheet, this.game);
-                                    portalCoverBrick.setContainedPowerUpType(PowerUp.PowerUpType.NONE); // Gạch che Portal không chứa PowerUp
-                                    game.addBrick(portalCoverBrick); // Thêm gạch này vào danh sách như bình thường
+                            // 2. Tạo một Brick để che Portal này
+                            Brick portalCoverBrick = new Brick(x, y, nesSheet, this.game);
+                            portalCoverBrick.setContainedPowerUpType(PowerUp.PowerUpType.NONE); // Gạch che Portal không chứa PowerUp
+                            game.addBrick(portalCoverBrick); // Thêm gạch này vào danh sách như bình thường
 
-                                    System.out.println("Portal location defined at TILE (" + x + "," + y + ") and is covered by a Brick.");
-                                    portalMarkerProcessed = true;
-                                    // Giữ nguyên ký tự '*' hoặc ' ' trong mapData ở đây để logic isSolidTile
-                                    // của Level vẫn coi ô đó là gạch/trống cho đến khi gạch bị phá.
-                                    // Hoặc bạn có thể thay mapData[y][x] = '*' nếu muốn nó chắc chắn là gạch.
-                                    // Hiện tại Level.isSolidTile dựa vào map ký tự, nên đặt '*' là an toàn.
-                                    mapData[y][x] = '*'; // Đảm bảo ô Portal được coi là gạch ban đầu
+                            System.out.println("Portal location defined at TILE (" + x + "," + y + ") and is covered by a Brick.");
+                            portalMarkerProcessed = true;
+                            // Giữ nguyên ký tự '*' hoặc ' ' trong mapData ở đây để logic isSolidTile
+                            // của Level vẫn coi ô đó là gạch/trống cho đến khi gạch bị phá.
+                            // Hoặc bạn có thể thay mapData[y][x] = '*' nếu muốn nó chắc chắn là gạch.
+                            // Hiện tại Level.isSolidTile dựa vào map ký tự, nên đặt '*' là an toàn.
+                            mapData[y][x] = '*'; // Đảm bảo ô Portal được coi là gạch ban đầu
 
-                                } else {
-                                    System.err.println("Warning: Multiple portal markers ('X') found. Using first one. Treating extra 'X' at TILE (" + x + "," + y + ") as a normal Brick.");
-                                    Brick extraBrick = new Brick(x, y, nesSheet, this.game);
-                                    game.addBrick(extraBrick);
-                                    mapData[y][x] = '*'; // Coi như gạch thường
-                                }
-                                mapData[y][x] = ' '; // Sau khi tạo Player, ô đó trở thành nền cỏ
-                                break;
-                            case 'p':
-                                if (!playerMarkerFound) { // Chỉ xử lý ký tự 'p' đầu tiên
-                                    this.playerStartX = x; // Lưu tọa độ Player Start
-                                    this.playerStartY = y;
-                                    game.addPlayer(new Player(x, y, modernSheet, input, game));
-                                    playerMarkerFound = true;
-                                } else {
-                                    System.err.println("Warning: Multiple player ('p') start positions. Using first one.");
-                                }
-                                mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
-                                break;
-                            case '1':
-                                game.addEnemy(new Ballom(x, y, Sheet2, game)); // Truyền game vào Enemy
-                                mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
-                                break;
-                            case '2':
-                                game.addEnemy(new Kondoria(x, y, Sheet2, game));
-                                mapData[y][x] = ' ';
-                                break;
-                            case '3':
-                                game.addEnemy(new Doll(x, y, Sheet2, game));
-                                mapData[y][x] = ' ';
-                                break;
-                            case '4':
-                                game.addEnemy(new Oneal(x, y, Sheet2, game));
-                                mapData[y][x] = ' ';
-                                break;
-                            case '5':
-                                game.addEnemy(new Pass(x, y, Sheet2, game));
-                                mapData[y][x] = ' ';
-                                break;
-                            case '6':
-                                game.addEnemy(new Ovapi(x, y, Sheet2, game));
-                                mapData[y][x] = ' ';
-                                break;
-                            case '7':
-                                game.addEnemy(new Minvo(x, y, Sheet2, game));
-                                mapData[y][x] = ' ';
-                                break;
-                            case 'x':
-                                System.out.println("[Level DEBUG] Found 'x' for Portal at (" + x + "," + y + ")");
-                                if (game.getPortal() == null) { // Chỉ tạo một portal duy nhất mỗi level
-                                    game.addPortal(new Portal(x, y, nesSheet)); // nesSheet là SpriteSheet.Sheet2
-                                    // SAU KHI PORTAL ĐƯỢC TẠO, ĐẶT Ô NÀY LÀ NỀN CỎ
-                                    // ĐỂ PORTAL CÓ THỂ ĐƯỢC VẼ LÊN TRÊN NỀN CỎ ĐÓ.
-                                    // Portal sẽ tự quyết định có vẽ mình hay không dựa vào cờ 'revealed'.
-                                    mapData[y][x] = ' '; // QUAN TRỌNG: Biến ô 'x' thành nền để Portal có thể hiện ra
-                                } else {
-                                    System.err.println("[Level DEBUG] Portal already exists in this level, not creating new one.");
-                                }
-                                break;
+                        } else {
+                            System.err.println("Warning: Multiple portal markers ('X') found. Using first one. Treating extra 'X' at TILE (" + x + "," + y + ") as a normal Brick.");
+                            Brick extraBrick = new Brick(x, y, nesSheet, this.game);
+                            game.addBrick(extraBrick);
+                            mapData[y][x] = '*'; // Coi như gạch thường
+                        }
+                        mapData[y][x] = ' '; // Sau khi tạo Player, ô đó trở thành nền cỏ
+                        break;
+                    case 'p':
+                        if (!playerMarkerFound) { // Chỉ xử lý ký tự 'p' đầu tiên
+                            this.playerStartX = x; // Lưu tọa độ Player Start
+                            this.playerStartY = y;
+                            game.addPlayer(new Player(x, y, modernSheet, input, game));
+                            playerMarkerFound = true;
+                        } else {
+                            System.err.println("Warning: Multiple player ('p') start positions. Using first one.");
+                        }
+                        mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
+                        break;
+                    case '1':
+                        game.addEnemy(new Ballom(x, y, Sheet2, game)); // Truyền game vào Enemy
+                        mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
+                        break;
+                    case '2':
+                        game.addEnemy(new Kondoria(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '3':
+                        game.addEnemy(new Doll(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '4':
+                        game.addEnemy(new Oneal(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '5':
+                        game.addEnemy(new Pass(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '6':
+                        game.addEnemy(new Ovapi(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case '7':
+                        game.addEnemy(new Minvo(x, y, Sheet2, game));
+                        mapData[y][x] = ' ';
+                        break;
+                    case 'x':
+                        System.out.println("[Level DEBUG] Found 'x' for Portal at (" + x + "," + y + ")");
+                        if (game.getPortal() == null) { // Chỉ tạo một portal duy nhất mỗi level
+                            game.addPortal(new Portal(x, y, nesSheet)); // nesSheet là SpriteSheet.Sheet2
+                            // SAU KHI PORTAL ĐƯỢC TẠO, ĐẶT Ô NÀY LÀ NỀN CỎ
+                            // ĐỂ PORTAL CÓ THỂ ĐƯỢC VẼ LÊN TRÊN NỀN CỎ ĐÓ.
+                            // Portal sẽ tự quyết định có vẽ mình hay không dựa vào cờ 'revealed'.
+                            mapData[y][x] = ' '; // QUAN TRỌNG: Biến ô 'x' thành nền để Portal có thể hiện ra
+                        } else {
+                            System.err.println("[Level DEBUG] Portal already exists in this level, not creating new one.");
                         }
                         break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + tileChar);
                 }
-            }
-
-            // Đảm bảo có Player nếu map không định nghĩa vị trí 'p'
-            if (!playerMarkerFound) {
-                System.err.println("Warning: No player start ('p') in map. Adding default player at (" + playerStartX + "," + playerStartY + ").");
-                if (input != null && modernSheet != null && modernSheet.getSheet() != null) {
-                    game.addPlayer(new Player(playerStartX, playerStartY, modernSheet, input, game));
-                }
-            }
-
-            if (game.getPlayer() == null) {
-                System.err.println("Warning: No player start ('p') found in map. Adding default player at (1,1).");
-                if (input != null && modernSheet != null && modernSheet.getSheet() != null) {
-                    game.addPlayer(new Player(1, 1, modernSheet, input, game));
-                } else {
-                    System.err.println("ERROR: Cannot add default player due to missing input or modernSheet.");
-                }
-            }
-            System.out.println("[createEntitiesFromMap] Finished creating entities.");
-
-        }
-
-        /**
-         * Vẽ lớp nền (background) của Level lên màn hình.
-         * Lặp qua từng ô của map và vẽ sprite nền (ví dụ: cỏ).
-         * Kích thước vẽ ra của mỗi sprite nền sẽ bằng `Config.TILE_SIZE`.
-         * @param gc GraphicsContext của Canvas.
-         */
-        public void renderBackground (GraphicsContext gc){
-            Sprite grassSprite = Sprite.grass; // Lấy sprite nền đã được load
-
-            // Kiểm tra xem sprite nền và sheet của nó có hợp lệ không
-            if (mapData == null || width == 0 || height == 0 || grassSprite == null ||
-                    grassSprite.sheet == null || grassSprite.sheet.getSheet() == null ||
-                    grassSprite.sheet.getSheet().isError()) {
-
-                // Nếu có lỗi, vẽ màu nền mặc định và báo lỗi
-                gc.setFill(Color.DARKSLATEGRAY); // Một màu nền tối để dễ debug
-                gc.fillRect(0, 0, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
-                System.err.println("Cannot render background: Grass sprite, its Sheet is invalid/null, or map dimensions are zero.");
-                return; // Không vẽ gì thêm
-            }
-
-            SpriteSheet sheet = grassSprite.sheet; // Lấy sheet chứa sprite cỏ
-
-
-            // Vẽ nền cỏ cho toàn bộ map
-            for (int yTile = 0; yTile < height; yTile++) { // Lặp qua hàng (ô tile)
-                for (int xTile = 0; xTile < width; xTile++) { // Lặp qua cột (ô tile)
-                    // Tính toán tọa độ pixel để vẽ
-                    double dx = xTile * Config.TILE_SIZE;
-                    double dy = yTile * Config.TILE_SIZE;
-
-                    // Vẽ sprite nền cỏ tại vị trí ô map (xTile, yTile)
-                    // Vẽ nó với kích thước của một ô Tile chuẩn (Config.TILE_SIZE)
-                    gc.drawImage(
-                            sheet.getSheet(),                 // Ảnh nguồn (spritesheet)
-                            grassSprite.getSourceX(),         // sx: Tọa độ X của sprite cỏ trên sheet
-                            grassSprite.getSourceY(),         // sy: Tọa độ Y của sprite cỏ trên sheet
-                            grassSprite.getSourceWidth(),     // sw: Chiều rộng nguồn của sprite cỏ (ví dụ: 16)
-                            grassSprite.getSourceHeight(),    // sh: Chiều cao nguồn của sprite cỏ (ví dụ: 16)
-                            dx,                               // xTile * Config.TILE_SIZE
-                            dy,                               // yTile * Config.TILE_SIZE
-                            Config.TILE_SIZE,                 // dw
-                            Config.TILE_SIZE                  // dh
-                    );
-                }
+                break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + tileChar);
             }
         }
 
-        // --- Getters ---
-        /** Lấy số ô chiều rộng của map. */
-        public int getWidth () {
-            return width;
-        }
-        /** Lấy số ô chiều cao của map. */
-        public int getHeight () {
-            return height;
+        // Đảm bảo có Player nếu map không định nghĩa vị trí 'p'
+        if (!playerMarkerFound) {
+            System.err.println("Warning: No player start ('p') in map. Adding default player at (" + playerStartX + "," + playerStartY + ").");
+            if (input != null && modernSheet != null && modernSheet.getSheet() != null) {
+                game.addPlayer(new Player(playerStartX, playerStartY, modernSheet, input, game));
+            }
         }
 
-        /**
-         * Lấy ký tự tại một vị trí ô (tileX, tileY) trên bản đồ.
-         * @param tileX Chỉ số cột của ô.
-         * @param tileY Chỉ số hàng của ô.
-         * @return Ký tự tại ô đó, hoặc '#' (Wall) nếu ra ngoài biên hoặc mapData null.
-         */
-        public char getTileChar ( int tileX, int tileY){
-            if (mapData == null || tileX < 0 || tileX >= width || tileY < 0 || tileY >= height) {
-                return '#'; // Coi như là tường nếu ra ngoài map hoặc map chưa load
+        if (game.getPlayer() == null) {
+            System.err.println("Warning: No player start ('p') found in map. Adding default player at (1,1).");
+            if (input != null && modernSheet != null && modernSheet.getSheet() != null) {
+                game.addPlayer(new Player(1, 1, modernSheet, input, game));
+            } else {
+                System.err.println("ERROR: Cannot add default player due to missing input or modernSheet.");
             }
-            return mapData[tileY][tileX];
+        }
+        System.out.println("[createEntitiesFromMap] Finished creating entities.");
+
+    }
+
+    /**
+     * Vẽ lớp nền (background) của Level lên màn hình.
+     * Lặp qua từng ô của map và vẽ sprite nền (ví dụ: cỏ).
+     * Kích thước vẽ ra của mỗi sprite nền sẽ bằng `Config.TILE_SIZE`.
+     *
+     * @param gc GraphicsContext của Canvas.
+     */
+    public void renderBackground(GraphicsContext gc) {
+        Sprite grassSprite = Sprite.grass; // Lấy sprite nền đã được load
+
+        // Kiểm tra xem sprite nền và sheet của nó có hợp lệ không
+        if (mapData == null || width == 0 || height == 0 || grassSprite == null ||
+                grassSprite.sheet == null || grassSprite.sheet.getSheet() == null ||
+                grassSprite.sheet.getSheet().isError()) {
+
+            // Nếu có lỗi, vẽ màu nền mặc định và báo lỗi
+            gc.setFill(Color.DARKSLATEGRAY); // Một màu nền tối để dễ debug
+            gc.fillRect(0, 0, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
+            System.err.println("Cannot render background: Grass sprite, its Sheet is invalid/null, or map dimensions are zero.");
+            return; // Không vẽ gì thêm
         }
 
-        /**
-         * Kiểm tra xem một ô tại tọa độ tile (tx, ty) có phải là vật cản rắn hay không.
-         * Vật cản rắn bao gồm Wall ('#') và Brick ('*').
-         * @param tx Chỉ số cột (tile X).
-         * @param ty Chỉ số hàng (tile Y).
-         * @return true nếu ô là Wall hoặc Brick, false nếu là ô trống hoặc ngoài bản đồ.
-         */
-        public boolean isSolidTile (int tx, int ty){
-            // Kiểm tra xem tọa độ có nằm trong bản đồ không
-            if (tx < 0 || tx >= width || ty < 0 || ty >= height || mapData == null) {
-                return true; // Coi như ngoài bản đồ là tường (vật cản rắn)
-            }
-            // Lấy ký tự tại ô đó
-            char tileChar = mapData[ty][tx];
-            // Kiểm tra xem có phải là Wall hoặc Brick không
-            return tileChar == '#' || tileChar == '*';
-        }
+        SpriteSheet sheet = grassSprite.sheet; // Lấy sheet chứa sprite cỏ
 
-        /**
-         * In bản đồ (mapData) ra console để debug.
-         */
-        public void printMap () {
-            System.out.println("--- Level Map (" + width + "x" + height + ") ---");
-            if (mapData == null) {
-                System.out.println("Map data is null.");
-                return;
+
+        // Vẽ nền cỏ cho toàn bộ map
+        for (int yTile = 0; yTile < height; yTile++) { // Lặp qua hàng (ô tile)
+            for (int xTile = 0; xTile < width; xTile++) { // Lặp qua cột (ô tile)
+                // Tính toán tọa độ pixel để vẽ
+                double dx = xTile * Config.TILE_SIZE;
+                double dy = yTile * Config.TILE_SIZE;
+
+                // Vẽ sprite nền cỏ tại vị trí ô map (xTile, yTile)
+                // Vẽ nó với kích thước của một ô Tile chuẩn (Config.TILE_SIZE)
+                gc.drawImage(
+                        sheet.getSheet(),                 // Ảnh nguồn (spritesheet)
+                        grassSprite.getSourceX(),         // sx: Tọa độ X của sprite cỏ trên sheet
+                        grassSprite.getSourceY(),         // sy: Tọa độ Y của sprite cỏ trên sheet
+                        grassSprite.getSourceWidth(),     // sw: Chiều rộng nguồn của sprite cỏ (ví dụ: 16)
+                        grassSprite.getSourceHeight(),    // sh: Chiều cao nguồn của sprite cỏ (ví dụ: 16)
+                        dx,                               // xTile * Config.TILE_SIZE
+                        dy,                               // yTile * Config.TILE_SIZE
+                        Config.TILE_SIZE,                 // dw
+                        Config.TILE_SIZE                  // dh
+                );
             }
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    System.out.print(mapData[y][x]);
-                }
-                System.out.println();
-            }
-            System.out.println("--------------------------");
         }
     }
 
+    // --- Getters ---
+
+    /**
+     * Lấy số ô chiều rộng của map.
+     */
     public int getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
+    /**
+     * Lấy số ô chiều cao của map.
+     */
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    /**
+     * Lấy ký tự tại một vị trí ô (tileX, tileY) trên bản đồ.
+     *
+     * @param tileX Chỉ số cột của ô.
+     * @param tileY Chỉ số hàng của ô.
+     * @return Ký tự tại ô đó, hoặc '#' (Wall) nếu ra ngoài biên hoặc mapData null.
+     */
+    public char getTileChar(int tileX, int tileY) {
+        if (mapData == null || tileX < 0 || tileX >= width || tileY < 0 || tileY >= height) {
+            return '#'; // Coi như là tường nếu ra ngoài map hoặc map chưa load
+        }
+        return mapData[tileY][tileX];
     }
+
+    /**
+     * Kiểm tra xem một ô tại tọa độ tile (tx, ty) có phải là vật cản rắn hay không.
+     * Vật cản rắn bao gồm Wall ('#') và Brick ('*').
+     *
+     * @param tx Chỉ số cột (tile X).
+     * @param ty Chỉ số hàng (tile Y).
+     * @return true nếu ô là Wall hoặc Brick, false nếu là ô trống hoặc ngoài bản đồ.
+     */
+    public boolean isSolidTile(int tx, int ty) {
+        // Kiểm tra xem tọa độ có nằm trong bản đồ không
+        if (tx < 0 || tx >= width || ty < 0 || ty >= height || mapData == null) {
+            return true; // Coi như ngoài bản đồ là tường (vật cản rắn)
+        }
+        // Lấy ký tự tại ô đó
+        char tileChar = mapData[ty][tx];
+        // Kiểm tra xem có phải là Wall hoặc Brick không
+        return tileChar == '#' || tileChar == '*';
+    }
+
+    /**
+     * In bản đồ (mapData) ra console để debug.
+     */
+    public void printMap() {
+        System.out.println("--- Level Map (" + width + "x" + height + ") ---");
+        if (mapData == null) {
+            System.out.println("Map data is null.");
+            return;
+        }
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                System.out.print(mapData[y][x]);
+            }
+            System.out.println();
+        }
+        System.out.println("--------------------------");
+    }
+}
+
+public int getWidth() {
+    return width;
+}
+
+public void setWidth(int width) {
+    this.width = width;
+}
+
+public int getHeight() {
+    return height;
+}
+
+public void setHeight(int height) {
+    this.height = height;
+}
 }
