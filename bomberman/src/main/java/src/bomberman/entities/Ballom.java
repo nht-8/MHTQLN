@@ -1,18 +1,18 @@
-package src.bomberman.entities; 
+package src.bomberman.entities;
 
 import src.bomberman.graphics.Sprite;
 import src.bomberman.graphics.SpriteSheet;
-import src.bomberman.core.Game;       
+import src.bomberman.core.Game;
 import src.bomberman.entities.Direction;
 
 public class Ballom extends Enemy {
 
     private final int ANIMATION_SPEED = 15;
-    private int animationFrameIndex = 0; 
+    private int animationFrameIndex = 0;
 
     public Ballom(double xTile, double yTile, SpriteSheet nesSheet, Game game) {
-        super(xTile, yTile, nesSheet, game); 
-        this.speed = 0.5; 
+        super(xTile, yTile, nesSheet, game);
+        this.speed = 0.5;
         setSpriteBasedOnDirectionAndFrame();
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Ballom sprite is null!");
@@ -21,22 +21,22 @@ public class Ballom extends Enemy {
 
     @Override
     protected void updateAnimation() {
-        animationCounter++; 
+        animationCounter++;
         if (animationCounter >= ANIMATION_SPEED) {
             animationCounter = 0;
-            animationFrameIndex = (animationFrameIndex + 1) % 3; 
-            setSpriteBasedOnDirectionAndFrame(); 
+            animationFrameIndex = (animationFrameIndex + 1) % 3;
+            setSpriteBasedOnDirectionAndFrame();
         }
     }
 
     private void setSpriteBasedOnDirectionAndFrame() {
         Sprite targetSprite = null;
-       
+
         if (currentDirection == Direction.LEFT || currentDirection == Direction.UP) {
             if (animationFrameIndex == 0) targetSprite = Sprite.enemy_ballom_left1;
             else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_ballom_left2;
             else targetSprite = Sprite.enemy_ballom_left3;
-        } else { 
+        } else {
             if (animationFrameIndex == 0) targetSprite = Sprite.enemy_ballom_right1;
             else if (animationFrameIndex == 1) targetSprite = Sprite.enemy_ballom_right2;
             else targetSprite = Sprite.enemy_ballom_right3;
@@ -55,8 +55,8 @@ public class Ballom extends Enemy {
 
     @Override
     public void destroy() {
-        if (isAlive() && !isDying()) { 
-            super.destroy(); 
+        if (isAlive() && !isDying()) {
+            super.destroy();
         }
     }
 }

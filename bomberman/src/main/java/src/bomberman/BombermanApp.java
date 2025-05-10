@@ -16,22 +16,22 @@ import src.bomberman.sound.SoundManager;
 import java.io.IOException;
 import java.net.URL;
 
-public class BombermanApp extends Application {
+public class   BombermanApp extends Application {
 
     private Stage primaryStage;
-    private Scene menuScene;    
-    private Scene gameScene;    
-    private Scene gameOverScene; 
+    private Scene menuScene;
+    private Scene gameScene;
+    private Scene gameOverScene;
 
-    private InputHandler gameInputHandler; 
-    private AnimationTimer gameLoop;      
+    private InputHandler gameInputHandler;
+    private AnimationTimer gameLoop;
 
     private MenuController menuControllerInstance;
     private GameHUDController gameHUDControllerInstance;
     private GameOverController gameOverControllerInstance;
 
-    public enum AppState { MENU, PLAYING, GAME_OVER } 
-    private AppState currentAppState = AppState.MENU; 
+    public enum AppState { MENU, PLAYING, GAME_OVER }
+    private AppState currentAppState = AppState.MENU;
 
     @Override
     public void start(Stage primaryStage) {
@@ -46,7 +46,7 @@ public class BombermanApp extends Application {
         } catch (Exception e) {
             System.err.println("CRITICAL ERROR during static resource initialization!");
             e.printStackTrace();
-            Platform.exit(); 
+            Platform.exit();
             return;
         }
 
@@ -63,7 +63,7 @@ public class BombermanApp extends Application {
             } else {
                 System.err.println("Warning: Could not get MenuController instance.");
             }
-       
+
             menuScene = new Scene(menuRoot, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         } catch (IOException e) {
             System.err.println("Failed to load menu FXML: " + e.getMessage());
@@ -73,27 +73,27 @@ public class BombermanApp extends Application {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
-              
+
                 if (currentAppState == AppState.PLAYING && gameHUDControllerInstance != null) {
                     try {
-                        gameHUDControllerInstance.updateAndRender(1.0 / 60.0); 
+                        gameHUDControllerInstance.updateAndRender(1.0 / 60.0);
                     } catch (Exception e) {
                         System.err.println("Error during game update/render loop:");
                         e.printStackTrace();
-                        stop(); 
-                        showMenu(); 
+                        stop();
+                        showMenu();
                     }
                 }
             }
         };
 
-        showMenu(); 
+        showMenu();
 
-        primaryStage.setResizable(false); 
+        primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(event -> {
-            stopApplication(); 
-            Platform.exit();   
-            System.exit(0);    
+            stopApplication();
+            Platform.exit();
+            System.exit(0);
         });
         primaryStage.show();
         System.out.println("Application started successfully, showing menu.");
@@ -102,17 +102,17 @@ public class BombermanApp extends Application {
     public void showMenu() {
         currentAppState = AppState.MENU;
         if (gameLoop != null) {
-            gameLoop.stop(); 
+            gameLoop.stop();
         }
         primaryStage.setScene(menuScene);
-        primaryStage.setTitle("Bomberman FX - Menu"); 
-        SoundManager.getInstance().stopBackgroundMusic(); 
-        SoundManager.getInstance().playBackgroundMusic(SoundManager.TITLE_BGM, true); 
+        primaryStage.setTitle("Bomberman FX - Menu");
+        SoundManager.getInstance().stopBackgroundMusic();
+        SoundManager.getInstance().playBackgroundMusic(SoundManager.TITLE_BGM, true);
         System.out.println("Switched to Menu scene.");
     }
 
     public void startGame() {
-        currentAppState = AppState.PLAYING; 
+        currentAppState = AppState.PLAYING;
         try {
             URL gameFxmlUrl = getClass().getResource("/game-hud-view.fxml");
             if (gameFxmlUrl == null) {
@@ -129,16 +129,16 @@ public class BombermanApp extends Application {
 
             if (gameHUDControllerInstance != null) {
                 gameHUDControllerInstance.setupGame(gameInputHandler, this);
-                primaryStage.setScene(gameScene); 
-                primaryStage.setTitle("Bomberman FX - Level " + gameHUDControllerInstance.getGame().getCurrentLevelNumber()); 
-                SoundManager.getInstance().stopBackgroundMusic(); 
-                SoundManager.getInstance().playBackgroundMusic(SoundManager.GAME_BGM, true); 
-                gameLoop.start(); 
+                primaryStage.setScene(gameScene);
+                primaryStage.setTitle("Bomberman FX - Level " + gameHUDControllerInstance.getGame().getCurrentLevelNumber());
+                SoundManager.getInstance().stopBackgroundMusic();
+                SoundManager.getInstance().playBackgroundMusic(SoundManager.GAME_BGM, true);
+                gameLoop.start();
                 System.out.println("Switched to Game scene and started game.");
             } else {
                 throw new IllegalStateException("Could not get GameHUDController instance after loading FXML.");
             }
-        } catch (Exception e) { 
+        } catch (Exception e) {
             System.err.println("Failed to load game FXML or setup game: " + e.getMessage());
             e.printStackTrace();
             showMenu();
@@ -146,16 +146,16 @@ public class BombermanApp extends Application {
     }
 
     public void showGameOverScreen(int finalScore) {
-    
+
         Platform.runLater(() -> {
-            
+
             if (currentAppState == AppState.GAME_OVER) {
                 return;
             }
 
-            currentAppState = AppState.GAME_OVER; 
+            currentAppState = AppState.GAME_OVER;
             if (gameLoop != null) {
-                gameLoop.stop(); 
+                gameLoop.stop();
             }
             System.out.println("Showing GAME OVER! Final Score: " + finalScore);
             try {
@@ -167,8 +167,8 @@ public class BombermanApp extends Application {
                 gameOverControllerInstance = gameOverLoader.getController();
 
                 if (gameOverControllerInstance != null) {
-                    gameOverControllerInstance.setMainApp(this); 
-                    gameOverControllerInstance.setFinalScore(finalScore); 
+                    gameOverControllerInstance.setMainApp(this);
+                    gameOverControllerInstance.setFinalScore(finalScore);
                 } else {
                     System.err.println("Warning: Could not get GameOverController instance.");
                 }
@@ -176,18 +176,18 @@ public class BombermanApp extends Application {
                 if (gameOverScene == null) {
                     gameOverScene = new Scene(gameOverRoot, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
                 } else {
-                    gameOverScene.setRoot(gameOverRoot); 
+                    gameOverScene.setRoot(gameOverRoot);
                 }
 
                 primaryStage.setScene(gameOverScene);
                 primaryStage.setTitle("Bomberman FX - Game Over");
 
                 SoundManager.getInstance().stopBackgroundMusic();
-              
+
             } catch (IOException e) {
                 System.err.println("Failed to load Game Over FXML: " + e.getMessage());
                 e.printStackTrace();
-                showMenu(); 
+                showMenu();
             }
         });
     }
@@ -198,7 +198,7 @@ public class BombermanApp extends Application {
                 gameLoop.stop();
                 System.out.println("Game loop stopped.");
             }
-            showMenu(); 
+            showMenu();
         });
     }
 
@@ -211,14 +211,14 @@ public class BombermanApp extends Application {
         if (gameLoop != null) {
             gameLoop.stop();
         }
-        SoundManager.getInstance().cleanup(); 
+        SoundManager.getInstance().cleanup();
     }
 
-    
+
     @Override
     public void stop() throws Exception {
-        stopApplication(); 
-        super.stop();      
+        stopApplication();
+        super.stop();
         System.out.println("Application stopped (JavaFX stop method).");
     }
 

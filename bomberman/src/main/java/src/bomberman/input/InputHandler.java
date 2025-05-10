@@ -1,4 +1,4 @@
-package src.bomberman.input; 
+package src.bomberman.input;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -20,7 +20,7 @@ public class InputHandler {
             System.err.println("ERROR: Scene is null in InputHandler.init()");
             return;
         }
-        
+
         scene.setOnKeyPressed(this::handleKeyPressed);
         scene.setOnKeyReleased(this::handleKeyReleased);
         System.out.println("InputHandler initialized for scene.");
@@ -28,7 +28,7 @@ public class InputHandler {
 
     private void handleKeyPressed(KeyEvent event) {
         pressedKeys.add(event.getCode());
-       
+
     }
 
     private void handleKeyReleased(KeyEvent event) {

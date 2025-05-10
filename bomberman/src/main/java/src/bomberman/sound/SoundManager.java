@@ -3,7 +3,7 @@ package src.bomberman.sound;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration; 
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -11,22 +11,23 @@ import java.util.Map;
 
 public class SoundManager {
 
-    private static SoundManager instance; 
+    private static final Object DEFAULT_SFX_VOLUME = 1;
+    private static SoundManager instance;
 
     private Map<String, AudioClip> soundEffects;
     private MediaPlayer backgroundMusicPlayer;
-    private String currentBackgroundMusicPath = null; 
+    private String currentBackgroundMusicPath = null;
 
     public static final String EXPLOSION = "boom";
-    public static final String LEVEL_CLEAR = "clear"; 
-    public static final String PLAYER_DEATH = "dead1"; 
-    public static final String ENEMY_DEATH = "dead2"; 
+    public static final String LEVEL_COMPLETED = "level-completed";
+    public static final String PLAYER_DEATH = "dead1";
+    public static final String ENEMY_DEATH = "dead2";
     public static final String GET_ITEM = "getitem";
-    public static final String PLACE_BOMB = "putbomb"; 
-    public static final String GAMEOVER = "gameover";
+    public static final String PLACE_BOMB = "putbomb";
+    public static final String GAME_OVER = "gameover";
 
-    public static final String GAME_BGM = "gameaudio"; 
-    public static final String TITLE_BGM = "homestart"; 
+    public static final String GAME_BGM = "gameaudio";
+    public static final String TITLE_BGM = "homestart";
 
     private SoundManager() {
         soundEffects = new HashMap<>();
@@ -42,12 +43,12 @@ public class SoundManager {
     public void loadSounds() {
         System.out.println("Loading sound effects...");
         loadSoundEffect(EXPLOSION, "/sounds/boom.wav");
-        loadSoundEffect(LEVEL_CLEAR, "/sounds/clear.wav");
-        loadSoundEffect(PLAYER_DEATH, "/sounds/dead1.wav");
-        loadSoundEffect(ENEMY_DEATH, "/sounds/dead2.wav");
+        loadSoundEffect(LEVEL_COMPLETED, "/sounds/level-completed.wav");
+        loadSoundEffect(PLAYER_DEATH, "/sounds/dead2.wav");
+        loadSoundEffect(ENEMY_DEATH, "/sounds/dead1.wav");
         loadSoundEffect(GET_ITEM, "/sounds/getitem.wav");
         loadSoundEffect(PLACE_BOMB, "/sounds/putbomb.wav");
-        loadSoundEffect(GAMEOVER, "/sounds/gameover.wav");
+        loadSoundEffect(GAME_OVER, "/sounds/game-over.wav");
 
         System.out.println("Sound effects loading finished.");
     }
@@ -57,7 +58,7 @@ public class SoundManager {
             URL resourceUrl = getClass().getResource(filePath);
             if (resourceUrl == null) {
                 System.err.println("ERROR: Cannot find sound resource: " + filePath);
-                soundEffects.put(name, null); 
+                soundEffects.put(name, null);
                 return;
             }
             AudioClip clip = new AudioClip(resourceUrl.toExternalForm());
@@ -66,31 +67,32 @@ public class SoundManager {
         } catch (Exception e) {
             System.err.println("ERROR: Failed to load sound effect '" + name + "' from " + filePath);
             e.printStackTrace();
-            soundEffects.put(name, null); 
+            soundEffects.put(name, null);
         }
     }
+
 
     public void playSound(String name) {
         AudioClip clip = soundEffects.get(name);
         if (clip != null) {
-          
+
             clip.play();
         } else {
             System.err.println("Warning: Sound effect not found or failed to load: " + name);
         }
     }
 
-    
+
     public void playBackgroundMusic(String musicName, boolean loop) {
 
-        String filePath = "/sounds/" + musicName + ".wav"; 
+        String filePath = "/sounds/" + musicName + ".wav";
 
 
         if (backgroundMusicPlayer != null && filePath.equals(currentBackgroundMusicPath)) {
             if (backgroundMusicPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
                 return;
             } else {
-                
+
                 backgroundMusicPlayer.seek(Duration.ZERO);
                 backgroundMusicPlayer.play();
                 return;
@@ -98,7 +100,7 @@ public class SoundManager {
         }
 
         stopBackgroundMusic();
-        currentBackgroundMusicPath = null; 
+        currentBackgroundMusicPath = null;
 
         try {
             URL resourceUrl = getClass().getResource(filePath);
@@ -109,7 +111,7 @@ public class SoundManager {
             Media media = new Media(resourceUrl.toExternalForm());
             backgroundMusicPlayer = new MediaPlayer(media);
 
-    
+
             backgroundMusicPlayer.setOnError(() -> {
                 System.err.println("MediaPlayer Error: " + backgroundMusicPlayer.getError());
                 backgroundMusicPlayer.stop();
@@ -120,13 +122,13 @@ public class SoundManager {
 
             backgroundMusicPlayer.setOnReady(() -> {
                 if (loop) {
-                    backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE); 
+                    backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                 } else {
                     backgroundMusicPlayer.setCycleCount(1);
                 }
-               
+
                 backgroundMusicPlayer.play();
-                currentBackgroundMusicPath = filePath; 
+                currentBackgroundMusicPath = filePath;
                 System.out.println("Playing background music: " + musicName);
             });
 
@@ -135,7 +137,7 @@ public class SoundManager {
             System.err.println("ERROR: Failed to play background music from " + filePath);
             e.printStackTrace();
             if (backgroundMusicPlayer != null) {
-                backgroundMusicPlayer.dispose(); 
+                backgroundMusicPlayer.dispose();
                 backgroundMusicPlayer = null;
             }
             currentBackgroundMusicPath = null;
@@ -148,12 +150,12 @@ public class SoundManager {
                 if (backgroundMusicPlayer.getStatus() != MediaPlayer.Status.DISPOSED) {
                     backgroundMusicPlayer.stop();
                     System.out.println("Stopped background music.");
-            
+
                 }
             } catch (Exception e) {
                 System.err.println("Error stopping background music: " + e.getMessage());
             } finally {
-              
+
                 currentBackgroundMusicPath = null;
             }
 
@@ -167,16 +169,15 @@ public class SoundManager {
             backgroundMusicPlayer.setVolume(volume);
         }
     }
-    
+
     public void cleanup() {
         System.out.println("Cleaning up SoundManager...");
         stopBackgroundMusic();
         if (backgroundMusicPlayer != null) {
             backgroundMusicPlayer.dispose();
         }
-        soundEffects.clear(); 
+        soundEffects.clear();
         instance = null;
     }
 
-    public static final String GAME_OVER = "gameover"; 
 }

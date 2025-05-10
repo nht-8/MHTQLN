@@ -1,4 +1,4 @@
-package src.bomberman.graphics; 
+package src.bomberman.graphics;
 
 import javafx.scene.image.Image;
 import src.bomberman.Config;
@@ -6,10 +6,10 @@ import src.bomberman.Config;
 import java.io.InputStream;
 
 public class SpriteSheet {
-    private final Image sheet; 
+    private final Image sheet;
 
-    public static SpriteSheet Sheet1;   
-    public static SpriteSheet Sheet2; 
+    public static SpriteSheet Sheet1;
+    public static SpriteSheet Sheet2;
 
     public SpriteSheet(String path) {
         Image tempSheet = null;
@@ -36,13 +36,13 @@ public class SpriteSheet {
     public Image getSheet() {
         return sheet;
     }
-    
+
     public static void loadAllSheets() {
         System.out.println("Loading sprite sheets...");
         Sheet2 = new SpriteSheet(Config.SPRITESHEET2_PATH);
         Sheet1 = new SpriteSheet(Config.SPRITESHEET1_PATH);
         System.out.println("Sprite sheets loading finished.");
-      
+
         if (Sheet1.getSheet() == null) {
             System.err.println("CRITICAL: Spritesheet failed to load.");
         }

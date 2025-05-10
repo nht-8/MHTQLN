@@ -6,24 +6,29 @@
   <component name="ChangeListManager">
     <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/BombermanApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/BombermanApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/GameHUDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/GameHUDController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/GameOverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/GameOverController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/MenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Ballom.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Ballom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Bomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Bomb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Brick.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Brick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Doll.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Doll.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Explosion.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Explosion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Ovapi.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Ovapi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Pass.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Pass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Portal.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Portal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/PowerUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/PowerUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Wall.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Wall.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/graphics/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/graphics/Renderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/graphics/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/graphics/Sprite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level4.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/resources/levels/level5.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/levels/level1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/levels/level1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/levels/level2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/levels/level2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/levels/level3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/levels/level3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/levels/level4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/levels/level4.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/levels/level5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/levels/level5.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/menu-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/menu-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/graphics/SpriteSheet.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/graphics/SpriteSheet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/sound/SoundManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/sound/SoundManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,17 +77,12 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "ntnm",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/OOP/BTL/MHTQLN",
+    "last_opened_file_path": "D:/OOP/MHTQLN",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\OOP\BTL\MHTQLN\bomberman\src\main\resources\images" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
@@ -127,5 +127,15 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.IOException" package="java.io" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

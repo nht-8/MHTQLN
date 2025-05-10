@@ -1,6 +1,6 @@
 package src.bomberman.entities;
 
-import javafx.geometry.Rectangle2D; 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import src.bomberman.Config;
 import src.bomberman.core.Game;
@@ -23,19 +23,19 @@ public class Player extends Entity {
     private Direction currentDirection = Direction.DOWN;
     private boolean moving = false;
     private int animationCounter = 0;
-    private int animationFrameIndex = 0; 
-    private final int ANIMATION_SPEED = 8; 
+    private int animationFrameIndex = 0;
+    private final int ANIMATION_SPEED = 8;
 
     private int deathTimer = 0;
-    private final int DEATH_ANIMATION_DURATION = 60; 
-    private boolean dying = false; 
+    private final int DEATH_ANIMATION_DURATION = 60;
+    private boolean dying = false;
 
     private final double COLLISION_BOUNDS_INSET = 4.0;
 
     private int initialTileX;
     private int initialTileY;
     private boolean justPermanentlyDead=false;
-   
+
     public Player(double xTile, double yTile, SpriteSheet modernSheet, InputHandler input, Game game) {
         super(xTile, yTile, modernSheet);
         this.input = input;
@@ -44,22 +44,22 @@ public class Player extends Entity {
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Player sprite (player_d1) is null!");
         }
-      
+
         this.initialTileX = (int) xTile;
         this.initialTileY = (int) yTile;
     }
 
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        if (!alive&&!dying) { 
+        if (!alive&&!dying) {
             return;
         }
-        if (dying) { 
+        if (dying) {
             handleDeathAnimation();
             deathTimer++;
             if (deathTimer > DEATH_ANIMATION_DURATION + 30) {
                 alive = false;
-               
+
                 System.out.println("Player permanently dead (handle game over logic in Game class)");
             }
             return;
@@ -71,7 +71,7 @@ public class Player extends Entity {
 
     public boolean isJustPermanentlyDeadAndDecrementLife() {
         if (justPermanentlyDead) {
-            
+
             return true;
         }
         return false;
@@ -130,13 +130,13 @@ public class Player extends Entity {
         if (checkCollision(entities)) {
             y = oldY;
         }
-       
-        if (game != null && game.getLevel() != null) { 
+
+        if (game != null && game.getLevel() != null) {
             x = Math.max(0, Math.min(x, game.getLevel().getWidth() * Config.TILE_SIZE - getWidth()));
             y = Math.max(0, Math.min(y, game.getLevel().getHeight() * Config.TILE_SIZE - getHeight()));
         }
     }
-    
+
     public void consumePermanentlyDeadFlag() {
         this.justPermanentlyDead = false;
     }
@@ -146,7 +146,7 @@ public class Player extends Entity {
         Rectangle2D playerBounds = this.getBounds();
         for (Entity entity : entities) {
             if (entity == this || !entity.isAlive()) continue;
-            if (entity.isSolid()) { 
+            if (entity.isSolid()) {
                 if (playerBounds.intersects(entity.getBounds())) {
                     return true;
                 }
@@ -159,33 +159,33 @@ public class Player extends Entity {
         animationCounter++;
         if (animationCounter >= ANIMATION_SPEED) {
             animationCounter = 0;
-     
-            animationFrameIndex = (animationFrameIndex + 1) % 3; 
+
+            animationFrameIndex = (animationFrameIndex + 1) % 3;
 
             switch (currentDirection) {
                 case UP:
                     if (animationFrameIndex == 0) sprite = Sprite.player_u1;
                     else if (animationFrameIndex == 1) sprite = Sprite.player_u2;
                     else sprite = Sprite.player_u3;
-                    
+
                     break;
                 case DOWN:
                     if (animationFrameIndex == 0) sprite = Sprite.player_d1;
                     else if (animationFrameIndex == 1) sprite = Sprite.player_d2;
                     else sprite = Sprite.player_d3;
-                
+
                     break;
                 case LEFT:
                     if (animationFrameIndex == 0) sprite = Sprite.player_l1;
                     else if (animationFrameIndex == 1) sprite = Sprite.player_l2;
                     else sprite = Sprite.player_l3;
-                    
+
                     break;
                 case RIGHT:
                     if (animationFrameIndex == 0) sprite = Sprite.player_r1;
                     else if (animationFrameIndex == 1) sprite = Sprite.player_r2;
                     else sprite = Sprite.player_r3;
-            
+
                     break;
                 default: setStandingSprite(); break;
             }
@@ -237,9 +237,9 @@ public class Player extends Entity {
             System.out.println("Player is dying!");
             dying = true;
             moving = false;
-            animationCounter = 0; 
-            deathTimer = 0;       
-            sprite = Sprite.player_dead1; 
+            animationCounter = 0;
+            deathTimer = 0;
+            sprite = Sprite.player_dead1;
             if (sprite == null) {
                 System.err.println("ERROR: Sprite.player_dead1 is null in Player.destroy()!");
                 sprite = Sprite.player_d1;
@@ -250,7 +250,7 @@ public class Player extends Entity {
     }
 
     private void handleDeathAnimation() {
-        deathTimer++; 
+        deathTimer++;
         int deathFrameTime = DEATH_ANIMATION_DURATION / 3;
 
         Sprite targetSprite = null;
@@ -261,39 +261,39 @@ public class Player extends Entity {
         } else if (deathTimer <= DEATH_ANIMATION_DURATION) {
             targetSprite = Sprite.player_dead3;
         } else {
-            
-            targetSprite = Sprite.player_dead3; 
-            if (dying) { 
-                this.dying = false; 
-                this.alive = false; 
-                this.justPermanentlyDead = true; 
+
+            targetSprite = Sprite.player_dead3;
+            if (dying) {
+                this.dying = false;
+                this.alive = false;
+                this.justPermanentlyDead = true;
                 System.out.println("Player death animation finished. Flags set: alive=false, dying=false, justPermanentlyDead=true");
             }
         }
         this.sprite = targetSprite;
         if (this.sprite == null) {
             System.err.println("Warning: Player dead animation sprite is null. deathTimer: " + deathTimer);
-            this.sprite = Sprite.player_d1; 
+            this.sprite = Sprite.player_d1;
         }
     }
 
     @Override
     public boolean isDying() {
-        return dying; 
+        return dying;
     }
 
     public int getFlameLength() { return flameLength; }
 
     @Override
     public Rectangle2D getBounds() {
-    
-        double visualWidth = super.getWidth(); 
-        double visualHeight = super.getHeight(); 
+
+        double visualWidth = super.getWidth();
+        double visualHeight = super.getHeight();
 
         double collisionX = x + COLLISION_BOUNDS_INSET;
         double collisionY = y + COLLISION_BOUNDS_INSET;
         double collisionWidth = visualWidth - (2 * COLLISION_BOUNDS_INSET);
-        double collisionHeight = visualHeight - (COLLISION_BOUNDS_INSET); 
+        double collisionHeight = visualHeight - (COLLISION_BOUNDS_INSET);
 
         collisionWidth = Math.max(1, collisionWidth);
         collisionHeight = Math.max(1, collisionHeight);
@@ -306,7 +306,7 @@ public class Player extends Entity {
         this.y = initialTileY * Config.TILE_SIZE;
         this.alive = true;
         this.dying = false;
-        this.justPermanentlyDead = false; 
+        this.justPermanentlyDead = false;
         this.deathTimer = 0;
         this.animationCounter = 0;
         this.currentDirection = Direction.DOWN;
@@ -317,13 +317,13 @@ public class Player extends Entity {
         this.alive = false;
         this.dying = false;
         this.justPermanentlyDead = false;
-       
+
     }
     public void setInitialPosition(int tileX, int tileY) {
         this.initialTileX = tileX;
         this.initialTileY = tileY;
     }
-    
+
     public void addBombCapacity(int amount) { if(bombCapacity<3)  this.bombCapacity += amount; }
     public void addFlameLength(int amount) { if(flameLength<2) this.flameLength += amount; }
     public void addSpeed(double amount) { this.speed += amount; }
