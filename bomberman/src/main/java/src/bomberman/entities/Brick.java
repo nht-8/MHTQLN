@@ -101,6 +101,10 @@ public class Brick extends Entity {
         }
         // Nếu không phải trạng thái breaking, không làm gì cả.
     }
+    // Trong Brick.java
+    public PowerUp.PowerUpType getContainedPowerUpType() {
+        return containedPowerUpType;
+    }
 
     /**
      * Bắt đầu quá trình phá hủy gạch. Được gọi khi bị Explosion chạm vào.
@@ -137,6 +141,11 @@ public class Brick extends Entity {
     @Override
     public boolean isDying() {
         return breaking && alive; // Đang vỡ và chưa bị xóa hẳn
+    }
+
+    public void setContainedPowerUpType(PowerUp.PowerUpType type) {
+        this.containedPowerUpType = type;
+
     }
 
     // (Tùy chọn) Getter để Game có thể kiểm tra loại powerup (nếu cần)

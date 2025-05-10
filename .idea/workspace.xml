@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/images/modern_spritesheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/images/spritesheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/target/classes/src/bomberman/entities/Entity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/sound/SoundManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/sound/SoundManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,12 +27,18 @@
     &quot;assignee&quot;: &quot;minh-ui&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/nht-8/MHTQLN.git",
-    "accountId": "c6247669-f08f-4011-a871-3ca6f864d765"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/nht-8/MHTQLN.git&quot;,
+    &quot;accountId&quot;: &quot;c6247669-f08f-4011-a871-3ca6f864d765&quot;
   }
-}]]></component>
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+}&lt;/component&gt;
+  &lt;component name=&quot;ProblemsViewState&quot;&gt;
+    &lt;option name=&quot;selectedTabId&quot; value=&quot;CurrentFile&quot; /&gt;
+  &lt;/component&gt;
+=======
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -45,14 +49,29 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.BombermanApp.executor": "Run",
     "Application.GameApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "nht",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/OOP/MHTQLN/bomberman"
+    "last_opened_file_path": "D:/Bomberman",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -63,5 +82,38 @@
       <updated>1746642468437</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="nht" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.IOException" package="java.io" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

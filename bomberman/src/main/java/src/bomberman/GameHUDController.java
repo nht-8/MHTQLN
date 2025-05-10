@@ -110,13 +110,15 @@ public class GameHUDController {
         updateHUDLabels();
 
         // 3. Yêu cầu Renderer vẽ nội dung game lên GraphicsContext của Canvas
-        renderer.renderGameContent(gameCanvasGC, game); // Renderer chỉ vẽ phần game
+        renderer.render(gameCanvasGC, game); // Renderer chỉ vẽ phần game
 
         // 4. Kiểm tra điều kiện Game Over sau khi đã update và render frame hiện tại
         // Đảm bảo player không null trước khi kiểm tra trạng thái
         if (game.getPlayerLives() <= 0 && game.getPlayer() != null && !game.getPlayer().isAlive() && !game.getPlayer().isDying()) {
-            // Gọi mainApp để hiển thị màn hình game over, chỉ gọi nếu chưa ở trạng thái game over
             if(mainApp != null && mainApp.getCurrentAppState() != BombermanApp.AppState.GAME_OVER) {
+                // Dừng vòng lặp game TRƯỚC KHI hiển thị màn hình game over
+                // mainApp.stopGameLoopAndShowMenu(); // Không, cái này là về menu
+                // Thay vào đó, BombermanApp.showGameOverScreen sẽ dừng gameLoop.start()
                 mainApp.showGameOverScreen(game.getPlayerScore());
             } else if (mainApp == null) {
                 System.err.println("Cannot trigger Game Over screen: mainApp is null in GameHUDController");

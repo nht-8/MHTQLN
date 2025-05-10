@@ -11,6 +11,7 @@ public class Sprite {
     // Kích thước cơ bản của ô lưới trên spritesheet NES
     // (Quan trọng để tính tọa độ pixel từ col/row)
     public static final int DEFAULT_SIZE = 32;
+    public static Sprite portal;
     // Kích thước hiển thị sau khi scale (nếu dùng getFxImage, nhưng chúng ta không dùng)
     // public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
     // Màu trong suốt (không cần thiết với cách vẽ mới)
@@ -192,6 +193,7 @@ public class Sprite {
             explosion_bottom1 = new Sprite(Sheet1, 5, 47, 32, 32);
             explosion_bottom2 = new Sprite(Sheet1, 5, 89, 32, 32);
 
+            portal = new Sprite(Sheet1,215,5,32,32);
         } else {
             System.err.println("Failed to initialize player sprites from modern sheet. Player may not render correctly.");
         }

@@ -1,10 +1,9 @@
-package src.bomberman.entities;
+// src/main/java/src/bomberman/entities/Player.java
+package src.bomberman.entities; // Hoặc uet.oop.bomberman.entities
 
-import javafx.animation.PauseTransition; // << THÊM IMPORT
-import javafx.application.Platform;     // << THÊM IMPORT
-import javafx.geometry.Rectangle2D;
+// Import các lớp cần thiết
+import javafx.geometry.Rectangle2D; // Vẫn cần cho checkCollision
 import javafx.scene.input.KeyCode;
-import javafx.util.Duration;            // << THÊM IMPORT
 import src.bomberman.Config;
 import src.bomberman.core.Game;
 import src.bomberman.graphics.Sprite;
@@ -16,40 +15,36 @@ import java.util.List;
 
 public class Player extends Entity {
 
-    // --- Thuộc tính di chuyển và trạng thái ---
     private double speed = Config.PLAYER_SPEED;
-    private Direction currentDirection = Direction.DOWN;
-    private boolean moving = false;
-    private InputHandler input;
-    private Game game;
-
-    // --- Thuộc tính Bom ---
     private int bombCapacity = Config.PLAYER_INIT_BOMBS;
     private int currentPlacedBombs = 0;
     private int flameLength = Config.PLAYER_INIT_FLAMES;
+    private InputHandler input;
+    private Game game;
 
-    // --- Thuộc tính Animation ---
+    private Direction currentDirection = Direction.DOWN;
+    private boolean moving = false;
     private int animationCounter = 0;
-    private int animationFrameIndex = 0;
-    private final int ANIMATION_SPEED = 8;
+    private int animationFrameIndex = 0; // 0, 1, 2 (cho 3 frame animation)
+    private final int ANIMATION_SPEED = 8; // Tốc độ chuyển frame
 
-    // --- Thuộc tính trạng thái Chết/Hồi sinh ---
     private int deathTimer = 0;
-    private final int DEATH_ANIMATION_DURATION = 60;
-    private boolean dying = false;
-    private boolean justPermanentlyDeadFlag = false;
-    private boolean permanentlyDeadNoUpdates = false;
+    private final int DEATH_ANIMATION_DURATION = 60; // Thời gian animation chết (khoảng 1 giây)
+    private boolean dying = false; // Cờ cho trạng thái đang chạy animation chết
 
-    // ---- THUỘC TÍNH BẤT TỬ ----
-    private boolean invincible = false; // Cờ trạng thái bất tử
-    private transient PauseTransition invincibilityTimer; // Timer để tắt bất tử (transient nếu có serialize)
-    private final double INVINCIBILITY_DURATION_SECONDS = 2.0; // Thời gian bất tử (ví dụ: 2 giây)
-
-    // --- Thuộc tính vị trí và va chạm ---
     private final double COLLISION_BOUNDS_INSET = 4.0;
-    private double startTileX, startTileY;
 
-
+    private int initialTileX;
+    private int initialTileY;
+    private boolean justPermanentlyDead=false;
+    /**
+     * Constructor cho Player.
+     * @param xTile Tọa độ ô X ban đầu.
+     * @param yTile Tọa độ ô Y ban đầu.
+     * @param modernSheet SpriteSheet chứa hình ảnh của Player (modern_spritesheet).
+     * @param input InputHandler để nhận điều khiển.
+     * @param game Tham chiếu đến đối tượng Game.
+     */
     public Player(double xTile, double yTile, SpriteSheet modernSheet, InputHandler input, Game game) {
         super(xTile, yTile, modernSheet);
         this.input = input;
@@ -58,44 +53,44 @@ public class Player extends Entity {
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Player sprite (player_d1) is null!");
         }
-        this.startTileX = xTile;
-        this.startTileY = yTile;
+        // Lưu vị trí ban đầu
+        this.initialTileX = (int) xTile;
+        this.initialTileY = (int) yTile;
     }
 
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        if (permanentlyDeadNoUpdates) return;
-        if (!alive && !dying) return;
-
-        if (dying) {
+        if (!alive&&!dying) { // Nếu đã chết hẳn (sau animation)
+            return; // Không làm gì cả
+        }
+        if (dying) { // Nếu đang trong quá trình chạy animation chết
             handleDeathAnimation();
             deathTimer++;
-            if (deathTimer > DEATH_ANIMATION_DURATION + 15) {
+            if (deathTimer > DEATH_ANIMATION_DURATION + 30) { // Chờ thêm 0.5s sau animation
                 alive = false;
-                dying = false;
-                justPermanentlyDeadFlag = true;
-                System.out.println("Player animation dead finished. Flag set for Game process.");
+                // Đánh dấu là chết hẳn
+                System.out.println("Player permanently dead (handle game over logic in Game class)");
             }
             return;
         }
 
-        // Nếu còn sống (alive = true, dying = false)
+        // Nếu còn sống và không đang dying, xử lý input và đặt bom
         handleInputAndMovement(entities);
         handleBombPlacement();
-
-        // --- (Tùy chọn) Logic nhấp nháy khi bất tử ---
-        // if (invincible) {
-        //     // Ví dụ: nhấp nháy mỗi 5 frame update
-        //     boolean showSprite = (animationCounter / 5) % 2 == 0;
-        //     // Bạn cần một cách để lưu sprite gốc trước khi ẩn nó
-        //     // và đặt sprite thành null hoặc một sprite trong suốt khi ẩn
-        //     // Hoặc thay đổi opacity: this.opacity = showSprite ? 1.0 : 0.5; (Cần sửa render)
-        // } else {
-        //     // Đảm bảo sprite/opacity bình thường khi không bất tử
-        //     // this.opacity = 1.0;
-        // }
     }
 
+    public boolean isJustPermanentlyDeadAndDecrementLife() {
+        if (justPermanentlyDead) {
+            // justPermanentlyDead = false; // Game sẽ reset cờ này sau khi xử lý
+            return true;
+        }
+        return false;
+    }
+
+
+    public void bombExploded(){
+        currentPlacedBombs = Math.max(0,currentPlacedBombs-1);
+    }
     private void handleInputAndMovement(List<Entity> entities) {
         double dx = 0;
         double dy = 0;
@@ -117,17 +112,14 @@ public class Player extends Entity {
             updateMovingAnimation();
         } else {
             moving = false;
-            // Chỉ đặt lại sprite đứng nếu không đang bất tử (hoặc xử lý trong logic nhấp nháy)
-            if (!invincible) {
-                setStandingSprite();
-            }
+            setStandingSprite();
             animationCounter = 0;
             animationFrameIndex = 0;
         }
     }
 
     private void handleBombPlacement() {
-        if (alive && !dying && (input.isPressed(KeyCode.SPACE) || input.isPressed(KeyCode.X))) {
+        if (input.isPressed(KeyCode.SPACE) || input.isPressed(KeyCode.X)) {
             placeBomb();
             input.releaseKey(KeyCode.SPACE);
             input.releaseKey(KeyCode.X);
@@ -136,35 +128,40 @@ public class Player extends Entity {
 
     private void move(double dx, double dy, List<Entity> entities) {
         if (dx == 0 && dy == 0) return;
-        double oldX = x;
-        double oldY = y;
-        x += dx;
-        if (checkCollision(entities)) x = oldX;
-        y += dy;
-        if (checkCollision(entities)) y = oldY;
-        confineToMapBounds();
-    }
 
-    private void confineToMapBounds() {
-        if (game != null && game.getLevel() != null) {
-            double mapPixelWidth = game.getLevel().getWidth() * Config.TILE_SIZE;
-            double mapPixelHeight = game.getLevel().getHeight() * Config.TILE_SIZE;
-            double playerWidth = getWidth();
-            double playerHeight = getHeight();
-            x = Math.max(0, Math.min(x, mapPixelWidth - playerWidth));
-            y = Math.max(0, Math.min(y, mapPixelHeight - playerHeight));
+        double oldX = x;
+        x += dx;
+        if (checkCollision(entities)) {
+            x = oldX;
+        }
+
+        double oldY = y;
+        y += dy;
+        if (checkCollision(entities)) {
+            y = oldY;
+        }
+        // Giới hạn trong map
+        if (game != null && game.getLevel() != null) { // Cần tham chiếu level từ game
+            x = Math.max(0, Math.min(x, game.getLevel().getWidth() * Config.TILE_SIZE - getWidth()));
+            y = Math.max(0, Math.min(y, game.getLevel().getHeight() * Config.TILE_SIZE - getHeight()));
         }
     }
+    /**
+     * Reset cờ justPermanentlyDead. Được gọi bởi Game sau khi đã xử lý.
+     */
+    public void consumePermanentlyDeadFlag() {
+        this.justPermanentlyDead = false;
+    }
+
 
     private boolean checkCollision(List<Entity> entities) {
-        // Không kiểm tra va chạm nếu đang bất tử (có thể là một lựa chọn)
-        // if (invincible) return false;
-
         Rectangle2D playerBounds = this.getBounds();
         for (Entity entity : entities) {
-            if (entity == this || !entity.isAlive() || !entity.isSolid()) continue;
-            if (playerBounds.intersects(entity.getBounds())) {
-                return true;
+            if (entity == this || !entity.isAlive()) continue;
+            if (entity.isSolid()) { // Kiểm tra với các entity rắn (Wall, Brick, Bomb chưa nổ)
+                if (playerBounds.intersects(entity.getBounds())) {
+                    return true;
+                }
             }
         }
         return false;
@@ -174,63 +171,45 @@ public class Player extends Entity {
         animationCounter++;
         if (animationCounter >= ANIMATION_SPEED) {
             animationCounter = 0;
-            animationFrameIndex = (animationFrameIndex + 1) % 3;
-            // Nếu đang bất tử, có thể bỏ qua việc cập nhật sprite ở đây
-            // và để logic nhấp nháy trong update() xử lý.
-            if (!invincible) {
-                setMovingSpriteBasedOnFrameAndDirection();
+            // Player có thể có 3 hoặc 4 frame animation. Giả sử 3 frame (0, 1, 2)
+            animationFrameIndex = (animationFrameIndex + 1) % 3; // Lặp 3 frame _1, _2, _3
+
+            switch (currentDirection) {
+                case UP:
+                    if (animationFrameIndex == 0) sprite = Sprite.player_u1;
+                    else if (animationFrameIndex == 1) sprite = Sprite.player_u2;
+                    else sprite = Sprite.player_u3;
+                    // else sprite = Sprite.player_u4; // Nếu có frame 4
+                    break;
+                case DOWN:
+                    if (animationFrameIndex == 0) sprite = Sprite.player_d1;
+                    else if (animationFrameIndex == 1) sprite = Sprite.player_d2;
+                    else sprite = Sprite.player_d3;
+                    // else sprite = Sprite.player_d4;
+                    break;
+                case LEFT:
+                    if (animationFrameIndex == 0) sprite = Sprite.player_l1;
+                    else if (animationFrameIndex == 1) sprite = Sprite.player_l2;
+                    else sprite = Sprite.player_l3;
+                    // else sprite = Sprite.player_l4;
+                    break;
+                case RIGHT:
+                    if (animationFrameIndex == 0) sprite = Sprite.player_r1;
+                    else if (animationFrameIndex == 1) sprite = Sprite.player_r2;
+                    else sprite = Sprite.player_r3;
+                    // else sprite = Sprite.player_r4;
+                    break;
+                default: setStandingSprite(); break;
+            }
+            if (sprite == null) {
+                System.err.println("Warning: Player moving sprite is null. Dir: " + currentDirection + ", Frame: " + animationFrameIndex);
+                setStandingSprite();
             }
         }
-        // Cập nhật sprite ngay cả khi không đủ ANIMATION_SPEED nếu vừa hết bất tử
-        if (!invincible && moving && this.sprite == null /* hoặc sprite đang là sprite nhấp nháy */) {
-            setMovingSpriteBasedOnFrameAndDirection();
-        }
     }
-
-    /**
-     * Helper method để đặt sprite di chuyển dựa trên frame và hướng hiện tại.
-     * Tách ra từ updateMovingAnimation để dễ gọi lại.
-     */
-    private void setMovingSpriteBasedOnFrameAndDirection() {
-        Sprite targetSprite = null;
-        switch (currentDirection) {
-            case UP:
-                if (animationFrameIndex == 0) targetSprite = Sprite.player_u1;
-                else if (animationFrameIndex == 1) targetSprite = Sprite.player_u2;
-                else targetSprite = Sprite.player_u3;
-                break;
-            case DOWN:
-                if (animationFrameIndex == 0) targetSprite = Sprite.player_d1;
-                else if (animationFrameIndex == 1) targetSprite = Sprite.player_d2;
-                else targetSprite = Sprite.player_d3;
-                break;
-            case LEFT:
-                if (animationFrameIndex == 0) targetSprite = Sprite.player_l1;
-                else if (animationFrameIndex == 1) targetSprite = Sprite.player_l2;
-                else targetSprite = Sprite.player_l3;
-                break;
-            case RIGHT:
-                if (animationFrameIndex == 0) targetSprite = Sprite.player_r1;
-                else if (animationFrameIndex == 1) targetSprite = Sprite.player_r2;
-                else targetSprite = Sprite.player_r3;
-                break;
-            default:
-                targetSprite = Sprite.player_d1; // Fallback
-                break;
-        }
-        this.sprite = targetSprite;
-        if (sprite == null) {
-            System.err.println("Warning: Player moving sprite is null after set. Dir: " + currentDirection + ", Frame: " + animationFrameIndex);
-            setStandingSprite(); // Fallback
-        }
-    }
-
 
     private void setStandingSprite() {
-        // Nếu đang bất tử, không đặt lại sprite (để hiệu ứng nhấp nháy kiểm soát)
-        if (invincible) return;
-
-        animationFrameIndex = 0;
+        animationFrameIndex = 0; // Khi đứng yên, luôn là frame đầu
         Sprite targetSprite = null;
         switch (currentDirection) {
             case UP: targetSprite = Sprite.player_u1; break;
@@ -242,167 +221,127 @@ public class Player extends Entity {
         this.sprite = targetSprite;
         if (this.sprite == null) {
             System.err.println("Warning: Player standing sprite is null. Dir: " + currentDirection);
-            this.sprite = Sprite.player_d1;
+            this.sprite = Sprite.player_d1; // Fallback
             if (this.sprite == null)  System.err.println("CRITICAL ERROR: Default player_d1 is null!");
         }
     }
 
     private void placeBomb() {
-        if (alive && !dying && currentPlacedBombs < bombCapacity && game != null) {
+        if (currentPlacedBombs < bombCapacity && game != null) {
             int tileX = getTileX();
             int tileY = getTileY();
             if (game.canPlaceBombAt(tileX, tileY)) {
-                Bomb newBomb = new Bomb(tileX, tileY, game.getModernSheet(), Config.BOMB_TIMER, this.flameLength, this, game);
+                // Bomb dùng nesSheet
+                Bomb newBomb = new Bomb(tileX, tileY, game.getNesSheet(), Config.BOMB_TIMER, this.flameLength, this, game);
                 game.addBomb(newBomb);
                 currentPlacedBombs++;
+
                 SoundManager.getInstance().playSound(SoundManager.PLACE_BOMB);
             }
         }
     }
 
-    public void bombExploded() {
-        currentPlacedBombs = Math.max(0, currentPlacedBombs - 1);
-    }
+
 
     @Override
     public void destroy() {
-        // Chỉ chết nếu đang sống, không đang chết, VÀ KHÔNG BẤT TỬ
-        if (alive && !dying && !invincible) {
+        if (alive && !dying) {
             System.out.println("Player is dying!");
             dying = true;
             moving = false;
-            animationCounter = 0;
-            deathTimer = 0;
-            sprite = Sprite.player_dead1;
+            animationCounter = 0; // Reset animation di chuyển
+            deathTimer = 0;       // Reset animation chết
+            sprite = Sprite.player_dead1; // Bắt đầu animation chết
             if (sprite == null) {
-                System.err.println("Warning: Player_dead1 sprite is null.");
-                sprite = Sprite.player_d1;
+                System.err.println("ERROR: Sprite.player_dead1 is null in Player.destroy()!");
+                sprite = Sprite.player_d1; // Fallback
             }
             SoundManager.getInstance().playSound(SoundManager.PLAYER_DEATH);
-        } else if (invincible) {
-            System.out.println("Player was hit but is currently invincible.");
         }
+
     }
 
-
     private void handleDeathAnimation() {
-        animationCounter++;
+        deathTimer++; // Tăng bộ đếm thời gian cho animation chết
         int deathFrameTime = DEATH_ANIMATION_DURATION / 3;
+
         Sprite targetSprite = null;
         if (deathTimer < deathFrameTime) {
             targetSprite = Sprite.player_dead1;
         } else if (deathTimer < deathFrameTime * 2) {
             targetSprite = Sprite.player_dead2;
-        } else {
+        } else if (deathTimer <= DEATH_ANIMATION_DURATION) {
             targetSprite = Sprite.player_dead3;
+        } else {
+            // Animation đã hoàn tất
+            targetSprite = Sprite.player_dead3; // Giữ frame cuối
+            if (dying) { // Chỉ đặt cờ nếu thực sự đang trong quá trình dying
+                this.dying = false; // Kết thúc trạng thái "đang chết"
+                this.alive = false; // Đánh dấu là "không còn sống" (để Game xử lý)
+                this.justPermanentlyDead = true; // Báo cho Game biết là đã chết hẳn
+                System.out.println("Player death animation finished. Flags set: alive=false, dying=false, justPermanentlyDead=true");
+            }
         }
         this.sprite = targetSprite;
         if (this.sprite == null) {
-            System.err.println("Warning: Player dead animation sprite is null during animation.");
+            System.err.println("Warning: Player dead animation sprite is null. deathTimer: " + deathTimer);
+            this.sprite = Sprite.player_d1; // Fallback
         }
     }
 
     @Override
     public boolean isDying() {
-        return dying;
-    }
-
-    public boolean isJustPermanentlyDeadAndDecrementLife() {
-        if (justPermanentlyDeadFlag) {
-            justPermanentlyDeadFlag = false;
-            return true;
-        }
-        return false;
-    }
-
-    public void resetToStartPositionAndRevive() {
-        this.x = this.startTileX * Config.TILE_SIZE;
-        this.y = this.startTileY * Config.TILE_SIZE;
-        this.alive = true;
-        this.dying = false;
-        this.deathTimer = 0;
-        this.animationCounter = 0;
-        this.animationFrameIndex = 0;
-        this.justPermanentlyDeadFlag = false;
-        this.permanentlyDeadNoUpdates = false;
-        this.currentDirection = Direction.DOWN;
-        setStandingSprite(); // Đặt lại sprite đứng ban đầu
-
-        // Kích hoạt bất tử
-        activateInvincibility(INVINCIBILITY_DURATION_SECONDS);
-
-        System.out.println("Player revived, reset to start position, and is invincible.");
-    }
-
-    /**
-     * Kích hoạt trạng thái bất tử trong một khoảng thời gian.
-     * @param durationSeconds Thời gian bất tử (giây).
-     */
-    private void activateInvincibility(double durationSeconds) {
-        if (invincibilityTimer != null) {
-            invincibilityTimer.stop(); // Đảm bảo dừng timer cũ nếu có
-        }
-        invincible = true;
-        System.out.println("Player invincible for " + durationSeconds + " seconds.");
-        // TODO: Bắt đầu hiệu ứng nhấp nháy sprite hoặc thay đổi opacity ở đây
-
-        invincibilityTimer = new PauseTransition(Duration.seconds(durationSeconds));
-        invincibilityTimer.setOnFinished(event -> {
-            invincible = false;
-            System.out.println("Player invincibility ended.");
-            // TODO: Dừng hiệu ứng nhấp nháy và đảm bảo sprite/opacity trở lại bình thường
-            // Đặt lại sprite phù hợp sau khi hết bất tử
-            if (!moving) {
-                setStandingSprite();
-            } else {
-                // Cần cập nhật lại sprite di chuyển phù hợp với frame/hướng hiện tại
-                setMovingSpriteBasedOnFrameAndDirection();
-            }
-        });
-
-        // Đảm bảo timer chạy trên luồng JavaFX
-        if (Platform.isFxApplicationThread()) {
-            invincibilityTimer.play();
-        } else {
-            Platform.runLater(() -> invincibilityTimer.play());
-        }
+        return dying; // Trả về trạng thái đang chạy animation chết
     }
 
 
-    public void setPermanentlyDeadNoUpdates() {
-        this.permanentlyDeadNoUpdates = true;
-        this.alive = false;
-        this.dying = false;
-        // Dừng timer bất tử nếu đang chạy khi game over
-        if (invincibilityTimer != null) {
-            invincibilityTimer.stop();
-        }
-    }
-
-    // --- Các phương thức nhận Power-up ---
-    public void addBombCapacity(int amount) {
-        if(bombCapacity < 3) this.bombCapacity += amount; }
-    public void addFlameLength(int amount) {
-        if(flameLength < 3) this.flameLength += amount; }
-    public void addSpeed(double amount) { this.speed = Math.max(0.5, this.speed + amount); }
-
-    // --- Getters ---
+    // Getters
     public int getFlameLength() { return flameLength; }
-    public boolean isInvincible() { return invincible; } // Getter cho trạng thái bất tử
 
-    /**
-     * Trả về vùng bao va chạm (hitbox) của Player.
-     */
     @Override
     public Rectangle2D getBounds() {
-        double visualWidth = Config.TILE_SIZE; // Giả sử kích thước trực quan bằng ô
-        double visualHeight = Config.TILE_SIZE;
+        // Lấy kích thước trực quan của Player (đã scale nếu có)
+        double visualWidth = super.getWidth(); // Gọi getWidth() của Entity
+        double visualHeight = super.getHeight(); // Gọi getHeight() của Entity
+
+        // Tính toán vùng bao va chạm nhỏ hơn
         double collisionX = x + COLLISION_BOUNDS_INSET;
-        double collisionY = y + COLLISION_BOUNDS_INSET * 1.5;
+        double collisionY = y + COLLISION_BOUNDS_INSET; // Có thể chỉ thu nhỏ theo chiều rộng
         double collisionWidth = visualWidth - (2 * COLLISION_BOUNDS_INSET);
-        double collisionHeight = visualHeight - (COLLISION_BOUNDS_INSET * 2);
+        double collisionHeight = visualHeight - (COLLISION_BOUNDS_INSET); // Ví dụ chỉ thu nhỏ 1 bên ở Y
+
+        // Đảm bảo width/height không âm
         collisionWidth = Math.max(1, collisionWidth);
         collisionHeight = Math.max(1, collisionHeight);
+
         return new Rectangle2D(collisionX, collisionY, collisionWidth, collisionHeight);
+
     }
+    public void resetToStartPositionAndRevive() {
+        this.x = initialTileX * Config.TILE_SIZE;
+        this.y = initialTileY * Config.TILE_SIZE;
+        this.alive = true;
+        this.dying = false;
+        this.justPermanentlyDead = false; // Quan trọng: reset cờ này
+        this.deathTimer = 0;
+        this.animationCounter = 0;
+        this.currentDirection = Direction.DOWN;
+        setStandingSprite();
+        System.out.println("Player revived and reset to start position: (" + initialTileX + "," + initialTileY + ")");
+    }
+    public void setPermanentlyDeadNoUpdates() {
+        this.alive = false;
+        this.dying = false;
+        this.justPermanentlyDead = false;
+        // Bạn có thể thêm một cờ "permanentlyDead" nếu muốn bỏ qua hoàn toàn logic update
+        // trong phương thức update() của Player.
+    }
+    public void setInitialPosition(int tileX, int tileY) {
+        this.initialTileX = tileX;
+        this.initialTileY = tileY;
+    }
+    // Power-up methods
+    public void addBombCapacity(int amount) { this.bombCapacity += amount; }
+    public void addFlameLength(int amount) { this.flameLength += amount; }
+    public void addSpeed(double amount) { this.speed += amount; }
 }

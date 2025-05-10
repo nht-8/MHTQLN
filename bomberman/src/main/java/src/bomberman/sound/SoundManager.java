@@ -218,4 +218,6 @@ public class SoundManager {
         soundEffects.clear(); // Xóa các AudioClip
         instance = null; // Reset Singleton (nếu cần)
     }
+
+    public static final String GAME_OVER = "gameover"; // Đặt tên file âm thanh game over (không có đuôi .wav)
 }
