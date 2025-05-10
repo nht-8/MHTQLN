@@ -282,8 +282,6 @@ public class Game {
         if (player != null) {
             player.setPermanentlyDeadNoUpdates(); 
         }
-        // GameHUDController sẽ kiểm tra playerLives <= 0 và xử lý việc chuyển màn hình
-        // hoặc dừng game loop. Game.java chỉ cần cập nhật trạng thái.
     }
 
    
