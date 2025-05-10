@@ -108,7 +108,16 @@ public class Renderer {
             }
         }
 
+<<<<<<< Updated upstream
         // 8. Vẽ Player (Lớp trên cùng)
+=======
+        Portal currentPortal = game.getCurrentLevelPortal(); // Lấy portal từ Game
+        if (currentPortal != null) {
+            // Đối tượng Portal sẽ tự kiểm tra isRevealed và isAlive bên trong render() của nó
+            currentPortal.render(gc);
+        }
+
+>>>>>>> Stashed changes
         Player player = game.getPlayer();
         if (player != null) {
             // Vẽ player nếu còn sống hoặc đang trong animation chết

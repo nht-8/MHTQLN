@@ -15,7 +15,12 @@ import java.util.Map;
  */
 public class SoundManager {
 
+<<<<<<< Updated upstream
     private static SoundManager instance; // Thể hiện Singleton
+=======
+    private static final Object DEFAULT_SFX_VOLUME = 1;
+    private static SoundManager instance;
+>>>>>>> Stashed changes
 
     private Map<String, AudioClip> soundEffects; // Lưu trữ các hiệu ứng âm thanh ngắn
     private MediaPlayer backgroundMusicPlayer; // Trình phát nhạc nền
@@ -23,12 +28,21 @@ public class SoundManager {
 
     // Các tên dùng để gọi sound effect (khớp với tên file không có đuôi)
     public static final String EXPLOSION = "boom";
+<<<<<<< Updated upstream
     public static final String LEVEL_CLEAR = "clear"; // Có thể dùng khi thắng level
     public static final String PLAYER_DEATH = "dead1"; // Hoặc dead2
     public static final String ENEMY_DEATH = "dead2"; // Hoặc dùng chung mob_dead nếu có
     public static final String GET_ITEM = "getitem";
     public static final String PLACE_BOMB = "putbomb"; // Hoặc putbomb2
     public static final String GAMEOVER = "gameover";
+=======
+    public static final String LEVEL_COMPLETED = "level-completed";
+    public static final String PLAYER_DEATH = "dead1"; 
+    public static final String ENEMY_DEATH = "dead2"; 
+    public static final String GET_ITEM = "getitem";
+    public static final String PLACE_BOMB = "putbomb";
+    public static final String GAME_OVER = "gameover";
+>>>>>>> Stashed changes
 
     // Các tên khác bạn có thể thêm: "flash", "intro", "homestart"
 
@@ -58,12 +72,12 @@ public class SoundManager {
     public void loadSounds() {
         System.out.println("Loading sound effects...");
         loadSoundEffect(EXPLOSION, "/sounds/boom.wav");
-        loadSoundEffect(LEVEL_CLEAR, "/sounds/clear.wav");
-        loadSoundEffect(PLAYER_DEATH, "/sounds/dead1.wav");
-        loadSoundEffect(ENEMY_DEATH, "/sounds/dead2.wav");
+        loadSoundEffect(LEVEL_COMPLETED, "/sounds/level-completed.wav");
+        loadSoundEffect(PLAYER_DEATH, "/sounds/dead2.wav");
+        loadSoundEffect(ENEMY_DEATH, "/sounds/dead1.wav");
         loadSoundEffect(GET_ITEM, "/sounds/getitem.wav");
         loadSoundEffect(PLACE_BOMB, "/sounds/putbomb.wav");
-        loadSoundEffect(GAMEOVER, "/sounds/gameover.wav");
+        loadSoundEffect(GAME_OVER, "/sounds/game-over.wav");
 
         System.out.println("Sound effects loading finished.");
     }
@@ -91,6 +105,7 @@ public class SoundManager {
         }
     }
 
+<<<<<<< Updated upstream
     /**
      * Phát một hiệu ứng âm thanh đã được tải.
      * @param name Tên định danh của âm thanh (ví dụ: SoundManager.EXPLOSION).
@@ -99,6 +114,13 @@ public class SoundManager {
         AudioClip clip = soundEffects.get(name);
         if (clip != null) {
             // clip.setVolume(0.5); // Có thể điều chỉnh âm lượng nếu muốn
+=======
+
+    public void playSound(String name) {
+        AudioClip clip = soundEffects.get(name);
+        if (clip != null) {
+
+>>>>>>> Stashed changes
             clip.play();
         } else {
             System.err.println("Warning: Sound effect not found or failed to load: " + name);
@@ -219,5 +241,8 @@ public class SoundManager {
         instance = null; // Reset Singleton (nếu cần)
     }
 
+<<<<<<< Updated upstream
     public static final String GAME_OVER = "gameover"; // Đặt tên file âm thanh game over (không có đuôi .wav)
+=======
+>>>>>>> Stashed changes
 }

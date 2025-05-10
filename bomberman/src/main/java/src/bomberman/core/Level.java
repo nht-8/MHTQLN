@@ -32,7 +32,17 @@ public class Level {
     private char[][] mapData; // Mảng 2D lưu trữ ký tự từ file map
     private Game game; // Tham chiếu ngược lại đối tượng Game
 
+<<<<<<< Updated upstream
     private Random random = new Random(); // Để tạo powerup ngẫu nhiên
+=======
+    private Random random = new Random();
+
+    private int portalTileX = -1;
+    private int portalTileY = -1;
+
+    private int playerStartX = 1; // Mặc định nếu không tìm thấy 'p'
+    private int playerStartY = 1;
+>>>>>>> Stashed changes
 
     /**
      * Constructor cho Level.
@@ -116,11 +126,32 @@ public class Level {
         }
     }
 
+<<<<<<< Updated upstream
     /**
      * Tạo ra các đối tượng Entity (Wall, Brick, Player, Enemy) dựa trên
      * các ký tự trong `mapData` và thêm chúng vào đối tượng Game.
      */
+=======
+    public int getPortalTileY() {
+        return portalTileY;
+    }
+
+    public int getPortalTileX() {
+        return portalTileX;
+    }
+
+    public int getPlayerStartX() {
+        return playerStartX;
+    }
+
+    public int getPlayerStartY() {
+        return playerStartY;
+    }
+
+>>>>>>> Stashed changes
     private void createEntitiesFromMap() {
+
+        boolean playerMarkerFound = false;
         System.out.println("[createEntitiesFromMap] Creating entities...");
         if (mapData == null || game == null || width == 0 || height == 0) {
             System.err.println("Cannot create entities from map: mapData, game is null, or dimensions are zero.");
@@ -130,7 +161,12 @@ public class Level {
         // Lấy các tài nguyên cần thiết từ Game
         SpriteSheet modernSheet = game.getModernSheet();
         SpriteSheet nesSheet = game.getNesSheet();
+<<<<<<< Updated upstream
         InputHandler input = game.getInputHandler(); // Cần cho Player
+=======
+        InputHandler input = game.getInputHandler();
+        boolean portalMarkerProcessed = false;
+>>>>>>> Stashed changes
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -150,13 +186,55 @@ public class Level {
                         //        }
                         game.addBrick(brick);
                         break;
+<<<<<<< Updated upstream
                     case 'p': // Player - Vị trí bắt đầu của người chơi
                         if (game.getPlayer() == null) { // Chỉ tạo Player nếu chưa có
                             game.addPlayer(new Player(x, y, Sheet1, input, game));
+=======
+                    case 'x':
+                        if (!portalMarkerProcessed) {
+                            this.portalTileX = x; // Lưu tọa độ logic của Portal cho Level
+                            this.portalTileY = y;
+
+                            // 1. Tạo đối tượng Portal
+                            Portal gamePortal = new Portal(x, y, nesSheet, this.game);
+                            game.setCurrentLevelPortal(gamePortal); // Thông báo cho Game về Portal này
+
+                            // 2. Tạo một Brick để che Portal này
+                            Brick portalCoverBrick = new Brick(x, y, nesSheet, this.game);
+                            portalCoverBrick.setContainedPowerUpType(PowerUp.PowerUpType.NONE); // Gạch che Portal không chứa PowerUp
+                            game.addBrick(portalCoverBrick); // Thêm gạch này vào danh sách như bình thường
+
+                            System.out.println("Portal location defined at TILE (" + x + "," + y + ") and is covered by a Brick.");
+                            portalMarkerProcessed = true;
+                            // Giữ nguyên ký tự '*' hoặc ' ' trong mapData ở đây để logic isSolidTile
+                            // của Level vẫn coi ô đó là gạch/trống cho đến khi gạch bị phá.
+                            // Hoặc bạn có thể thay mapData[y][x] = '*' nếu muốn nó chắc chắn là gạch.
+                            // Hiện tại Level.isSolidTile dựa vào map ký tự, nên đặt '*' là an toàn.
+                            mapData[y][x] = '*'; // Đảm bảo ô Portal được coi là gạch ban đầu
+
+>>>>>>> Stashed changes
                         } else {
-                            System.err.println("Warning: Multiple player ('p') start positions found in map file. Using the first one.");
+                            System.err.println("Warning: Multiple portal markers ('X') found. Using first one. Treating extra 'X' at TILE (" + x + "," + y + ") as a normal Brick.");
+                            Brick extraBrick = new Brick(x, y, nesSheet, this.game);
+                            game.addBrick(extraBrick);
+                            mapData[y][x] = '*'; // Coi như gạch thường
                         }
+<<<<<<< Updated upstream
                         mapData[y][x] = ' '; // Sau khi tạo Player, ô đó trở thành nền cỏ
+=======
+                        break;
+                    case 'p':
+                        if (!playerMarkerFound) { // Chỉ xử lý ký tự 'p' đầu tiên
+                            this.playerStartX = x; // Lưu tọa độ Player Start
+                            this.playerStartY = y;
+                            game.addPlayer(new Player(x, y, modernSheet, input, game));
+                            playerMarkerFound = true;
+                        } else {
+                            System.err.println("Warning: Multiple player ('p') start positions. Using first one.");
+                        }
+                        mapData[y][x] = ' '; // Ô đó trở thành nền cỏ
+>>>>>>> Stashed changes
                         break;
                     case '1':
                         game.addEnemy(new Ballom(x, y, Sheet2, game)); // Truyền game vào Enemy
@@ -186,6 +264,7 @@ public class Level {
                         game.addEnemy(new Minvo(x, y, Sheet2, game));
                         mapData[y][x] = ' ';
                         break;
+<<<<<<< Updated upstream
                     case 'x':
                         System.out.println("[Level DEBUG] Found 'x' for Portal at (" + x + "," + y + ")");
                         if (game.getPortal() == null) { // Chỉ tạo một portal duy nhất mỗi level
@@ -198,6 +277,8 @@ public class Level {
                             System.err.println("[Level DEBUG] Portal already exists in this level, not creating new one.");
                         }
                         break;
+=======
+>>>>>>> Stashed changes
                     default:
                         // Ký tự không xác định hoặc ' ' (ô trống) sẽ là nền cỏ (được vẽ bởi renderBackground)
                         break;
@@ -205,7 +286,17 @@ public class Level {
             }
         }
 
+<<<<<<< Updated upstream
         // Đảm bảo có Player nếu map không định nghĩa vị trí 'p'
+=======
+        if (!playerMarkerFound) {
+            System.err.println("Warning: No player start ('p') in map. Adding default player at (" + playerStartX + "," + playerStartY + ").");
+            if (input != null && modernSheet != null && modernSheet.getSheet() != null) {
+                game.addPlayer(new Player(playerStartX, playerStartY, modernSheet, input, game));
+            }
+        }
+
+>>>>>>> Stashed changes
         if (game.getPlayer() == null) {
             System.err.println("Warning: No player start ('p') found in map. Adding default player at (1,1).");
             if(input != null && modernSheet != null && modernSheet.getSheet() != null) {

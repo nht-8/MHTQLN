@@ -193,14 +193,18 @@ public class Sprite {
             explosion_bottom1 = new Sprite(Sheet1, 5, 47, 32, 32);
             explosion_bottom2 = new Sprite(Sheet1, 5, 89, 32, 32);
 
-            portal = new Sprite(Sheet1,215,5,32,32);
         } else {
             System.err.println("Failed to initialize player sprites from modern sheet. Player may not render correctly.");
         }
 
         if (Sheet2 != null && Sheet2.getSheet() != null && !Sheet2.getSheet().isError()) {
+<<<<<<< Updated upstream
             // Enemies
             // BALLOM
+=======
+            portal = new Sprite(Sheet2,299,215,32,32);
+
+>>>>>>> Stashed changes
             enemy_ballom_left1 = new Sprite(Sheet2, 5, 5, 32, 32);
             enemy_ballom_left2 = new Sprite(Sheet2, 5, 47, 32, 32);
             enemy_ballom_left3 = new Sprite(Sheet2, 5, 89, 32, 32);
