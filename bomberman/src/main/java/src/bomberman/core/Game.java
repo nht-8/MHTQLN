@@ -1,3 +1,4 @@
+// src/main/java/src/bomberman/core/Game.java
 package src.bomberman.core;
 
 import javafx.geometry.Rectangle2D;
@@ -13,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Game {
-    private int playerInitialTileX = 1;
+    private int playerInitialTileX = 1; // Mặc định nếu không có trong map
     private int playerInitialTileY = 1;
 
     private Level level;
@@ -24,35 +25,40 @@ public class Game {
     private List<Entity> staticEntities;
     private List<PowerUp> powerUps;
     private InputHandler inputHandler;
-    private Portal portal; 
+    private Portal portal; // Từ phiên bản 1
 
-    private int currentLevelNumber = 1; 
+    // Biến cho trạng thái game và HUD
+    private int currentLevelNumber = 1; // Bắt đầu từ level 1
     private int playerScore = 0;
     private int playerLives;
-    private boolean allEnemiesDefeatedAndPortalActive = false;
+    private static final int MAX_LEVELS = 5; // Từ phiên bản 1 (bạn có thể điều chỉnh)
+    private boolean allEnemiesDefeatedAndPortalActive = false; // Cờ để kiểm tra điều kiện qua màn bằng Portal
 
     public Game(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
         this.playerLives = Config.PLAYER_INIT_LIVES;
+
+
         this.enemies = new ArrayList<>();
         this.bombs = new ArrayList<>();
         this.explosions = new ArrayList<>();
         this.staticEntities = new ArrayList<>();
         this.powerUps = new ArrayList<>();
+
         loadLevel(this.currentLevelNumber);
     }
 
     public void loadLevel(int levelNumber) {
         System.out.println("Loading level " + levelNumber + "...");
         this.currentLevelNumber = levelNumber;
-        this.allEnemiesDefeatedAndPortalActive = false; 
+        this.allEnemiesDefeatedAndPortalActive = false; // Reset cờ khi load level mới
 
         enemies.clear();
         bombs.clear();
         explosions.clear();
         staticEntities.clear();
         powerUps.clear();
-        portal = null; 
+        portal = null; // Reset portal khi load level mới
 
         level = new Level(Config.LEVEL_PATH_PREFIX + "level" + levelNumber + ".txt", this);
 
@@ -62,47 +68,45 @@ public class Game {
         }
 
         if (player != null) {
-            player.setInitialPosition(playerInitialTileX, playerInitialTileY);
-            player.resetToStartPositionAndRevive(); 
+            player.setInitialPosition(playerInitialTileX, playerInitialTileY); // playerInitialTileX/Y được Level cập nhật
+            player.resetToStartPositionAndRevive(); // Đặt player về vị trí đầu màn và hồi sinh
             System.out.println("Player initial position for level " + levelNumber + " set to: (" + playerInitialTileX + "," + playerInitialTileY + ")");
         }
+
+
+
+
         System.out.println("Level " + levelNumber + " loaded successfully.");
 
     }
 
     public void update(double deltaTime) {
-       
-        if (playerLives <= 0 && (player == null
-                || (!player.isAlive() && !player.isDying()))) {
-            
+        // Kiểm tra Game Over ngay từ đầu nếu không còn mạng và Player đã hoàn toàn chết
+        if (playerLives <= 0 && (player == null || (!player.isAlive() && !player.isDying()))) {
+            // handleGameOver() đã được gọi bởi playerLoseLife() khi lives <= 0
+            // Chỉ cần return để không update gì nữa
             return;
         }
 
+        // 1. Cập nhật Player
         if (player != null) {
             if (player.isAlive()) {
                 player.update(deltaTime, getAllEntities());
                 checkPlayerCollectPowerUps();
-                if (portal != null && portal.isActive() && player.getBounds().intersects(portal.getBounds())) {
-                    System.out.println("Player reached ACTIVE portal in level " + currentLevelNumber + "!");
-                    int nextLevel = currentLevelNumber + 1;
-                    if (nextLevel > Config.MAX_LEVELS) {
-                        handleGameWin();
-                    } else {
-                        loadLevel(nextLevel);
-                    }
-                    return;
-                }
+
             } else if (player.isDying()) {
-                player.update(deltaTime, null); 
-            } else { 
+                player.update(deltaTime, null); // Chỉ chạy animation chết
+            } else { // Player không alive và không dying, nghĩa là vừa chết xong (animation đã hoàn tất)
                 if (player.isJustPermanentlyDeadAndDecrementLife()) {
-                    player.consumePermanentlyDeadFlag(); 
-                    playerLoseLife();
+                    player.consumePermanentlyDeadFlag(); // QUAN TRỌNG: Reset cờ
+                    playerLoseLife(); // Xử lý mất mạng
                 }
             }
         }
-        boolean enemiesWerePresentLastFrame = !enemies.isEmpty();
+        boolean enemiesWerePresentLastFrame = !enemies.isEmpty(); // Kiểm tra trước khi cập nhật
 
+
+        // 2. Cập nhật Enemies
         Iterator<Enemy> enemyIterator = enemies.iterator();
         while (enemyIterator.hasNext()) {
             Enemy enemy = enemyIterator.next();
@@ -115,19 +119,38 @@ public class Game {
                 enemy.update(deltaTime, null);
             } else {
                 enemyIterator.remove();
-                addScore(Config.POINTS_PER_ENEMY);
+                addScore(Config.POINTS_PER_ENEMY); // Sử dụng Config cho điểm số
+                System.out.println("Enemy removed. Current Score: " + playerScore);
+            }
+        }
+        if (enemies.isEmpty()) {
+            System.out.println("[Game DEBUG Update] Enemies are empty.");
+            if (this.portal != null) {
+                System.out.println("[Game DEBUG Update] Portal object in Game is NOT NULL. Actual Type: " + this.portal.getClass().getName());
+                System.out.println("[Game DEBUG Update] Portal revealed status: " + this.portal.isRevealed());
+            } else {
+                System.out.println("[Game DEBUG Update] Portal object in Game IS NULL.");
+            }
+            System.out.println("[Game DEBUG Update] allEnemiesDefeatedAndPortalActive flag: " + this.allEnemiesDefeatedAndPortalActive);
+        }
+
+        // Kiểm tra sau khi cập nhật enemies, nếu tất cả enemies đã bị tiêu diệt
+        // và portal đã được thêm vào game (tức là nó tồn tại trên bản đồ).
+        if (enemiesWerePresentLastFrame && enemies.isEmpty() && player != null && player.isAlive()) {
+            SoundManager.getInstance().playSound(SoundManager.LEVEL_CLEAR); // Phát âm thanh hoàn thành màn
+            System.out.println("All enemies defeated in level " + currentLevelNumber + "!");
+
+            int nextLevel = currentLevelNumber + 1;
+            if (nextLevel > Config.MAX_LEVELS) {
+                System.out.println("Congratulations! You have completed all " + Config.MAX_LEVELS + " levels!");
+                handleGameWin();
+            } else {
+                System.out.println("Proceeding to level " + nextLevel);
+                loadLevel(nextLevel); // TỰ ĐỘNG TẢI LEVEL MỚI
             }
         }
 
-
-        if (portal != null && portal.isRevealed() && !portal.isActive() && enemies.isEmpty()) {
-            if (player != null && player.isAlive()) { // Thêm kiểm tra Player còn sống
-                portal.setActive(true);
-                System.out.println("All enemies defeated AND portal is visually revealed. Portal is now ACTIVE.");
-                SoundManager.getInstance().playSound(SoundManager.LEVEL_CLEAR);
-            }
-        }
-
+        // 3. Cập nhật Bombs
         Iterator<Bomb> bombIterator = bombs.iterator();
         while (bombIterator.hasNext()) {
             Bomb bomb = bombIterator.next();
@@ -138,6 +161,7 @@ public class Game {
             }
         }
 
+        // 4. Cập nhật Explosions
         Iterator<Explosion> explosionIterator = explosions.iterator();
         while (explosionIterator.hasNext()) {
             Explosion explosion = explosionIterator.next();
@@ -148,8 +172,7 @@ public class Game {
             }
         }
 
-
-
+        // 5. Cập nhật các thực thể tĩnh (Brick)
         Iterator<Entity> staticIterator = staticEntities.iterator();
         while (staticIterator.hasNext()) {
             Entity entity = staticIterator.next();
@@ -160,7 +183,7 @@ public class Game {
                 } else {
                     staticIterator.remove();
                     addScore(Config.POINTS_PER_BRICK);
-                    
+                    // Xử lý spawn PowerUp nếu có
                     if (brick.getContainedPowerUpType() != PowerUp.PowerUpType.NONE) {
                         addPowerUp(new PowerUp(brick.getTileX(), brick.getTileY(), getNesSheet(), brick.getContainedPowerUpType()));
                     }
@@ -171,6 +194,7 @@ public class Game {
             }
         }
 
+        // 6. Cập nhật PowerUps
         Iterator<PowerUp> powerUpIterator = powerUps.iterator();
         while (powerUpIterator.hasNext()) {
             PowerUp pu = powerUpIterator.next();
@@ -182,13 +206,7 @@ public class Game {
         }
 
     }
-    public Portal getPortalAt(int tileX, int tileY) {
-        if (this.portal != null && this.portal.getTileX() == tileX && this.portal.getTileY() == tileY) {
-            return this.portal;
-        }
-        System.err.println("Portal not found at (" + tileX + "," + tileY + ") in Game.getPortalAt. Current portal: " + (this.portal != null ? "exists at ("+this.portal.getTileX()+","+this.portal.getTileY()+")" : "is null"));
-        return null;
-    }
+
 
     private void checkPlayerCollectPowerUps() {
         if (player == null || !player.isAlive()) return;
@@ -206,7 +224,7 @@ public class Game {
 
     public void addPlayer(Player p) {
         this.player = p;
-        
+        // Khi Player được thêm (thường là từ Level), đặt vị trí ban đầu cho nó
         if (this.player != null) {
             this.player.setInitialPosition(this.playerInitialTileX, this.playerInitialTileY);
         }
@@ -232,7 +250,7 @@ public class Game {
         this.bombs.add(b);
     }
 
-    public void addPortal(Portal p) { 
+    public void addPortal(Portal p) { // Từ phiên bản 1
         this.portal = p;
         System.out.println("[Game] Portal object added to game at (" + p.getTileX() + "," + p.getTileY() + ")");
     }
@@ -337,18 +355,18 @@ public class Game {
     }
 
     public void playerLoseLife() {
-        if (this.playerLives > 0) { 
+        if (this.playerLives > 0) { // Chỉ xử lý nếu còn mạng
             this.playerLives--;
             System.out.println("Player lost a life. Lives remaining: " + this.playerLives);
 
             if (this.playerLives <= 0) {
                 handleGameOver();
             } else {
-                
+                // Nếu còn mạng, hồi sinh người chơi
                 if (player != null) {
                     player.resetToStartPositionAndRevive();
                 } else {
-                
+                    // Trường hợp hiếm, Player null nhưng mất mạng -> tải lại màn
                     System.err.println("Player is null but a life was lost. Attempting to reload level " + this.currentLevelNumber);
                     loadLevel(this.currentLevelNumber);
                 }
@@ -360,7 +378,7 @@ public class Game {
         System.out.println("GAME OVER - Final Score: " + playerScore);
         SoundManager.getInstance().playSound(SoundManager.GAME_OVER);
         if (player != null) {
-            player.setPermanentlyDeadNoUpdates(); 
+            player.setPermanentlyDeadNoUpdates(); // Ngăn Player update
         }
     }
 
@@ -368,8 +386,10 @@ public class Game {
     private void handleGameWin() {
         System.out.println("YOU WIN! - Final Score: " + playerScore);
         if (player != null) {
-            player.setPermanentlyDeadNoUpdates(); 
+            player.setPermanentlyDeadNoUpdates(); // Ngăn player update
         }
+        // TODO: Thông báo cho BombermanApp để chuyển sang màn hình Win
+        // mainApp.showGameWinScreen(playerScore); // Nếu có tham chiếu mainApp
     }
 
 
@@ -416,7 +436,7 @@ public class Game {
         for (PowerUp pu : powerUps) {
             if (pu.isAlive()) all.add(pu);
         }
-        
+        // Portal không cần trong list này nếu nó không có tương tác vật lý phức tạp ngoài việc player chạm vào
         return all;
     }
 
