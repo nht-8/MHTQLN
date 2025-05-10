@@ -100,6 +100,15 @@ public class Renderer {
             }
         }
 
+        List<FloatingText> floatingTextsToRender = game.getFloatingTexts();
+        if (floatingTextsToRender != null) {
+            for (FloatingText ft : floatingTextsToRender) {
+                if (ft.isAlive()) {
+                    ft.render(gc);
+                }
+            }
+        }
+
     }
 
     private void clearScreen(GraphicsContext gc) {

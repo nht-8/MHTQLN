@@ -4,6 +4,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import src.bomberman.Config;
 import src.bomberman.entities.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import src.bomberman.graphics.FloatingText;
 import src.bomberman.graphics.SpriteSheet;
 import src.bomberman.input.InputHandler;
 import src.bomberman.sound.SoundManager;
@@ -12,10 +16,11 @@ import src.bomberman.sound.SoundManager;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Game {
 
-    public enum GameState { LEVEL_STARTING, PLAYING, LEVEL_COMPLETE, GAME_OVER, GAME_WON, PAUSED }
+    public enum GameState {LEVEL_STARTING, PLAYING, LEVEL_COMPLETE, GAME_OVER, GAME_WON, PAUSED}
 
     private GameState currentState = GameState.LEVEL_STARTING;
     private int playerInitialTileX = 1;
@@ -30,6 +35,8 @@ public class Game {
     private List<PowerUp> powerUps;
     private InputHandler inputHandler;
     private Portal currentLevelPortal = null;
+    private GameState previousStateBeforePause;
+    private List<FloatingText> floatingTexts;
 
     private int currentLevelNumber = 1;
     private int playerScore = 0;
@@ -41,6 +48,7 @@ public class Game {
         this.playerLives = Config.PLAYER_INIT_LIVES;
         this.enemies = new ArrayList<>();
         this.bombs = new ArrayList<>();
+        this.floatingTexts = new CopyOnWriteArrayList<>();
         this.explosions = new ArrayList<>();
         this.staticEntities = new ArrayList<>();
         this.powerUps = new ArrayList<>();
@@ -100,6 +108,7 @@ public class Game {
 
 
     public void update(double deltaTime) {
+        handleNonPlayingStateInput();
 
         // 1. Xử lý input cho các trạng thái không phải là PLAYING
         if (currentState != GameState.PLAYING && currentState != GameState.LEVEL_STARTING) {
@@ -125,6 +134,7 @@ public class Game {
             handleNonPlayingStateInput();
             return;
         }
+
 
         // --- Từ đây trở đi, currentState chắc chắn là PLAYING ---
 
@@ -173,7 +183,6 @@ public class Game {
         }
 
 
-
         Iterator<Entity> staticIterator = staticEntities.iterator();
         while (staticIterator.hasNext()) {
             Entity entity = staticIterator.next();
@@ -188,7 +197,7 @@ public class Game {
                         // Nếu tọa độ ô của Brick trùng với tọa độ ô của Portal
                         if (brick.getTileX() == currentLevelPortal.getTileX() &&
                                 brick.getTileY() == currentLevelPortal.getTileY()) {
-                            System.out.println("Brick covering portal AT TILE ("+ currentLevelPortal.getTileX() + "," + currentLevelPortal.getTileY() + ") destroyed.");
+                            System.out.println("Brick covering portal AT TILE (" + currentLevelPortal.getTileX() + "," + currentLevelPortal.getTileY() + ") destroyed.");
                             currentLevelPortal.setRevealed(true); // Kích hoạt Portal
                         }
                     }
@@ -221,13 +230,29 @@ public class Game {
         if (player != null && !player.isAlive() && !player.isDying()) { // Player đã chết hẳn
             handlePlayerDeathOutcomeInternal(); // Đổi tên để tránh nhầm lẫn
         }
+
+
+        Iterator<FloatingText> ftIterator = floatingTexts.iterator();
+        while (ftIterator.hasNext()) {
+            FloatingText ft = ftIterator.next();
+            if (ft.isAlive()) {
+                ft.update(deltaTime);
+            }
+        }
+        floatingTexts.removeIf(ft -> !ft.isAlive());
+        handleNonPlayingStateInput();
+
     }
 
     private void handleNonPlayingStateInput() {
+        if (inputHandler.isPressed(KeyCode.P)) {
+            inputHandler.releaseKey(KeyCode.P);
+            togglePause();
+        }
         if (inputHandler.isPressed(KeyCode.ENTER)) {
             inputHandler.releaseKey(KeyCode.ENTER);
             if (currentState == GameState.LEVEL_COMPLETE) {
-                if (currentLevelNumber >= maxLevels) { // Thực ra nên là GAME_WON
+                if (currentLevelNumber >= maxLevels) {
                     restartGame();
                 } else {
                     prepareNextLevel();
@@ -262,6 +287,11 @@ public class Game {
             playerLives--;
             System.out.println("Player permanently died. Lives remaining: " + playerLives);
 
+            double textX = player.getX(); // Hoặc Config.WINDOW_WIDTH / 2.0 - 50;
+            double textY = player.getY() - 20; // Hoặc Config.WINDOW_HEIGHT / 2.0 - 50;
+            Font playerDeathFont = Font.font("Arial", FontWeight.BOLD, 24);
+            addFloatingText("-1 LIFE", textX, textY, Color.RED, playerDeathFont, 2000, -20);
+
             if (playerLives <= 0) {
                 handleGameOver();
             } else {
@@ -277,23 +307,18 @@ public class Game {
         currentState = GameState.LEVEL_COMPLETE; // Chuyển trạng thái game
         SoundManager.getInstance().playSound(SoundManager.LEVEL_COMPLETED); // Phát âm thanh hoàn thành level
         SoundManager.getInstance().stopBackgroundMusic(); // Dừng nhạc nền hiện tại
+        double screenCenterX = Config.WINDOW_WIDTH / 2.0;
+        double screenCenterY = Config.WINDOW_HEIGHT / 2.0;
+        Font levelCompleteFont = Font.font("Arial", FontWeight.BOLD, 48);
+        addFloatingText("LEVEL " + currentLevelNumber + " COMPLETE!", screenCenterX - 250,
+                screenCenterY - 50, Color.LIGHTGREEN, levelCompleteFont, 3000, 0);
         if (currentLevelNumber >= maxLevels) {
             currentState = GameState.GAME_WON; // Chuyển sang trạng thái thắng game
-            System.out.println("**************** YOU WON THE GAME! ****************");
+            Font gameWonFont = Font.font("Arial", FontWeight.BOLD, 60);
+            addFloatingText("YOU WON!", screenCenterX - 180, screenCenterY + 30, Color.GOLD, gameWonFont, 5000, 0);
+            addFloatingText("Press ENTER to Restart", screenCenterX - 150, screenCenterY + 100, Color.WHITE, Font.font("Arial", 20), 5000, 0);
         } else {
-            System.out.println("Press ENTER for Next Level...");
-        }
-    }
-
-    private void checkPlayerCollectPowerUps() {
-        if (player == null || !player.isAlive()) return;
-        Rectangle2D playerBounds = player.getBounds();
-        Iterator<PowerUp> powerUpIterator = powerUps.iterator();
-        while (powerUpIterator.hasNext()) {
-            PowerUp pu = powerUpIterator.next();
-            if (pu.isAlive() && playerBounds.intersects(pu.getBounds())) {
-                pu.collect(player);
-            }
+            addFloatingText("Press ENTER for Next Level", screenCenterX - 200, screenCenterY + 30, Color.WHITE, Font.font("Arial", 20), 3000, 0);
         }
     }
 
@@ -436,26 +461,6 @@ public class Game {
         }
     }
 
-    public void playerLoseLife() {
-        if (this.playerLives > 0) {
-            this.playerLives--;
-            System.out.println("Player lost a life. Lives remaining: " + this.playerLives);
-
-            if (this.playerLives <= 0) {
-                handleGameOver();
-            } else {
-
-                if (player != null) {
-                    player.resetToStartPositionAndRevive();
-                } else {
-
-                    System.err.println("Player is null but a life was lost. Attempting to reload level " + this.currentLevelNumber);
-                    loadLevel(this.currentLevelNumber, false);
-                }
-            }
-        }
-    }
-
     private void handleGameOver() {
         if (currentState != GameState.GAME_OVER) {
             SoundManager.getInstance().stopBackgroundMusic();
@@ -479,7 +484,10 @@ public class Game {
         if (this.currentLevelPortal == null) this.currentLevelPortal = p;
         else System.err.println("Attempted to set multiple portals.");
     }
-    public Portal getCurrentLevelPortal() { return currentLevelPortal; }
+
+    public Portal getCurrentLevelPortal() {
+        return currentLevelPortal;
+    }
 
     public Level getLevel() {
         return level;
@@ -548,5 +556,32 @@ public class Game {
         }
     }
 
+    public void togglePause() {
+        if (currentState == GameState.PAUSED) {
+            // Nếu đang PAUSED, quay lại trạng thái trước đó (thường là PLAYING)
+            if (previousStateBeforePause != null) {
+                currentState = previousStateBeforePause;
+            } else {
+                currentState = GameState.PLAYING; // Fallback nếu không có trạng thái trước
+            }
+            floatingTexts.removeIf(ft -> ft.getText().equals("PAUSED"));
+            System.out.println("Game Resumed. Current state: " + currentState);
+        } else if (currentState == GameState.PLAYING || currentState == GameState.LEVEL_STARTING) {
+            previousStateBeforePause = currentState; // Lưu lại trạng thái hiện tại
+            currentState = GameState.PAUSED;
+            System.out.println("Game Paused. Press P to Resume.");
+            double screenCenterX = Config.WINDOW_WIDTH / 2.0;
+            double screenCenterY = Config.WINDOW_HEIGHT / 2.0;
+            Font pauseFont = Font.font("Arial", FontWeight.BOLD, 72);
+            addFloatingText("PAUSED", screenCenterX - 150, screenCenterY, Color.YELLOW, pauseFont, Long.MAX_VALUE, 0);
+        }
+    }
 
+    public void addFloatingText(String text, double xPixel, double yPixel, Color color, Font font, long durationMillis, double ySpeed) {
+        this.floatingTexts.add(new FloatingText(text, xPixel, yPixel, color, font, durationMillis, ySpeed));
+    }
+
+    public List<FloatingText> getFloatingTexts() {
+        return floatingTexts;
+    }
 }
