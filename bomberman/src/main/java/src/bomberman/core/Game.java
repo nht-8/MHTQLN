@@ -459,6 +459,4 @@ public class Game {
             this.player.setInitialPosition(tileX, tileY);
         }
     }
-
-
 }

@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a0dd5333-1961-4f75-a0f9-96d8cdf741df" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/sound/SoundManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/sound/SoundManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/bomberman/src/main/java/src/bomberman/core/Level.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,20 +48,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BombermanApp.executor": "Run",
-    "Application.GameApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "nht",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Bomberman",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BombermanApp.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GameApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;nht&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Bomberman&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
