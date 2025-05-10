@@ -67,6 +67,7 @@ public class Game {
             powerUps.clear();
             currentLevelPortal = null;
             player = null;
+            if(floatingTexts!=null) floatingTexts.clear();
 
             level = new Level(Config.LEVEL_PATH_PREFIX + "level" + levelNumber + ".txt", this);
 
@@ -74,6 +75,11 @@ public class Game {
                 currentState = GameState.GAME_OVER;
                 return;
             }
+
+            currentState = GameState.LEVEL_STARTING;
+
+
+            SoundManager.getInstance().playBackgroundMusic(SoundManager.GAME_BGM,true);
 
             if (player != null) {
                 player = new Player(1, 1, getModernSheet(), inputHandler, this);
