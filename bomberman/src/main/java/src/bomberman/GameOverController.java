@@ -18,11 +18,11 @@ public class GameOverController {
     private Button mainMenuButton;
 
     @FXML
-    private Button exitButtonGameOver; 
+    private Button exitButtonGameOver;
 
     private BombermanApp mainApp;
 
-  
+
     public void setMainApp(BombermanApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -47,7 +47,7 @@ public class GameOverController {
     private void handleMainMenu(ActionEvent event) {
         if (mainApp != null) {
             System.out.println("Main Menu button clicked.");
-            mainApp.showMenu(); 
+            mainApp.showMenu();
         } else {
             System.err.println("MainApp reference not set in GameOverController!");
         }
@@ -56,10 +56,10 @@ public class GameOverController {
     @FXML
     private void handleExit(ActionEvent event) {
         System.out.println("Exit Game button clicked.");
-        Platform.exit(); 
-        System.exit(0);  
+        Platform.exit();
+        System.exit(0);
     }
-    
+
     @FXML
     public void initialize() {
         playAgainButton.setOnMouseEntered(e -> playAgainButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"));

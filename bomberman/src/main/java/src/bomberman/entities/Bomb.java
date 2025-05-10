@@ -1,4 +1,4 @@
-package src.bomberman.entities; 
+package src.bomberman.entities;
 
 import src.bomberman.core.Game;
 import src.bomberman.graphics.Sprite;
@@ -11,20 +11,20 @@ import java.util.List;
 public class Bomb extends Entity {
 
     private int timer;
-    private final int flameLength; 
-    private Player owner; 
+    private final int flameLength;
+    private Player owner;
     private Game game;
 
-    private int animationCounter = 0; 
-    private final int ANIMATION_SPEED = 20; 
+    private int animationCounter = 0;
+    private final int ANIMATION_SPEED = 20;
 
     public Bomb(double xTile, double yTile, SpriteSheet sheet, int timer, int flameLength, Player owner, Game game) {
-        super(xTile, yTile, sheet); 
+        super(xTile, yTile, sheet);
         this.timer = timer;
         this.flameLength = flameLength;
         this.owner = owner;
         this.game = game;
-        this.sprite = Sprite.bomb; 
+        this.sprite = Sprite.bomb;
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Sprite.bomb is null during Bomb construction!");
         }
@@ -39,16 +39,16 @@ public class Bomb extends Entity {
         animationCounter++;
         int totalAnimationFrames = 3;
         if (animationCounter >= ANIMATION_SPEED * totalAnimationFrames) {
-            animationCounter = 0; 
+            animationCounter = 0;
         }
 
-        int currentFrameIndex = animationCounter / ANIMATION_SPEED; 
+        int currentFrameIndex = animationCounter / ANIMATION_SPEED;
 
         switch (currentFrameIndex) {
             case 0: sprite = Sprite.bomb; break;
             case 1: sprite = Sprite.bomb_1; break;
             case 2: sprite = Sprite.bomb_2; break;
-            default: sprite = Sprite.bomb; break; 
+            default: sprite = Sprite.bomb; break;
         }
 
         if (sprite == null) {
@@ -63,7 +63,7 @@ public class Bomb extends Entity {
     }
 
     public void explode() {
-        if (!alive) return; 
+        if (!alive) return;
         alive = false;
 
         SoundManager.getInstance().playSound(SoundManager.EXPLOSION);
@@ -73,7 +73,7 @@ public class Bomb extends Entity {
         }
 
         if (game != null) {
-         
+
             game.addExplosion(getTileX(), getTileY(), this.flameLength, this.entitySheet);
         } else {
             System.err.println("Bomb cannot explode: Game reference is null. Bomb at (" + getTileX() + "," + getTileY() + ")");
@@ -87,7 +87,7 @@ public class Bomb extends Entity {
 
     public void triggerExplosion() {
         if (!alive) return;
-       
+
         if (this.timer > 1) {
             this.timer = 1;
         }

@@ -12,20 +12,20 @@ import src.bomberman.input.InputHandler;
 
 public class GameHUDController {
 
-    @FXML private BorderPane rootPane; 
-    @FXML private HBox hudPane;        
-    @FXML private Label levelLabel;    
-    @FXML private Label livesLabel;   
-    @FXML private Label scoreLabel;    
-    @FXML private Canvas gameCanvas;  
+    @FXML private BorderPane rootPane;
+    @FXML private HBox hudPane;
+    @FXML private Label levelLabel;
+    @FXML private Label livesLabel;
+    @FXML private Label scoreLabel;
+    @FXML private Canvas gameCanvas;
 
-    private Game game;                
-    private Renderer renderer;         
-    private GraphicsContext gameCanvasGC; 
-    private BombermanApp mainApp;     
+    private Game game;
+    private Renderer renderer;
+    private GraphicsContext gameCanvasGC;
+    private BombermanApp mainApp;
 
     public GameHUDController() {
-       
+
     }
 
     public void setupGame(InputHandler inputHandler, BombermanApp mainApp) {
@@ -36,13 +36,13 @@ public class GameHUDController {
         this.gameCanvasGC = gameCanvas.getGraphicsContext2D();
         if (this.gameCanvasGC == null) {
             System.err.println("CRITICAL ERROR: Failed to get GraphicsContext from Canvas in GameHUDController!");
-            
+
             if (this.mainApp != null) this.mainApp.showMenu();
             return;
         }
-        gameCanvasGC.setImageSmoothing(false); 
+        gameCanvasGC.setImageSmoothing(false);
 
-       
+
         this.game = new Game(inputHandler);
         this.renderer = new Renderer();
         System.out.println("GameHUDController setup complete. Canvas and Game ready.");
@@ -50,12 +50,12 @@ public class GameHUDController {
         updateHUDLabels();
     }
 
-   
+
     private void setElementSizesFromConfig() {
 
 
         if (hudPane != null) {
-            hudPane.setPrefHeight(Config.HUD_HEIGHT); 
+            hudPane.setPrefHeight(Config.HUD_HEIGHT);
         } else {
             System.err.println("Warning: hudPane is null in setElementSizesFromConfig.");
         }
@@ -71,7 +71,7 @@ public class GameHUDController {
 
 
     public void updateAndRender(double deltaTime) {
-        
+
         if (game == null || renderer == null || gameCanvasGC == null) {
             return;
         }
@@ -80,11 +80,11 @@ public class GameHUDController {
 
         updateHUDLabels();
 
-        renderer.render(gameCanvasGC, game); 
+        renderer.render(gameCanvasGC, game);
 
         if (game.getPlayerLives() <= 0 && game.getPlayer() != null && !game.getPlayer().isAlive() && !game.getPlayer().isDying()) {
             if(mainApp != null && mainApp.getCurrentAppState() != BombermanApp.AppState.GAME_OVER) {
-            
+
                 mainApp.showGameOverScreen(game.getPlayerScore());
             } else if (mainApp == null) {
                 System.err.println("Cannot trigger Game Over screen: mainApp is null in GameHUDController");
@@ -94,7 +94,7 @@ public class GameHUDController {
 
     private void updateHUDLabels() {
         if (game != null) {
-         
+
             if (levelLabel != null) {
                 levelLabel.setText("LEVEL: " + game.getCurrentLevelNumber());
             }

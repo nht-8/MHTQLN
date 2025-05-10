@@ -17,7 +17,7 @@ import java.net.URL;
 public class MenuController {
 
     @FXML
-    private VBox rootVBox; 
+    private VBox rootVBox;
 
     @FXML
     private Button startGameButton;
@@ -27,7 +27,7 @@ public class MenuController {
 
     private BombermanApp mainApp;
 
-   
+
     public void setMainApp(BombermanApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -35,7 +35,7 @@ public class MenuController {
     @FXML
     private void handleStartGame(ActionEvent event) {
         if (mainApp != null) {
-            mainApp.startGame(); 
+            mainApp.startGame();
         } else {
             System.err.println("MainApp reference not set in MenuController!");
         }
@@ -44,11 +44,11 @@ public class MenuController {
     @FXML
     private void handleExitGame(ActionEvent event) {
         Platform.exit();
-        System.exit(0); 
+        System.exit(0);
     }
     @FXML
     public void initialize() {
-       
+
         startGameButton.setOnMouseEntered(e -> startGameButton.setStyle("-fx-background-color: #45a049;" +
                 " -fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold; -fx-background-radius: 10;"));
         startGameButton.setOnMouseExited(e -> startGameButton.setStyle("-fx-background-color: #4CAF50; " +
@@ -58,17 +58,17 @@ public class MenuController {
         exitButton.setOnMouseExited(e -> exitButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-background-radius: 10;"));
 
         try {
-           
+
             URL imageUrl = getClass().getResource(Config.MENU_BACKGROUND_IMAGE_PATH);
 
-            if (rootVBox == null) { 
+            if (rootVBox == null) {
                 System.err.println("ERROR: rootVBox is null. Check fx:id in FXML and @FXML in Controller.");
                 return;
             }
 
             if (imageUrl != null) {
                 Image backgroundImageFile = new Image(imageUrl.toExternalForm());
-               
+
                 BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true);
 
 
@@ -78,7 +78,7 @@ public class MenuController {
                 System.out.println("SUCCESS: Background image set from Java code for: " + Config.MENU_BACKGROUND_IMAGE_PATH);
             } else {
                 System.err.println("ERROR: Could NOT find image in Java code: " + Config.MENU_BACKGROUND_IMAGE_PATH);
-            
+
             }
         } catch (Exception e) {
             System.err.println("EXCEPTION while setting background image from Java code: " + e.getMessage());
