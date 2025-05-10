@@ -1,8 +1,6 @@
-// src/main/java/src/bomberman/entities/Player.java
-package src.bomberman.entities; // Hoặc uet.oop.bomberman.entities
+package src.bomberman.entities;
 
-// Import các lớp cần thiết
-import javafx.geometry.Rectangle2D; // Vẫn cần cho checkCollision
+import javafx.geometry.Rectangle2D; 
 import javafx.scene.input.KeyCode;
 import src.bomberman.Config;
 import src.bomberman.core.Game;
@@ -25,26 +23,19 @@ public class Player extends Entity {
     private Direction currentDirection = Direction.DOWN;
     private boolean moving = false;
     private int animationCounter = 0;
-    private int animationFrameIndex = 0; // 0, 1, 2 (cho 3 frame animation)
-    private final int ANIMATION_SPEED = 8; // Tốc độ chuyển frame
+    private int animationFrameIndex = 0; 
+    private final int ANIMATION_SPEED = 8; 
 
     private int deathTimer = 0;
-    private final int DEATH_ANIMATION_DURATION = 60; // Thời gian animation chết (khoảng 1 giây)
-    private boolean dying = false; // Cờ cho trạng thái đang chạy animation chết
+    private final int DEATH_ANIMATION_DURATION = 60; 
+    private boolean dying = false; 
 
     private final double COLLISION_BOUNDS_INSET = 4.0;
 
     private int initialTileX;
     private int initialTileY;
     private boolean justPermanentlyDead=false;
-    /**
-     * Constructor cho Player.
-     * @param xTile Tọa độ ô X ban đầu.
-     * @param yTile Tọa độ ô Y ban đầu.
-     * @param modernSheet SpriteSheet chứa hình ảnh của Player (modern_spritesheet).
-     * @param input InputHandler để nhận điều khiển.
-     * @param game Tham chiếu đến đối tượng Game.
-     */
+   
     public Player(double xTile, double yTile, SpriteSheet modernSheet, InputHandler input, Game game) {
         super(xTile, yTile, modernSheet);
         this.input = input;
@@ -53,35 +44,34 @@ public class Player extends Entity {
         if (this.sprite == null) {
             System.err.println("CRITICAL WARNING: Initial Player sprite (player_d1) is null!");
         }
-        // Lưu vị trí ban đầu
+      
         this.initialTileX = (int) xTile;
         this.initialTileY = (int) yTile;
     }
 
     @Override
     public void update(double deltaTime, List<Entity> entities) {
-        if (!alive&&!dying) { // Nếu đã chết hẳn (sau animation)
-            return; // Không làm gì cả
+        if (!alive&&!dying) { 
+            return;
         }
-        if (dying) { // Nếu đang trong quá trình chạy animation chết
+        if (dying) { 
             handleDeathAnimation();
             deathTimer++;
-            if (deathTimer > DEATH_ANIMATION_DURATION + 30) { // Chờ thêm 0.5s sau animation
+            if (deathTimer > DEATH_ANIMATION_DURATION + 30) {
                 alive = false;
-                // Đánh dấu là chết hẳn
+               
                 System.out.println("Player permanently dead (handle game over logic in Game class)");
             }
             return;
         }
 
-        // Nếu còn sống và không đang dying, xử lý input và đặt bom
         handleInputAndMovement(entities);
         handleBombPlacement();
     }
 
     public boolean isJustPermanentlyDeadAndDecrementLife() {
         if (justPermanentlyDead) {
-            // justPermanentlyDead = false; // Game sẽ reset cờ này sau khi xử lý
+            
             return true;
         }
         return false;
@@ -140,15 +130,13 @@ public class Player extends Entity {
         if (checkCollision(entities)) {
             y = oldY;
         }
-        // Giới hạn trong map
-        if (game != null && game.getLevel() != null) { // Cần tham chiếu level từ game
+       
+        if (game != null && game.getLevel() != null) { 
             x = Math.max(0, Math.min(x, game.getLevel().getWidth() * Config.TILE_SIZE - getWidth()));
             y = Math.max(0, Math.min(y, game.getLevel().getHeight() * Config.TILE_SIZE - getHeight()));
         }
     }
-    /**
-     * Reset cờ justPermanentlyDead. Được gọi bởi Game sau khi đã xử lý.
-     */
+    
     public void consumePermanentlyDeadFlag() {
         this.justPermanentlyDead = false;
     }
@@ -158,7 +146,7 @@ public class Player extends Entity {
         Rectangle2D playerBounds = this.getBounds();
         for (Entity entity : entities) {
             if (entity == this || !entity.isAlive()) continue;
-            if (entity.isSolid()) { // Kiểm tra với các entity rắn (Wall, Brick, Bomb chưa nổ)
+            if (entity.isSolid()) { 
                 if (playerBounds.intersects(entity.getBounds())) {
                     return true;
                 }
@@ -171,33 +159,33 @@ public class Player extends Entity {
         animationCounter++;
         if (animationCounter >= ANIMATION_SPEED) {
             animationCounter = 0;
-            // Player có thể có 3 hoặc 4 frame animation. Giả sử 3 frame (0, 1, 2)
-            animationFrameIndex = (animationFrameIndex + 1) % 3; // Lặp 3 frame _1, _2, _3
+     
+            animationFrameIndex = (animationFrameIndex + 1) % 3; 
 
             switch (currentDirection) {
                 case UP:
                     if (animationFrameIndex == 0) sprite = Sprite.player_u1;
                     else if (animationFrameIndex == 1) sprite = Sprite.player_u2;
                     else sprite = Sprite.player_u3;
-                    // else sprite = Sprite.player_u4; // Nếu có frame 4
+                    
                     break;
                 case DOWN:
                     if (animationFrameIndex == 0) sprite = Sprite.player_d1;
                     else if (animationFrameIndex == 1) sprite = Sprite.player_d2;
                     else sprite = Sprite.player_d3;
-                    // else sprite = Sprite.player_d4;
+                
                     break;
                 case LEFT:
                     if (animationFrameIndex == 0) sprite = Sprite.player_l1;
                     else if (animationFrameIndex == 1) sprite = Sprite.player_l2;
                     else sprite = Sprite.player_l3;
-                    // else sprite = Sprite.player_l4;
+                    
                     break;
                 case RIGHT:
                     if (animationFrameIndex == 0) sprite = Sprite.player_r1;
                     else if (animationFrameIndex == 1) sprite = Sprite.player_r2;
                     else sprite = Sprite.player_r3;
-                    // else sprite = Sprite.player_r4;
+            
                     break;
                 default: setStandingSprite(); break;
             }
@@ -209,7 +197,7 @@ public class Player extends Entity {
     }
 
     private void setStandingSprite() {
-        animationFrameIndex = 0; // Khi đứng yên, luôn là frame đầu
+        animationFrameIndex = 0;
         Sprite targetSprite = null;
         switch (currentDirection) {
             case UP: targetSprite = Sprite.player_u1; break;
@@ -249,12 +237,12 @@ public class Player extends Entity {
             System.out.println("Player is dying!");
             dying = true;
             moving = false;
-            animationCounter = 0; // Reset animation di chuyển
-            deathTimer = 0;       // Reset animation chết
-            sprite = Sprite.player_dead1; // Bắt đầu animation chết
+            animationCounter = 0; 
+            deathTimer = 0;       
+            sprite = Sprite.player_dead1; 
             if (sprite == null) {
                 System.err.println("ERROR: Sprite.player_dead1 is null in Player.destroy()!");
-                sprite = Sprite.player_d1; // Fallback
+                sprite = Sprite.player_d1;
             }
             SoundManager.getInstance().playSound(SoundManager.PLAYER_DEATH);
         }
@@ -262,7 +250,7 @@ public class Player extends Entity {
     }
 
     private void handleDeathAnimation() {
-        deathTimer++; // Tăng bộ đếm thời gian cho animation chết
+        deathTimer++; 
         int deathFrameTime = DEATH_ANIMATION_DURATION / 3;
 
         Sprite targetSprite = null;
@@ -273,44 +261,40 @@ public class Player extends Entity {
         } else if (deathTimer <= DEATH_ANIMATION_DURATION) {
             targetSprite = Sprite.player_dead3;
         } else {
-            // Animation đã hoàn tất
-            targetSprite = Sprite.player_dead3; // Giữ frame cuối
-            if (dying) { // Chỉ đặt cờ nếu thực sự đang trong quá trình dying
-                this.dying = false; // Kết thúc trạng thái "đang chết"
-                this.alive = false; // Đánh dấu là "không còn sống" (để Game xử lý)
-                this.justPermanentlyDead = true; // Báo cho Game biết là đã chết hẳn
+            
+            targetSprite = Sprite.player_dead3; 
+            if (dying) { 
+                this.dying = false; 
+                this.alive = false; 
+                this.justPermanentlyDead = true; 
                 System.out.println("Player death animation finished. Flags set: alive=false, dying=false, justPermanentlyDead=true");
             }
         }
         this.sprite = targetSprite;
         if (this.sprite == null) {
             System.err.println("Warning: Player dead animation sprite is null. deathTimer: " + deathTimer);
-            this.sprite = Sprite.player_d1; // Fallback
+            this.sprite = Sprite.player_d1; 
         }
     }
 
     @Override
     public boolean isDying() {
-        return dying; // Trả về trạng thái đang chạy animation chết
+        return dying; 
     }
 
-
-    // Getters
     public int getFlameLength() { return flameLength; }
 
     @Override
     public Rectangle2D getBounds() {
-        // Lấy kích thước trực quan của Player (đã scale nếu có)
-        double visualWidth = super.getWidth(); // Gọi getWidth() của Entity
-        double visualHeight = super.getHeight(); // Gọi getHeight() của Entity
+    
+        double visualWidth = super.getWidth(); 
+        double visualHeight = super.getHeight(); 
 
-        // Tính toán vùng bao va chạm nhỏ hơn
         double collisionX = x + COLLISION_BOUNDS_INSET;
-        double collisionY = y + COLLISION_BOUNDS_INSET; // Có thể chỉ thu nhỏ theo chiều rộng
+        double collisionY = y + COLLISION_BOUNDS_INSET;
         double collisionWidth = visualWidth - (2 * COLLISION_BOUNDS_INSET);
-        double collisionHeight = visualHeight - (COLLISION_BOUNDS_INSET); // Ví dụ chỉ thu nhỏ 1 bên ở Y
+        double collisionHeight = visualHeight - (COLLISION_BOUNDS_INSET); 
 
-        // Đảm bảo width/height không âm
         collisionWidth = Math.max(1, collisionWidth);
         collisionHeight = Math.max(1, collisionHeight);
 
@@ -322,7 +306,7 @@ public class Player extends Entity {
         this.y = initialTileY * Config.TILE_SIZE;
         this.alive = true;
         this.dying = false;
-        this.justPermanentlyDead = false; // Quan trọng: reset cờ này
+        this.justPermanentlyDead = false; 
         this.deathTimer = 0;
         this.animationCounter = 0;
         this.currentDirection = Direction.DOWN;
@@ -333,15 +317,14 @@ public class Player extends Entity {
         this.alive = false;
         this.dying = false;
         this.justPermanentlyDead = false;
-        // Bạn có thể thêm một cờ "permanentlyDead" nếu muốn bỏ qua hoàn toàn logic update
-        // trong phương thức update() của Player.
+       
     }
     public void setInitialPosition(int tileX, int tileY) {
         this.initialTileX = tileX;
         this.initialTileY = tileY;
     }
-    // Power-up methods
-    public void addBombCapacity(int amount) { this.bombCapacity += amount; }
-    public void addFlameLength(int amount) { this.flameLength += amount; }
+    
+    public void addBombCapacity(int amount) { if(bombCapacity<3)  this.bombCapacity += amount; }
+    public void addFlameLength(int amount) { if(flameLength<2) this.flameLength += amount; }
     public void addSpeed(double amount) { this.speed += amount; }
 }
