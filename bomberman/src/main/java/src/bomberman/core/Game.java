@@ -246,32 +246,30 @@ public class Game {
         return !(entityAtTarget instanceof Bomb || entityAtTarget instanceof Wall || entityAtTarget instanceof Brick);
     }
 
-    // --- Getters cho HUD và trạng thái game ---
     public int getCurrentLevelNumber() { return currentLevelNumber; }
     public int getPlayerScore() { return playerScore; }
     public int getPlayerLives() { return playerLives; }
 
     public void addScore(int points) {
-        if (playerLives > 0) { // Chỉ cộng điểm nếu chưa game over
+        if (playerLives > 0) { 
             this.playerScore += points;
         }
     }
 
     public void playerLoseLife() {
-        if (this.playerLives > 0) { // Chỉ xử lý nếu còn mạng để mất
+        if (this.playerLives > 0) { 
             this.playerLives--;
-            // Âm thanh chết nên được gọi bởi Player.destroy() để đồng bộ với animation
+        
             System.out.println("Player lost a life. Lives remaining: " + this.playerLives);
 
             if (this.playerLives <= 0) {
                 handleGameOver();
             } else {
-                // Nếu còn mạng, hồi sinh player
+            
                 if(player != null) {
                     player.resetToStartPositionAndRevive();
                 } else {
-                    // Trường hợp hiếm: player null nhưng vẫn mất mạng?
-                    // Có thể cần load lại level nếu player không thể hồi sinh
+                    
                     System.err.println("Player is null but a life was lost. Attempting to reload level.");
                     loadLevel(this.currentLevelNumber);
                 }
@@ -282,7 +280,7 @@ public class Game {
     private void handleGameOver() {
         System.out.println("GAME OVER (from Game.java) - Final Score: " + playerScore);
         if (player != null) {
-            player.setPermanentlyDeadNoUpdates(); // Ngăn player update thêm
+            player.setPermanentlyDeadNoUpdates(); 
         }
         // GameHUDController sẽ kiểm tra playerLives <= 0 và xử lý việc chuyển màn hình
         // hoặc dừng game loop. Game.java chỉ cần cập nhật trạng thái.
