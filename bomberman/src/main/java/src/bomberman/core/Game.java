@@ -233,6 +233,7 @@ public class Game {
                 }
             }
         }
+        
         for (Bomb bomb : bombs) {
             if (bomb.getTileX() == tileX && bomb.getTileY() == tileY && bomb.isSolid()) {
                 return bomb;
@@ -284,7 +285,6 @@ public class Game {
         }
     }
 
-   
     public Level getLevel() { return level; }
     public Player getPlayer() { return player; }
     public List<Enemy> getEnemies() { return enemies; }
